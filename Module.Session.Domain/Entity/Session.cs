@@ -28,8 +28,9 @@ public class Session
         return new Session(startTime, endTime, assignedTrainer, availableSlots, difficultyLevel);
     }
 
-    public void AddBooking(Booking booking)
+    public void AddBooking(User user)
     {
-
+        var booking = Booking.Create(user, Bookings);
+        _bookings.Add(booking);
     }
 }
