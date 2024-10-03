@@ -1,4 +1,6 @@
-﻿namespace Module.Session.Domain;
+﻿using Module.Session.Domain.Enums;
+
+namespace Module.Session.Domain.Entity;
 
 public class Session
 {
@@ -8,7 +10,7 @@ public class Session
     public int AvailableSlots { get; protected set; }
     public SkillLevel DifficultyLevel { get; protected set; }
     private List<Booking> _bookings { get; set; }
-    public IEnumerable<Booking> Bookings { get { return _bookings; } private set{ _bookings = value.ToList(); } }
+    public IEnumerable<Booking> Bookings { get { return _bookings; } private set { _bookings = value.ToList(); } }
 
     protected Session() { }
 
@@ -30,14 +32,4 @@ public class Session
     {
 
     }
-}
-
-public enum SkillLevel
-{
-    Beginner,
-    Novice,
-    Intermediate,
-    Advanced,
-    Expert,
-    Professional
 }
