@@ -1,6 +1,4 @@
-﻿using Module.User.Domain.DerivedEntity;
-
-namespace Module.User.Domain.Entity;
+﻿namespace Module.User.Domain.Entity;
 
 public class User
 {

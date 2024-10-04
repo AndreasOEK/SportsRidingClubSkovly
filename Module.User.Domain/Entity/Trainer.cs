@@ -6,7 +6,7 @@ public class Trainer
 
     public User User { get; protected set; }
 
-    public IEnumerable<DerivedEntity.Session> AssignedSessions { get; protected set; }
+    public IEnumerable<Session> AssignedSessions { get; protected set; }
     
     private Trainer(User user)
     {

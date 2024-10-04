@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Module.Session\Module.Session.csproj" />
       <ProjectReference Include="..\Module.User.Application\Module.User.Application.csproj" />
       <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
     </ItemGroup>
