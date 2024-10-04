@@ -21,6 +21,8 @@ public class Session
         AssignedTrainer = assignedTrainer;
         AvailableSlots = availableSlots;
         DifficultyLevel = difficultyLevel;
+
+        AssureStartTimeInFuture(StartTime, DateTime.Now);
     }
 
     public static Session Create(DateTime startTime, DateTime endTime, Trainer assignedTrainer, int availableSlots, SkillLevel difficultyLevel)
@@ -33,4 +35,11 @@ public class Session
         var booking = Booking.Create(user, Bookings);
         _bookings.Add(booking);
     }
+
+    #region Session Domain Logic
+    private void AssureStartTimeInFuture(DateTime startTime, DateTime now)
+    {
+        if (!(startTime > now)) throw new ArgumentException("Start Date and Time must be in the future");
+    }
+    #endregion
 }
