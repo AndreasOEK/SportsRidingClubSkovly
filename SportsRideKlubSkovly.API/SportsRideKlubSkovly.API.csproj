@@ -7,7 +7,21 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="MediatR" Version="12.4.1" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.7.24406.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Module.Session.Application\Module.Session.Application.csproj" />
+      <ProjectReference Include="..\Module.Session.Domain.Test\Module.Session.Domain.Test.csproj" />
+      <ProjectReference Include="..\Module.Session.Domain\Module.Session.Domain.csproj" />
+      <ProjectReference Include="..\Module.Session.Infrastructure\Module.Session.Infrastructure.csproj" />
+      <ProjectReference Include="..\Module.Session\Module.Session.csproj" />
+      <ProjectReference Include="..\Module.User.Application\Module.User.Application.csproj" />
+      <ProjectReference Include="..\Module.User.Domain.Test\Module.User.Domain.Test.csproj" />
+      <ProjectReference Include="..\Module.User.Domain\Module.User.Domain.csproj" />
+      <ProjectReference Include="..\Module.User.Infrastructure\Module.User.Infrastructure.csproj" />
+      <ProjectReference Include="..\Module.User\Module.User.csproj" />
     </ItemGroup>
 
 </Project>
