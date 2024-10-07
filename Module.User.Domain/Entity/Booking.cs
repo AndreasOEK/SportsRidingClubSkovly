@@ -4,6 +4,8 @@
     {
         public User User { get; protected set; }
 
+        protected Booking() { }
+
         private Booking(User user, IEnumerable<Booking> otherBookings)
         {
             User = user;
