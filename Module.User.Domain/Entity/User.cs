@@ -9,6 +9,8 @@ public class User
     public string Email { get; set; }
     public IEnumerable<Booking> Bookings { get; set; }
 
+    protected User() { }
+
     private User(string firstName, string lastName, string phone, string email)
     {
         FirstName = firstName;
