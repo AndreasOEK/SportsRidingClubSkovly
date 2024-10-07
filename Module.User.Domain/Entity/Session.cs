@@ -40,11 +40,11 @@ public class Session
     }
 
     #region Session Domain Logic
-    private void AssureStartTimeInFuture(DateTime startTime, DateTime now)
+    protected void AssureStartTimeInFuture(DateTime startTime, DateTime now)
     {
         if (!(startTime > now)) throw new ArgumentException("Start Date and Time must be in the future");
     }
-    private void AssureEndTimeAfterStartTime(DateTime startTime, DateTime endTime)
+    protected void AssureEndTimeAfterStartTime(DateTime startTime, DateTime endTime)
     {
         if (!(endTime > startTime)) throw new ArgumentException("End date has to be after Start date");
     }
