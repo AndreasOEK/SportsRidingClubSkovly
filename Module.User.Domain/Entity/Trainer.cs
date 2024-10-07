@@ -8,6 +8,7 @@ public class Trainer
 
     public IEnumerable<Session> AssignedSessions { get; protected set; }
     
+    protected Trainer() { }
     private Trainer(User user)
     {
         User = user;
