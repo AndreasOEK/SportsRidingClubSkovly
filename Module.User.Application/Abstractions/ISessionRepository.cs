@@ -10,6 +10,5 @@ namespace Module.User.Application.Abstractions
 {
     public interface ISessionRepository
     {
-        Task<IEnumerable<SessionResponse>> GetAllSessions();
     }
 }
