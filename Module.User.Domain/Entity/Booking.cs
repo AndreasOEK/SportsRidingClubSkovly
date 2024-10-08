@@ -2,6 +2,7 @@
 {
     public class Booking
     {
+        public Guid Id { get; protected set; }
         public User User { get; protected set; }
 
         protected Booking() { }
@@ -14,9 +15,8 @@
         }
 
         public static Booking Create(User user, IEnumerable<Booking> otherBookings)
-        {
-            return new Booking(user, otherBookings);
-        }
+            => new Booking(user, otherBookings);
+        
 
         #region Booking Domain Logic
         protected void AssureUserHasNotBookedSessionAlready(IEnumerable<Booking> otherBookings)

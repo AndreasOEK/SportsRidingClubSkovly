@@ -29,10 +29,10 @@ public class Session
         AssureEndTimeAfterStartTime(StartTime, EndTime);
     }
 
-    public static Session Create(DateTime startTime, DateTime endTime, Trainer assignedTrainer, int availableSlots, SkillLevel difficultyLevel, SessionType type)
-    {
-        return new Session(startTime, endTime, assignedTrainer, availableSlots, difficultyLevel, type);
-    }
+    public static Session Create(DateTime startTime, DateTime endTime, Trainer assignedTrainer, 
+        int availableSlots, SkillLevel difficultyLevel, SessionType type)
+        => new Session(startTime, endTime, assignedTrainer, availableSlots, difficultyLevel, type);
+    
 
     public void AddBooking(User user)
     {
