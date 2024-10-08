@@ -1,8 +1,5 @@
 using Module.User.Extensions;
 using SportsRideKlubSkovly.API.Extensions;
-using System.Reflection.Metadata;
-using Microsoft.EntityFrameworkCore;
-using Module.User.Infrastructure.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
