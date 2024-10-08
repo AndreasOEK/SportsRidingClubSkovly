@@ -11,5 +11,10 @@ namespace Module.User.Infrastructure.DbContexts
     public class UserDbContext : DbContext
     {
         public DbSet<Session> Sessions { get; set; }
+        
+        public UserDbContext(DbContextOptions<UserDbContext> options)
+            : base(options)
+        {
+        }
     }
 }

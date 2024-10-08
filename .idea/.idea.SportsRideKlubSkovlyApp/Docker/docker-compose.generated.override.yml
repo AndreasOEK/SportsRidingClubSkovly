@@ -1,0 +1,20 @@
+# This is a generated file. Not intended for manual editing.
+services:
+  sportsrideklubskovly.api:
+    build:
+      context: "D:\\Development\\Github\\SportsRidingClubSkovly"
+      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
+    environment:
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "sportsrideklubskovly.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\kag\\.nuget\\packages:/home/app/.nuget/packages"
+    - "D:\\Development\\Github\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
+    - "D:\\Development\\Github\\SportsRidingClubSkovly:/src:rw"
+    working_dir: "/app"
