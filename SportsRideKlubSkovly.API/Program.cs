@@ -1,7 +1,5 @@
-using Module.User;
 using Module.User.Extensions;
 using SportsRideKlubSkovly.API.Extensions;
-using System.Reflection.Metadata;
 
 var builder = WebApplication.CreateBuilder(args);
 
