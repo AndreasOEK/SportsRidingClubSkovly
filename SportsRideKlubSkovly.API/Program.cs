@@ -1,5 +1,6 @@
 using Module.User.Extensions;
 using SportsRideKlubSkovly.API.Extensions;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,7 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddUserModule();
 builder.Services.AddMediatRModules();
-
+builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -18,6 +19,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.MapEndpoints();
 app.UseHttpsRedirection();
 
 var summaries = new[]

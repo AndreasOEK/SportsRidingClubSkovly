@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Module.Shared.EventArgs;
 
-namespace Module.User.Application.Features.TrainerCreateSession;
+namespace Module.User.Application.Features.TrainerCreateSession.Command;
 
 public class CreateSessionCommand : IRequest<Task>
 {
@@ -25,11 +25,11 @@ internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionComman
     {
         mediator.Send(command);
     }
-    
+
     public async Task<Task> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
     {
-        
-        
+
+
         request.OnSessionCreated(Guid.NewGuid());
 
         return Task.CompletedTask;
