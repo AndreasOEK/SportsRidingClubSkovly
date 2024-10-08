@@ -6,12 +6,10 @@ namespace Module.User.Extensions
 {
     public static class UserModule
     {
-        public static IServiceCollection AddUserModule(this IServiceCollection serviceCollection)
-        {
-
-            return serviceCollection
+        public static IServiceCollection AddUserModule(this IServiceCollection serviceCollection) 
+            => serviceCollection
                 .AddUserModuleApplication()
                 .AddUserModuleInfrastructure();
-        }
+        
     }
 }
