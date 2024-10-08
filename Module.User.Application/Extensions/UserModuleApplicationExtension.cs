@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Module.User.Application.Features.TrainerCreateSession;
+using Module.User.Application.Features.TrainerCreateSession.Command;
 
 namespace Module.User.Application.Extensions;
 

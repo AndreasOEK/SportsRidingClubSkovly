@@ -4,9 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.Session.Domain.Entity
+namespace Module.User.Application.Features.UserBrowseAllSessions.Query.Dto
 {
-    public class Trainer
+    public class SessionBookingResponse
     {
+
     }
 }

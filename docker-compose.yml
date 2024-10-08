@@ -1,0 +1,24 @@
+﻿services:
+  sportsrideklubskovly.api:
+    image: sportsrideklubskovly.api
+    build:
+      context: .
+      dockerfile: SportsRideKlubSkovly.API/Dockerfile
+    environment:
+      "ASPNETCORE_ENVIRONMENT": "Development"
+      "ConnectionStrings:DefaultConnection": "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_started
+
+  db:
+    image: mcr.microsoft.com/mssql/server:latest
+    volumes:
+      - C:\Dev\SQL\SportsRidingClubSkovlyDB:/var/opt/mssql/data
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "StrongPassword123."
+    ports:
+      - "8090:1433" 
