@@ -2,12 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Module.Shared.Abstractions;
-using Module.User.Application.Features.UserBrowseAllSessions.Query;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Module.User.Application.Features.UserSession.Query;
 
 namespace Module.User.Endpoints
 {

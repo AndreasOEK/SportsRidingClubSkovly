@@ -1,5 +1,9 @@
+using MediatR;
 using Module.User.Extensions;
+using Module.User.Infrastructure.Helpers;
+using SportsRideKlubSkovly.API.Abstractions;
 using SportsRideKlubSkovly.API.Extensions;
+using SportsRideKlubSkovly.API.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,7 +14,8 @@ builder.Configuration.AddEnvironmentVariables();
 builder.Services.AddUserModule(builder.Configuration);
 builder.Services.AddMediatRModules();
 builder.Services.AddEndpoints(Module.User.AssemblyReference.Assembly);
-
+builder.Services.AddScoped(typeof(IPipelineBehavior<,>), typeof(MediatorPipelineBehavior<,>));
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 
 builder.Services.AddSwaggerGen();
