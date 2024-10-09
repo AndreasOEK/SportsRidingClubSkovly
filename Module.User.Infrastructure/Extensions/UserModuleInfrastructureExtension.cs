@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Module.User.Application.Abstractions;
 using Module.User.Infrastructure.DbContexts;
+using Module.User.Infrastructure.Repositories;
 
 namespace Module.User.Infrastructure.Extensions;
 
@@ -16,6 +18,8 @@ public static class UserModuleInfrastructureExtension
                     optionsBuilder.MigrationsAssembly("Module.User.Infrastructure");
                     optionsBuilder.EnableRetryOnFailure();
                 }));
+        serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
+        serviceCollection.AddScoped<ITrainerRepository, TrainerRepository>();
 
         return serviceCollection;
     }

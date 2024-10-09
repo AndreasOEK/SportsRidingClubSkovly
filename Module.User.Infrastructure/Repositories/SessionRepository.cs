@@ -10,6 +10,17 @@ namespace Module.User.Infrastructure.Repositories
 {
     public class SessionRepository : ISessionRepository
     {
+        private readonly UserDbContext _dbContext;
 
+        public SessionRepository(UserDbContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
+
+        async Task ISessionRepository.AddAsync(Session session)
+        {
+            await _dbContext.Sessions.AddAsync(session);
+
+        }
     }
 }

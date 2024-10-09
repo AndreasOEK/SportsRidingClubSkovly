@@ -1,25 +1,40 @@
 ﻿using MediatR;
-using Module.Shared.EventArgs;
+using Module.User.Application.Abstractions;
+using Module.User.Application.Features.TrainerCreateSession.Command.Dto;
+using Module.User.Domain.Entity;
 
 namespace Module.User.Application.Features.TrainerCreateSession.Command;
 
-public class CreateSessionCommand : IRequest<Task>
+public record CreateSessionCommand (
+    CreateSessionRequest createSessionRequest) : IRequest;
+
+
+internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand>
 {
-    public Guid TrainerId { get; set; }
+    private readonly ISessionRepository _sessionRepository;
+    private readonly ITrainerRepository _trainerRepository;
 
-    public CreateSessionCommand()
+    public CreateSessionCommandHandler(ISessionRepository sessionRepository, ITrainerRepository trainerRepository)
     {
-    }
-}
-
-internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand, Task>
-{
-    public CreateSessionCommandHandler()
-    {
+        _sessionRepository = sessionRepository;
+        _trainerRepository = trainerRepository;
     }
 
-    public async Task<Task> Handle(CreateSessionCommand request, CancellationToken cancellationToken)
+    public async Task Handle(CreateSessionCommand request, CancellationToken cancellationToken)
     {
-        return Task.CompletedTask;
+        // Load
+        var trainer = await _trainerRepository.GetTrainerById(request.createSessionRequest.AssignedTrainerId);
+
+        // Do
+        var session = Session.Create(
+            request.createSessionRequest.StartTime,
+            request.createSessionRequest.EndTime, 
+            trainer, 
+            request.createSessionRequest.AvailableSlots, 
+            request.createSessionRequest.DifficultyLevel, 
+            request.createSessionRequest.Type);
+
+        // Save
+        await _sessionRepository.AddAsync(session);  
     }
 }

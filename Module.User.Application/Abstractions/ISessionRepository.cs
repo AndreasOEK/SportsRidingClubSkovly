@@ -10,5 +10,6 @@ namespace Module.User.Application.Abstractions
 {
     public interface ISessionRepository
     {
+        Task AddAsync(Session session);
     }
 }
