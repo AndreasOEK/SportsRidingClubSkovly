@@ -5,17 +5,19 @@ using Module.User.Infrastructure.DbContexts;
 
 namespace Module.User.Infrastructure.Repositories
 {
-    public class TrainerRepository : ITrainerRepository
+    public class UserRepository : IUserRepository
     {
         private readonly UserDbContext _dbContext;
 
-        public TrainerRepository(UserDbContext dbContext)
+        public UserRepository(UserDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        async Task<Trainer> ITrainerRepository.GetTrainerById(Guid trainerId)
+        async Task<Trainer> IUserRepository.GetTrainerById(Guid trainerId)
             => await _dbContext.Trainers.SingleAsync(t => t.Id == trainerId);
-        
+
+        async Task<Domain.Entity.User> IUserRepository.GetUserById(Guid userId)
+            => await _dbContext.Users.SingleAsync(u => u.Id == userId);
     }
 }

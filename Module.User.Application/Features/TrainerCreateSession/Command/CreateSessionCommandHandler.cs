@@ -12,9 +12,9 @@ public record CreateSessionCommand (
 internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand>
 {
     private readonly ISessionRepository _sessionRepository;
-    private readonly ITrainerRepository _trainerRepository;
+    private readonly IUserRepository _trainerRepository;
 
-    public CreateSessionCommandHandler(ISessionRepository sessionRepository, ITrainerRepository trainerRepository)
+    public CreateSessionCommandHandler(ISessionRepository sessionRepository, IUserRepository trainerRepository)
     {
         _sessionRepository = sessionRepository;
         _trainerRepository = trainerRepository;
@@ -35,6 +35,6 @@ internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionComman
             request.createSessionRequest.Type);
 
         // Save
-        await _sessionRepository.AddAsync(session);  
+        await _sessionRepository.AddSessionAsync(session);  
     }
 }

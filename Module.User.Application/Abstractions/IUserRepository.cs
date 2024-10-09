@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Module.User.Application.Abstractions
 {
-    public interface ITrainerRepository
+    public interface IUserRepository
     {
         Task<Trainer> GetTrainerById(Guid trainerId);
+        Task<Module.User.Domain.Entity.User> GetUserById(Guid userId);
     }
 }

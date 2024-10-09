@@ -19,7 +19,7 @@ public static class UserModuleInfrastructureExtension
                     optionsBuilder.EnableRetryOnFailure();
                 }));
         serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
-        serviceCollection.AddScoped<ITrainerRepository, TrainerRepository>();
+        serviceCollection.AddScoped<IUserRepository, UserRepository>();
 
         return serviceCollection;
     }
