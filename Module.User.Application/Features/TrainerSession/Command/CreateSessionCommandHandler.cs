@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.TrainerSession.Command.Dto;
 using Module.User.Domain.Entity;
@@ -6,7 +7,7 @@ using Module.User.Domain.Entity;
 namespace Module.User.Application.Features.TrainerSession.Command;
 
 public record CreateSessionCommand (
-    CreateSessionRequest createSessionRequest) : IRequest;
+    CreateSessionRequest createSessionRequest) : IRequest, ITransactionalCommand;
 
 
 internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand>
