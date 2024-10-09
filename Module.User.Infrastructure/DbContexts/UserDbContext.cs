@@ -13,6 +13,8 @@ namespace Module.User.Infrastructure.DbContexts
     {
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
+        public DbSet<Module.User.Domain.Entity.User> Users { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
 
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)
@@ -22,6 +24,10 @@ namespace Module.User.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Session>()
+                .Property(b => b.Id)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Booking>()
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
         }

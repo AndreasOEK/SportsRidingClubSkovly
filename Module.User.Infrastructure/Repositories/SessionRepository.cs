@@ -17,10 +17,16 @@ namespace Module.User.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        async Task ISessionRepository.AddAsync(Session session)
+        async Task ISessionRepository.AddBookingAsync()
+            => await _dbContext.SaveChangesAsync();      
+
+        async Task ISessionRepository.AddSessionAsync(Session session)
         {
             await _dbContext.Sessions.AddAsync(session);
-
+            await _dbContext.SaveChangesAsync();
         }
+
+        async Task<Session> ISessionRepository.GetSessionById(Guid sessionId)
+            => await _dbContext.Sessions.SingleAsync(session => session.Id == sessionId);
     }
 }

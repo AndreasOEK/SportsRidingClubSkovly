@@ -10,6 +10,8 @@ namespace Module.User.Application.Abstractions
 {
     public interface ISessionRepository
     {
-        Task AddAsync(Session session);
+        Task AddSessionAsync(Session session);
+        Task AddBookingAsync();
+        Task<Session> GetSessionById(Guid sessionId);
     }
 }
