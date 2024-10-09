@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.User.Application.Features.TrainerCreateSession.Command.Dto
+namespace Module.User.Application.Features.TrainerSession.Command.Dto
 {
     public record CreateSessionRequest
     {

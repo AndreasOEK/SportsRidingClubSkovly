@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
-using Module.User.Application.Features.TrainerCreateSession.Command.Dto;
+using Module.User.Application.Features.TrainerSession.Command.Dto;
 using Module.User.Domain.Entity;
 
-namespace Module.User.Application.Features.TrainerCreateSession.Command;
+namespace Module.User.Application.Features.TrainerSession.Command;
 
 public record CreateSessionCommand (
     CreateSessionRequest createSessionRequest) : IRequest;

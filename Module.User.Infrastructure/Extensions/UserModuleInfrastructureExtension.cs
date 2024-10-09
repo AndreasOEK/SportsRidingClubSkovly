@@ -11,6 +11,9 @@ public static class UserModuleInfrastructureExtension
 {
     public static IServiceCollection AddUserModuleInfrastructure(this IServiceCollection serviceCollection, IConfiguration configuration)
     {
+        // Add-Migration InitialMigration -Context UserDbContext -Project Module.User.Infrastructure
+        // Update-Database -Context UserDbContext -Project Module.User.Infrastructure
+
         serviceCollection.AddDbContext<UserDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                 optionsBuilder =>
