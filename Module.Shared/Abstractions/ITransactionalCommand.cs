@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.User.Application.Features.UserBrowseAllSessions.Query.Dto
+namespace Module.Shared.Abstractions
 {
-    public class SessionBookingResponse
+    public interface ITransactionalCommand
     {
 
     }

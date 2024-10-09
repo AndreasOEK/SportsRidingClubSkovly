@@ -2,8 +2,8 @@
 using AutoMapper.QueryableExtensions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Module.User.Application.Abstractions;
-using Module.User.Application.Features.UserBrowseAllSessions.Query.Dto;
+using Module.User.Application.Features.UserSession.Query;
+using Module.User.Application.Features.UserSession.Query.Dto;
 using Module.User.Domain.Entity;
 using Module.User.Infrastructure.DbContexts;
 
