@@ -13,6 +13,8 @@ namespace Module.User.Application.Abstractions
 
         Task<Trainer> GetTrainerByIdAsync(Guid trainerId);
         Task CreateTrainerAsync(Trainer user);
+        Task DeleteTrainerAsync(Trainer user);
+
 
         #endregion
 
@@ -20,7 +22,11 @@ namespace Module.User.Application.Abstractions
 
         Task<Domain.Entity.User> GetUserByIdAsync(Guid userId);
         Task CreateUserAsync(Domain.Entity.User user);
+        Task UpdateUserAsync(Domain.Entity.User user);
+        Task DeleteUserAsync(Domain.Entity.User user);
+
 
         #endregion
+
     }
 }
