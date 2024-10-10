@@ -17,7 +17,19 @@ namespace Module.User.Infrastructure.Repositories
         async Task<Trainer> IUserRepository.GetTrainerByIdAsync(Guid trainerId)
             => await _dbContext.Trainers.SingleAsync(t => t.Id == trainerId);
 
-        async Task<Domain.Entity.User> IUserRepository.GetUserById(Guid userId)
+        async Task IUserRepository.CreateTrainerAsync(Trainer trainer)
+        {
+            await _dbContext.Trainers.AddAsync(trainer);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        async Task<Domain.Entity.User> IUserRepository.GetUserByIdAsync(Guid userId)
             => await _dbContext.Users.SingleAsync(u => u.Id == userId);
+
+        async Task IUserRepository.CreateUserAsync(Domain.Entity.User user)
+        {
+            await _dbContext.Users.AddAsync(user);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }
