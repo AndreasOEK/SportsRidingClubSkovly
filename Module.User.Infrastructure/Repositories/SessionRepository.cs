@@ -24,7 +24,7 @@ namespace Module.User.Infrastructure.Repositories
         }
 
         async Task<Session> ISessionRepository.GetSessionByIdAsync(Guid sessionId)
-            => await _dbContext.Sessions.SingleAsync(session => session.Id == sessionId);
+            => await _dbContext.Sessions.Include(s => s.Bookings).ThenInclude(b => b.User).SingleAsync(session => session.Id == sessionId);
 
         async Task ISessionRepository.UpdateSessionAsync(Session session, byte[] rowVersion)
         {
