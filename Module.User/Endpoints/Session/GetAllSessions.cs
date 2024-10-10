@@ -10,10 +10,7 @@ namespace Module.User.Endpoints
     {
         void IEndpoint.MapEndpoint(WebApplication app)
         {
-            app.MapGet("/Sessions", async (IMediator mediator) =>
-            {
-                return await mediator.Send(new GetAllSessionsQuery());
-            }).WithTags("Session");
+            app.MapGet("/Sessions", async (IMediator mediator) => await mediator.Send(new GetAllSessionsQuery())).WithTags("Session");
         }
     }
 }

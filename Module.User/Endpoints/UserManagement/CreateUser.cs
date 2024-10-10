@@ -16,6 +16,7 @@ public class CreateUser : IEndpoint
         app.MapPost("User", async ([FromBody]CreateUserRequest request, [FromServices]IMediator mediator) =>
         {
             await mediator.Send(new CreateUserCommand(request));
+            return Results.Ok();
         }).WithTags("UserManagement");
     }
 }
