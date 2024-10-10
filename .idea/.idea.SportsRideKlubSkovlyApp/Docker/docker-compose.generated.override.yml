@@ -2,7 +2,7 @@
 services:
   sportsrideklubskovly.api:
     build:
-      context: "D:\\Development\\Github\\SportsRidingClubSkovly"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
       dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
       target: "base"
     command: []
@@ -14,7 +14,7 @@ services:
     image: "sportsrideklubskovly.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\kag\\.nuget\\packages:/home/app/.nuget/packages"
-    - "D:\\Development\\Github\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
-    - "D:\\Development\\Github\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"

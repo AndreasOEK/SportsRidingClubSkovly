@@ -11,7 +11,6 @@ COPY ["SportsRideKlubSkovly.API/SportsRideKlubSkovly.API.csproj", "SportsRideKlu
 COPY ["Module.User.Application/Module.User.Application.csproj", "Module.User.Application/"]
 COPY ["Module.User.Domain/Module.User.Domain.csproj", "Module.User.Domain/"]
 COPY ["Module.Shared/Module.Shared.csproj", "Module.Shared/"]
-COPY ["Module.User.Domain.Test/Module.User.Domain.Test.csproj", "Module.User.Domain.Test/"]
 COPY ["Module.User.Infrastructure/Module.User.Infrastructure.csproj", "Module.User.Infrastructure/"]
 COPY ["Module.User/Module.User.csproj", "Module.User/"]
 RUN dotnet restore "SportsRideKlubSkovly.API/SportsRideKlubSkovly.API.csproj"

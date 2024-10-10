@@ -1,10 +1,26 @@
 ﻿using Module.User.Domain.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Module.User.Application.Abstractions
 {
     public interface IUserRepository
     {
+        #region Trainer
+
         Task<Trainer> GetTrainerByIdAsync(Guid trainerId);
-        Task<Module.User.Domain.Entity.User> GetUserById(Guid userId);
+        Task CreateTrainerAsync(Trainer user);
+
+        #endregion
+
+        #region User
+
+        Task<Domain.Entity.User> GetUserByIdAsync(Guid userId);
+        Task CreateUserAsync(Domain.Entity.User user);
+
+        #endregion
     }
 }
