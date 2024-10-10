@@ -12,7 +12,7 @@ public class Session
     public int MaxNumberOfParticipants { get; protected set; }
     public SkillLevel DifficultyLevel { get; protected set; }
     public SessionType Type { get; protected set; }
-    private List<Booking> _bookings { get; set; }
+    private List<Booking> _bookings { get; set; } = [];
     public IEnumerable<Booking> Bookings { get { return _bookings; } private set { _bookings = value.ToList(); } }
 
     protected Session() { }
@@ -61,20 +61,20 @@ public class Session
     #region Session Domain Logic
     protected void AssureStartTimeInFuture(DateTime startTime, DateTime now)
     {
-        if (!(startTime > now)) throw new ArgumentException("Start Date and Time must be in the future");
+        if (startTime <= now) throw new ArgumentException("Start Date and Time must be in the future");
     }
     protected void AssureEndTimeAfterStartTime(DateTime startTime, DateTime endTime)
     {
-        if (!(endTime > startTime)) throw new ArgumentException("End date has to be after Start date");
+        if (endTime <= startTime) throw new ArgumentException("End date has to be after Start date");
     }
     protected void AssureSlotsToBook(int bookingsCount, int maxNumberOfParticipants)
     {
-        if (!(bookingsCount < maxNumberOfParticipants))
+        if (bookingsCount >= maxNumberOfParticipants)
             throw new ArgumentException("All slots has already been booked!");
     }
     protected void AssureMaxParticipantsEqualToOrBiggerThanBookedSlots(int maxParticipants, int bookingsCount)
     {
-        if (!(maxParticipants >= bookingsCount))
+        if (maxParticipants < bookingsCount)
             throw new ArgumentException("Max Number Of Participants can't be lower than the number of already booked slots!");
     }
     #endregion

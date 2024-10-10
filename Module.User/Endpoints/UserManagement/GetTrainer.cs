@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserManagement.Query;
+using Module.User.Application.Features.UserManagement.Query.Dto;
 
 namespace Module.User.Endpoints;
 
@@ -13,6 +14,7 @@ public class GetTrainer : IEndpoint
     {
         app.MapGet("Trainer/{id}", async ([FromRoute]Guid id, [FromServices]IMediator mediator) 
                 => await mediator.Send(new GetTrainerQuery(id)))
-            .WithTags("UserManagement");
+            .WithTags("UserManagement")
+            .Produces<TrainerResponse>();
     }
 }

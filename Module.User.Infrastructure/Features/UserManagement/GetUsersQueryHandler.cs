@@ -21,7 +21,8 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, IEnumerable<U
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Domain.Entity.User, UserResponse>();
-            cfg.CreateMap<Booking, SessionBookingResponse>();
+            cfg.CreateMap<Booking, UserBookingResponse>();
+            cfg.CreateMap<Session, UserBookingSessionResponse>();
         }).CreateMapper();
     }
 

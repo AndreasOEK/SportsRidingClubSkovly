@@ -12,7 +12,7 @@
         {
             User = user;
 
-            AssureUserHasNotBookedSessionAlready(otherBookings);
+            AssureUserHasNotBookedSessionAlready(otherBookings ?? new List<Booking>());
         }
 
         public static Booking Create(User user, IEnumerable<Booking> otherBookings)

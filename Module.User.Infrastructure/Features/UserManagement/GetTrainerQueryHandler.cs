@@ -22,17 +22,16 @@ public class GetTrainerQueryHandler : IRequestHandler<GetTrainerQuery, TrainerRe
         {
             cfg.CreateMap<Trainer, TrainerResponse>();
             cfg.CreateMap<Domain.Entity.User, UserResponse>();
-            cfg.CreateMap<Booking, SessionBookingResponse>();
-            cfg.CreateMap<Session, SessionResponse>();
+            cfg.CreateMap<Booking, UserBookingResponse>();
+            cfg.CreateMap<Session, TrainerSessionResponse>();
+            cfg.CreateMap<Session, UserBookingSessionResponse>();
         }).CreateMapper();
     }
 
     public async Task<TrainerResponse> Handle(GetTrainerQuery request, CancellationToken cancellationToken) =>
         await _dbContext.Trainers
             .AsNoTracking()
-            .Include(trainer => trainer.AssignedSessions)
             .Include(trainer => trainer.User)
-            .ThenInclude(user => user.Bookings)
             .Where(trainer => trainer.Id == request.Id)
             .ProjectTo<TrainerResponse>(_mapper.ConfigurationProvider)
             .SingleAsync(cancellationToken: cancellationToken);

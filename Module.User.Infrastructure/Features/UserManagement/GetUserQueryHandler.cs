@@ -21,15 +21,16 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse>
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Domain.Entity.User, UserResponse>();
-            cfg.CreateMap<Booking, SessionBookingResponse>();
+            cfg.CreateMap<Booking, UserBookingResponse>();
+            cfg.CreateMap<Session, UserBookingSessionResponse>();
         }).CreateMapper();
     }
 
     public async Task<UserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken) =>
         await _dbContext.Users
             .AsNoTracking()
-            .Include(user => user.Bookings)
             .Where(user => user.Id == request.Id)
+            .Include(user => user.Bookings)
             .ProjectTo<UserResponse>(_mapper.ConfigurationProvider)
             .SingleAsync(cancellationToken: cancellationToken);
 }

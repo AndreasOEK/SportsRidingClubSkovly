@@ -20,6 +20,8 @@ namespace Module.User.Infrastructure.Features.Sessions
             _mapper = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<Session, SessionResponse>();
+                cfg.CreateMap<Trainer, SessionTrainerResponse>();
+                cfg.CreateMap<Booking, SessionBookingResponse>();
             }).CreateMapper();
         }
 
