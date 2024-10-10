@@ -7,7 +7,7 @@ using Module.User.Application.Features.UserSession.Query.Dto;
 using Module.User.Domain.Entity;
 using Module.User.Infrastructure.DbContexts;
 
-namespace Module.User.Application.Features.UserBrowseAllSessions.Query
+namespace Module.User.Infrastructure.Features.Sessions
 {
     public class GetAllSessionsQueryHandler : IRequestHandler<GetAllSessionsQuery, IEnumerable<SessionResponse>>
     {
@@ -26,6 +26,6 @@ namespace Module.User.Application.Features.UserBrowseAllSessions.Query
         async Task<IEnumerable<SessionResponse>> IRequestHandler<GetAllSessionsQuery, IEnumerable<SessionResponse>>.Handle(
             GetAllSessionsQuery request,
             CancellationToken cancellationToken)
-            => await _dbContext.Sessions.AsNoTracking().ProjectTo<SessionResponse>(_mapper.ConfigurationProvider).ToListAsync();
+            => await _dbContext.Sessions.AsNoTracking().ProjectTo<SessionResponse>(_mapper.ConfigurationProvider).ToListAsync(cancellationToken: cancellationToken);
     }
 }
