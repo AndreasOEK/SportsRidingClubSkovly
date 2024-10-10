@@ -31,7 +31,7 @@ internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionComman
             request.createSessionRequest.StartTime,
             request.createSessionRequest.EndTime, 
             trainer, 
-            request.createSessionRequest.AvailableSlots, 
+            request.createSessionRequest.MaxNumberOfParticipants, 
             request.createSessionRequest.DifficultyLevel, 
             request.createSessionRequest.Type);
 
