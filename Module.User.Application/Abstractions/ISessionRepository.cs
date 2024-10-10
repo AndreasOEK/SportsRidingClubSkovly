@@ -7,6 +7,6 @@ namespace Module.User.Application.Abstractions
         Task AddSessionAsync(Session session);
         Task AddBookingAsync();
         Task<Session> GetSessionByIdAsync(Guid sessionId);
-        Task UpdateSessionAsync();
+        Task UpdateSessionAsync(Session session, byte[] rowVersion);
     }
 }

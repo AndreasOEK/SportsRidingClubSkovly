@@ -5,6 +5,7 @@ namespace Module.User.Domain.Entity;
 public class Session
 {
     public Guid Id { get; protected set; }
+    public byte[] RowVersion { get; protected set; }
     public DateTime StartTime { get; protected set; }
     public DateTime EndTime { get; protected set; }
     public Trainer AssignedTrainer { get; protected set; }

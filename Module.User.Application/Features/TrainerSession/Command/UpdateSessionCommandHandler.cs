@@ -2,11 +2,6 @@
 using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.TrainerSession.Command.Dto;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.User.Application.Features.TrainerSession.Command
 {
@@ -40,7 +35,7 @@ namespace Module.User.Application.Features.TrainerSession.Command
                 );
 
             // Save
-            await _sessionRepository.UpdateSessionAsync();
+            await _sessionRepository.UpdateSessionAsync(session, request.updateSessionRequest.RowVersion);
         }
     }
 }
