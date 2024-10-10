@@ -1,11 +1,12 @@
 ﻿using MediatR;
+using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.UserBooksSession.Command.Dto;
 
 namespace Module.User.Application.Features.UserBooksSession.Command
 {
     public record CreateBookingCommand(
-        CreateBookingRequest CreateBookingRequest) : IRequest;
+        CreateBookingRequest CreateBookingRequest) : IRequest, ITransactionalCommand;
     internal class CreateBookingCommandHandler : IRequestHandler<CreateBookingCommand>
     {
         private readonly ISessionRepository _sessionRepository;
