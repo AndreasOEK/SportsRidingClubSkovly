@@ -1,11 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.User.Infrastructure.DbContexts
 {
@@ -24,8 +18,12 @@ namespace Module.User.Infrastructure.DbContexts
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Session>()
-                .Property(b => b.Id)
+                .Property(s => s.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Session>()
+                .Property(s => s.RowVersion)
+                .IsRowVersion();
 
             modelBuilder.Entity<Booking>()
                 .Property(b => b.Id)

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Module.User.Application.Features.TrainerSession.Command;
 
 namespace Module.User.Application.Extensions;
 

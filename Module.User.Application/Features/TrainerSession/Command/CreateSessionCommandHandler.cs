@@ -13,18 +13,18 @@ public record CreateSessionCommand (
 internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionCommand>
 {
     private readonly ISessionRepository _sessionRepository;
-    private readonly IUserRepository _trainerRepository;
+    private readonly IUserRepository _userRepository;
 
-    public CreateSessionCommandHandler(ISessionRepository sessionRepository, IUserRepository trainerRepository)
+    public CreateSessionCommandHandler(ISessionRepository sessionRepository, IUserRepository userRepository)
     {
         _sessionRepository = sessionRepository;
-        _trainerRepository = trainerRepository;
+        _userRepository = userRepository;
     }
 
     public async Task Handle(CreateSessionCommand request, CancellationToken cancellationToken)
     {
         // Load
-        var trainer = await _trainerRepository.GetTrainerById(request.createSessionRequest.AssignedTrainerId);
+        var trainer = await _userRepository.GetTrainerByIdAsync(request.createSessionRequest.AssignedTrainerId);
 
         // Do
         var session = Session.Create(

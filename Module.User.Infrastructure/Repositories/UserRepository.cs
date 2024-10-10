@@ -14,7 +14,7 @@ namespace Module.User.Infrastructure.Repositories
             _dbContext = dbContext;
         }
 
-        async Task<Trainer> IUserRepository.GetTrainerById(Guid trainerId)
+        async Task<Trainer> IUserRepository.GetTrainerByIdAsync(Guid trainerId)
             => await _dbContext.Trainers.SingleAsync(t => t.Id == trainerId);
 
         async Task<Domain.Entity.User> IUserRepository.GetUserById(Guid userId)

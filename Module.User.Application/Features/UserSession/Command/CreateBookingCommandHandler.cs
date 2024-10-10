@@ -1,12 +1,6 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.UserBooksSession.Command.Dto;
-using Module.User.Domain.Entity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Module.User.Application.Features.UserBooksSession.Command
 {
@@ -25,7 +19,7 @@ namespace Module.User.Application.Features.UserBooksSession.Command
         public async Task Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
             // Load
-            var session = await _sessionRepository.GetSessionById(request.CreateBookingRequest.sessionId);
+            var session = await _sessionRepository.GetSessionByIdAsync(request.CreateBookingRequest.sessionId);
             var user = await _userRepository.GetUserById(request.CreateBookingRequest.userId);
 
             // Do
