@@ -6,6 +6,7 @@ namespace Module.User.Application.Abstractions
     {
         Task AddSessionAsync(Session session);
         Task AddBookingAsync();
-        Task<Session> GetSessionById(Guid sessionId);
+        Task<Session> GetSessionByIdAsync(Guid sessionId);
+        Task UpdateSessionAsync();
     }
 }

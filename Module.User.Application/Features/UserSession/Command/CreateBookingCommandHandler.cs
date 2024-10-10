@@ -25,7 +25,7 @@ namespace Module.User.Application.Features.UserBooksSession.Command
         public async Task Handle(CreateBookingCommand request, CancellationToken cancellationToken)
         {
             // Load
-            var session = await _sessionRepository.GetSessionById(request.CreateBookingRequest.sessionId);
+            var session = await _sessionRepository.GetSessionByIdAsync(request.CreateBookingRequest.sessionId);
             var user = await _userRepository.GetUserById(request.CreateBookingRequest.userId);
 
             // Do

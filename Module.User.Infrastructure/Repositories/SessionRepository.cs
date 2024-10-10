@@ -23,7 +23,7 @@ namespace Module.User.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
-        async Task<Session> ISessionRepository.GetSessionById(Guid sessionId)
+        async Task<Session> ISessionRepository.GetSessionByIdAsync(Guid sessionId)
             => await _dbContext.Sessions.SingleAsync(session => session.Id == sessionId);
     }
 }
