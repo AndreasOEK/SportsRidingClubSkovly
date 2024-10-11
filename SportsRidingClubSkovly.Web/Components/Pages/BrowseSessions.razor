@@ -1,15 +1,14 @@
-﻿@page "/inputTest"
+﻿@page "/browseSessions"
 @rendermode InteractiveServer
 
-<PageTitle>Create Session</PageTitle>
-<h3>Trainer Can Create A Session</h3>
-<h3>Admin Can Create A Session</h3>
+<PageTitle>Browse Sessions</PageTitle>
+<h3>Browse Session</h3>
 
 <p>Input Session Description Here</p>
-<input @onchange="InputChanged" />
+<input @oninput="InputChanged" />
 <p> Hello!
-    @message</p>
-
+    @message
+</p>
 @code {
     string message = "Yes";
 
