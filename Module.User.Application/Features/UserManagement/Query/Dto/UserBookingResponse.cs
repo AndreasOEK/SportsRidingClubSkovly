@@ -1,4 +1,5 @@
 ﻿namespace Module.User.Application.Features.UserManagement.Query.Dto;
 
 public record UserBookingResponse(
-    Guid Id);
+    Guid Id,
+    UserBookingSessionResponse session);
