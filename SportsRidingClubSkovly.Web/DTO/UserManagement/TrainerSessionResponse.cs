@@ -1,6 +1,6 @@
-﻿using Module.User.Domain.Enums;
+﻿using SportsRidingClubSkovly.Web.Abstractions.Enums;
 
-namespace Module.User.Application.Features.UserManagement.Query.Dto;
+namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 
 public record TrainerSessionResponse(
     Guid Id,

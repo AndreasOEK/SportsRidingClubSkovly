@@ -1,4 +1,4 @@
-﻿namespace Module.User.Application.Features.UserManagement.Query.Dto;
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 
 public record UserBookingSessionResponse(
     Guid Id);

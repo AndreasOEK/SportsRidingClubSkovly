@@ -6,17 +6,16 @@ using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserManagement.Command;
 using Module.User.Application.Features.UserManagement.Command.Dto;
 
-namespace Module.User.Endpoints;
+namespace Module.User.Endpoints.UserManagement;
 
 public class CreateUser : IEndpoint
 {
 
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapPost("User", async ([FromBody]CreateUserRequest request, [FromServices]IMediator mediator) =>
+        app.MapPost("User", async ([FromBody] CreateUserRequest request, [FromServices] IMediator mediator) =>
         {
             await mediator.Send(new CreateUserCommand(request));
-            return Results.Ok();
         }).WithTags("UserManagement");
     }
 }

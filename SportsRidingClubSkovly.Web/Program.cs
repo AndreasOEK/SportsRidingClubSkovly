@@ -1,4 +1,6 @@
-using SportsRidingClubSkovly.Web.Components;
+using SportsRidingClubSkovly.Web.DTO.Components;
+using SportsRidingClubSkovly.Web.Services;
+using SportsRidingClubSkovly.Web.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,8 @@ builder.Services.AddHttpClient("API", httpClient =>
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<IUserSessionProxy, UserSessionProxy>();
 
 var app = builder.Build();
 

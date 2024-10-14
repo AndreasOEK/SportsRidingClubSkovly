@@ -1,6 +1,5 @@
 using MediatR;
 using Module.User.Extensions;
-using Module.User.Infrastructure.Helpers;
 using SportsRideKlubSkovly.API.Abstractions;
 using SportsRideKlubSkovly.API.Extensions;
 using SportsRideKlubSkovly.API.Helpers;

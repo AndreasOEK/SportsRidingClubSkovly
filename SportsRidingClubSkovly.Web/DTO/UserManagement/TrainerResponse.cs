@@ -1,5 +1,6 @@
-﻿using Module.User.Application.Features.UserSession.Query.Dto;
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 
-namespace Module.User.Application.Features.UserManagement.Query.Dto;
-
-public record TrainerResponse(Guid Id, IEnumerable<TrainerSessionResponse> AssignedSessions, UserResponse User);
+public record TrainerResponse(
+    Guid Id, 
+    IEnumerable<TrainerSessionResponse> AssignedSessions, 
+    UserResponse User);

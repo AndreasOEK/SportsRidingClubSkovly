@@ -1,4 +1,4 @@
-﻿namespace Module.User.Application.Features.UserManagement.Command.Dto;
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 
 public record UpdateUserRequest(
     Guid Guid,

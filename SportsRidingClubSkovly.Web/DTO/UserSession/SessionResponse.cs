@@ -1,6 +1,6 @@
-﻿using Module.User.Domain.Enums;
+﻿using SportsRidingClubSkovly.Web.Abstractions.Enums;
 
-namespace Module.User.Application.Features.UserSession.Query.Dto
+namespace SportsRidingClubSkovly.Web.DTO.UserSession
 {
     public record SessionResponse
     {
