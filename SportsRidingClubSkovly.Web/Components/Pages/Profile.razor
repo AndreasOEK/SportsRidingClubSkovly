@@ -13,15 +13,16 @@ else
         <h3 style="float: left">@User.FirstName @User.LastName</h3>
         @if (IsSaving)
         {
-            <button disabled="disabled" class="Loading">
+            <button style="float: right" disabled="disabled" class="btn btn-primary">
                 <i class="fa fa-refresh fa-spins"></i>
             </button>
         }
         else
         {
-            <button class="EditBtn btn-primary" type="button" @onclick="IsEditingProfile ? SaveProfile : EditProfile">@(IsEditingProfile ? "Save" : "Edit")</button>
+            <button style="float: right" class="btn btn-primary" type="button" @onclick="IsEditingProfile ? SaveProfile : EditProfile">@(IsEditingProfile ? "Save" : "Edit")</button>
         }
     </div>
+    
     <div style="clear: both" /> 
     
     <p class="InputTitle">Email</p>
@@ -33,11 +34,17 @@ else
 
     <hr />
 
-    <h4 style="margin-bottom: 20px">Bookings</h4>
-    
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h4>Bookings</h4>
+        <a class="btn btn-primary" href="http://localhost:5000/browseSessions">Book</a>
+    </div>
+
     <UserBookingView Bookings="User.Bookings" />
-    
-    @* <GenericTable Data="User.Bookings" /> *@
+
+
+
+
+@* <GenericTable Data="User.Bookings" /> *@
     
     @* <div class="modal @(IsEditingProfile ? "show" : "")" tabindex="-1" style="display: @(IsEditingProfile ? "block" : "none")"> *@
     @*     <div class="modal-dialog"> *@
