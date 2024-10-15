@@ -2,4 +2,4 @@
 
 public record UserBookingResponse(
     Guid Id,
-    UserBookingSessionResponse session);
+    UserBookingSessionResponse Session);

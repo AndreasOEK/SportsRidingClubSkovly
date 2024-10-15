@@ -1,0 +1,13 @@
+﻿@using SportsRidingClubSkovly.Web.Components.Cards
+<div class="row row-cols-1 row-cols-md-6 g-4">
+    @foreach (var userBookingResponse in Bookings)
+    {
+        <div class="col">
+            <UserBookingCard Booking="userBookingResponse" />
+        </div>
+    }
+    @for (int i = 0; i < 10; i++)
+    {
+        
+    }
+</div>

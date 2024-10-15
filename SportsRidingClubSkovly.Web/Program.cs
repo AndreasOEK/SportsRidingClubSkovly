@@ -9,6 +9,8 @@ builder.Services.AddHttpClient("API", httpClient =>
     httpClient.BaseAddress = new Uri("http://localhost:8080");
 });
 
+builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
+
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();

@@ -6,7 +6,6 @@
 @rendermode InteractiveServer
 @inject IUserSessionProxy userSessionProxy;
 
-
 <PageTitle>Browse Sessions</PageTitle>
 <h3>Browse Sessions</h3>
 <div class="row row-cols-1 row-cols-md-3 g-4">
@@ -15,18 +14,3 @@
         <SessionCard Session=session />
     }
 </div>
-
-@code {
-
-    IEnumerable<SessionResponse> sessions = [];
-
-    protected override async Task OnInitializedAsync()
-    {
-        sessions = await userSessionProxy.GetSessionsAsync();
-    }
-
-    public int CalculateSlotsLeft(SessionResponse session)
-    {
-        return session.MaxNumberOfParticipants - session.Bookings.Count();
-    }
-}

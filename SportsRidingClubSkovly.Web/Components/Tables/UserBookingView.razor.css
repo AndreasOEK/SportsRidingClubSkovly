@@ -1,0 +1,5 @@
+﻿.grid-container {
+    display: grid;
+    grid-auto-columns: 160px;
+    grid-auto-flow: column;
+}
