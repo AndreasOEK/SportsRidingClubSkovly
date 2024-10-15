@@ -6,20 +6,28 @@
 <PageTitle>Session Details</PageTitle>
 <h3>Session Details</h3>
 
-@if (Session is null)
+@if (Session is null)   
 {
     <p>Loading</p>
 }
 else
 {
-    <form class="row g-3">
+    <div class="row g-3">
         <div class="col-md-2">
-            <label for="AssignedTrainer" class="form-label"><b>Trainer</b></label>
-            <p id="AssignedTrainer">@Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</p>
+            <div class="card border-info mb-2 text-center" style="max-height: 6rem;">
+                <div class="card-header" style="max-height: 1.75rem; padding-top: 0.125rem;"><b>Trainer</b></div>
+                <div class="card-body" style="max-height: 1.75rem; padding-top: 0.125rem;">
+                    <p class="card-text">@Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</p>
+                </div>
+            </div>
         </div>
         <div class="col-md-3">
-            <label for="StartDate" class="form-label"><b>Start Date</b></label>
-            <p id="StartDate">@Session.StartTime.ToString("f")</p>
+            <div class="card border-info mb-3 text-center" style="max-height: 6rem;">
+                <div class="card-header" style="max-height: 1.75rem; padding-top: 0.125rem;"><b>Start Date</b></div>
+                <div class="card-body" style="max-height: 1.75rem; padding-top: 0.125rem;">
+                    <p class="card-text">@Session.StartTime.ToString("f")</p>
+                </div>
+            </div>
         </div>
-    </form>
+    </div>
 }
