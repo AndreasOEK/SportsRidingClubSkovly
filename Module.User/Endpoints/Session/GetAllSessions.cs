@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserSession.Query;
 
-namespace Module.User.Endpoints
+namespace Module.User.Endpoints.Session
 {
     public class GetAllSessions : IEndpoint
     {

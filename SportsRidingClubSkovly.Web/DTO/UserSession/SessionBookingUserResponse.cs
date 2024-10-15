@@ -1,4 +1,4 @@
-﻿namespace Module.User.Application.Features.UserSession.Query.Dto
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserSession
 {
     public class SessionBookingUserResponse
     {

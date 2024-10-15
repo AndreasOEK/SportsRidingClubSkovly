@@ -1,0 +1,44 @@
+﻿.card-border {
+    border:2px solid black;
+    padding: 10px;
+}
+
+.border {
+    border:2px solid black;
+}
+
+div.card {
+    /*width: 150px;*/
+    /*height: 150px;*/
+    /*padding: 10px;*/
+    transition: transform 0.3s ease; /* Add a smooth transition */
+}
+
+.squircle {
+    
+}
+
+div.card:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
+
+h5 {
+    text-align: center;
+}
+
+.background-primary {
+    background-color: #0066cc;
+    width: 130px;
+    height: 25px;
+    color: white;
+}
+
+.calendar-icon {
+    display: inline-block;
+    width: 24px; /* Adjust size as needed */
+    height: 24px; /* Adjust size as needed */
+    background-image: url("images/calendaricon.jpg"); /* Path to your icon */
+    background-size: contain; /* Ensure icon fits properly */
+    background-repeat: no-repeat;
+}

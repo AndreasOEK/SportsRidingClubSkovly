@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
-using Module.User.Application.Features.UserBooksSession.Command.Dto;
+using Module.User.Application.Features.UserSession.Command.Dto;
 
-namespace Module.User.Application.Features.UserBooksSession.Command
+namespace Module.User.Application.Features.UserSession.Command
 {
     public record CreateBookingCommand(
         CreateBookingRequest CreateBookingRequest) : IRequest, ITransactionalCommand;

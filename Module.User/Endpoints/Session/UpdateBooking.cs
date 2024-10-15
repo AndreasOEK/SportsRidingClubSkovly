@@ -5,7 +5,7 @@ using Module.Shared.Abstractions;
 using Module.User.Application.Features.TrainerSession.Command;
 using Module.User.Application.Features.TrainerSession.Command.Dto;
 
-namespace Module.User.Endpoints
+namespace Module.User.Endpoints.Session
 {
     public class UpdateBooking : IEndpoint
     {

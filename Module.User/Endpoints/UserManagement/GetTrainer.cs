@@ -6,7 +6,7 @@ using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserManagement.Query;
 using Module.User.Application.Features.UserManagement.Query.Dto;
 
-namespace Module.User.Endpoints;
+namespace Module.User.Endpoints.UserManagement;
 
 public class GetTrainer : IEndpoint
 {

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Shared.Abstractions;
-using Module.User.Application.Features.UserBooksSession.Command;
-using Module.User.Application.Features.UserBooksSession.Command.Dto;
+using Module.User.Application.Features.UserSession.Command;
+using Module.User.Application.Features.UserSession.Command.Dto;
 
-namespace Module.User.Endpoints
+namespace Module.User.Endpoints.Session
 {
     public class CreateBooking : IEndpoint
     {

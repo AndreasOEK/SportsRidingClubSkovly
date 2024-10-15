@@ -1,0 +1,41 @@
+﻿@using System.Collections
+@typeparam TData
+
+@if (Data is null)
+{
+    <p>Ingen data fundet</p>
+}
+else
+{
+    <table>
+        <tr>
+            @foreach (var propertyInfo in typeof(TData).GetProperties())
+            {
+                if (propertyInfo.PropertyType.GetInterfaces().Contains(typeof(IEnumerable)) && propertyInfo.PropertyType != typeof(string) || propertyInfo.GetType().Name.Contains("Response"))
+                {
+                    continue;
+                }
+                <th>@propertyInfo.Name</th>
+            }
+        </tr>
+        @foreach (var dataPoint in Data)
+        {
+            <tr>
+                @foreach (var propertyInfo in typeof(TData).GetProperties())
+                {
+                    var value = propertyInfo.GetValue(dataPoint);
+                    if (value is IEnumerable<object> && !(value is string) || propertyInfo.GetType().Name.Contains("Response"))
+                    {
+                        continue;
+                    }
+                    <td>@value</td>
+                }
+            </tr>
+        }
+    </table>
+}
+
+@code
+{
+    [Parameter] public IEnumerable<TData> Data { get; set; }
+}

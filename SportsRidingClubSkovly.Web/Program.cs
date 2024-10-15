@@ -1,4 +1,6 @@
 using SportsRidingClubSkovly.Web.Components;
+using SportsRidingClubSkovly.Web.Services;
+using SportsRidingClubSkovly.Web.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +8,8 @@ builder.Services.AddHttpClient("API", httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:8080");
 });
+
+builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
