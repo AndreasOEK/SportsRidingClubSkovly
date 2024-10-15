@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Module.User.Infrastructure.Helpers
+namespace SportsRideKlubSkovly.API.Helpers
 {
     public class UnitOfWork : IUnitOfWork
     {

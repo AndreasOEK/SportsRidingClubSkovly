@@ -1,6 +1,6 @@
-﻿using Module.User.Domain.Enums;
+﻿using SportsRidingClubSkovly.Web.Abstractions.Enums;
 
-namespace Module.User.Application.Features.TrainerSession.Command.Dto
+namespace SportsRidingClubSkovly.Web.DTO.TrainerSession
 {
     public record UpdateSessionRequest
     {

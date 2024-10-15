@@ -1,4 +1,4 @@
-﻿namespace Module.User.Domain.Enums
+﻿namespace SportsRidingClubSkovly.Web.Abstractions.Enums
 {
     public enum SessionType
     {

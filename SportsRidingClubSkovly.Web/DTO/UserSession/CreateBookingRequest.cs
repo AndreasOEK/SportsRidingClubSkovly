@@ -1,4 +1,4 @@
-﻿namespace Module.User.Application.Features.UserBooksSession.Command.Dto
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserSession
 {
     public record CreateBookingRequest
     {

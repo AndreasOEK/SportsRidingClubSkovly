@@ -9,12 +9,12 @@ using Module.User.Infrastructure.DbContexts;
 
 namespace Module.User.Infrastructure.Features.Sessions
 {
-    public class GetAllSessionsQueryHandler : IRequestHandler<GetAllSessionsQuery, IEnumerable<SessionResponse>>
+    public class GetSessionByIdQueryHandler : IRequestHandler<GetSessionByIdQuery, SessionResponse>
     {
         private readonly UserDbContext _dbContext;
         private readonly IMapper _mapper;
 
-        public GetAllSessionsQueryHandler(UserDbContext dbContext)
+        public GetSessionByIdQueryHandler(UserDbContext dbContext)
         {
             _dbContext = dbContext;
             _mapper = new MapperConfiguration(cfg =>
@@ -26,13 +26,13 @@ namespace Module.User.Infrastructure.Features.Sessions
             }).CreateMapper();
         }
 
-        async Task<IEnumerable<SessionResponse>> IRequestHandler<GetAllSessionsQuery, IEnumerable<SessionResponse>>.Handle(
-            GetAllSessionsQuery request,
-            CancellationToken cancellationToken)
+        public async Task<SessionResponse> Handle(GetSessionByIdQuery request, CancellationToken cancellationToken)
             => await _dbContext.Sessions
             .AsNoTracking()
             .Include(s => s.AssignedTrainer)
+            .Include(s => s.Bookings)
+            .Where(s => s.Id == request.sessionId)
             .ProjectTo<SessionResponse>(_mapper.ConfigurationProvider)
-            .ToListAsync(cancellationToken: cancellationToken);
+            .SingleAsync();
     }
 }

@@ -1,3 +1,3 @@
-﻿namespace Module.User.Application.Features.UserManagement.Command.Dto;
+﻿namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 
 public record DeleteTrainerRequest(Guid Guid);

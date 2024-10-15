@@ -6,7 +6,7 @@ using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserManagement.Command;
 using Module.User.Application.Features.UserManagement.Command.Dto;
 
-namespace Module.User.Endpoints;
+namespace Module.User.Endpoints.UserManagement;
 
 public class DeleteTrainer : IEndpoint
 {
@@ -15,8 +15,7 @@ public class DeleteTrainer : IEndpoint
         app.MapDelete("User/{id}/Trainer", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
         {
             var request = new DeleteTrainerRequest(id);
-            await mediator.Send(new DeleteTrainerCommand(request));
-            return Results.Ok();
+            return await mediator.Send(new DeleteTrainerCommand(request));
         }).WithTags("UserManagement");
     }
 }

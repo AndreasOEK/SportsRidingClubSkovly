@@ -30,9 +30,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsRidingClubSkovly.Web", "SportsRidingClubSkovly.Web\SportsRidingClubSkovly.Web.csproj", "{792AE86D-9681-41B8-B396-471026165F67}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B49E4C23-557E-404F-A73F-64F6C14DDAE8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsRidingClubSkovly.Web", "SportsRidingClubSkovly.Web\SportsRidingClubSkovly.Web.csproj", "{792AE86D-9681-41B8-B396-471026165F67}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,7 +87,6 @@ Global
 		{CFCF1235-D505-47D1-BBD3-A4A1AE339932} = {49280EC6-0ED0-46CC-9392-317649410F3B}
 		{A205C8D3-EFFD-4B46-A2B8-38B7668ED1A4} = {04F00BAE-5B7A-42B7-809E-50DA34727CE6}
 		{ACC55308-6169-4F01-98AF-4BF1BC603DA4} = {06C4F906-4B53-4032-9A14-A3339ED80055}
-		{792AE86D-9681-41B8-B396-471026165F67} = {B49E4C23-557E-404F-A73F-64F6C14DDAE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8058C6FD-3F22-4444-8313-75B5D1C735D2}

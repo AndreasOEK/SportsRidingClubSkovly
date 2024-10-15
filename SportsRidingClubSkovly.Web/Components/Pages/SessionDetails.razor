@@ -1,0 +1,25 @@
+﻿@inherits SessionDetailsBase
+
+@page "/Session/{sessionId:guid}"
+@rendermode InteractiveServer
+
+<PageTitle>Session Details</PageTitle>
+<h3>Session Details</h3>
+
+@if (Session is null)
+{
+    <p>Loading</p>
+}
+else
+{
+    <form class="row g-3">
+        <div class="col-md-2">
+            <label for="AssignedTrainer" class="form-label"><b>Trainer</b></label>
+            <p id="AssignedTrainer">@Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</p>
+        </div>
+        <div class="col-md-3">
+            <label for="StartDate" class="form-label"><b>Start Date</b></label>
+            <p id="StartDate">@Session.StartTime.ToString("f")</p>
+        </div>
+    </form>
+}
