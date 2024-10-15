@@ -15,6 +15,8 @@ builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+builder.Services.AddScoped<IUserSessionProxy, UserSessionProxy>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

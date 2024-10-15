@@ -12,10 +12,8 @@ namespace Module.User.Endpoints.Session
         void IEndpoint.MapEndpoint(WebApplication app)
         {
             app.MapPut("/Session/{id}", async (UpdateSessionRequest updateSessionRequest, IMediator mediator) =>
-            {
-                await mediator.Send(new UpdateSessionCommand(updateSessionRequest));
-                return Results.Ok();
-            }).WithTags("Session");
+            await mediator.Send(new UpdateSessionCommand(updateSessionRequest))
+            ).WithTags("Session");
         }
     }
 }

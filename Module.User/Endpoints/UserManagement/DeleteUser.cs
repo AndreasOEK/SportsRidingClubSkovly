@@ -15,8 +15,7 @@ public class DeleteUser : IEndpoint
         app.MapDelete("User/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
         {
             var request = new DeleteUserRequest(id);
-            await mediator.Send(new DeleteUserCommand(request));
-            return Results.Ok();
+            return await mediator.Send(new DeleteUserCommand(request));
         }).WithTags("UserManagement");
     }
 }

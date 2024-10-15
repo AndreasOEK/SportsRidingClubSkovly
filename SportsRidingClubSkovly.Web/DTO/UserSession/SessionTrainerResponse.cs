@@ -1,3 +1,5 @@
 ﻿namespace SportsRidingClubSkovly.Web.DTO.UserSession;
 
-public record SessionTrainerResponse(Guid Id);
+public record SessionTrainerResponse(
+    Guid Id,
+    SessionTrainerUserResponse User);

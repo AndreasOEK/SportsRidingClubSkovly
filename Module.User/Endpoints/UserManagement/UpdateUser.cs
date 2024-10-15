@@ -12,12 +12,7 @@ public class UpdateUser : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPut("User", async ([FromBody]UpdateUserRequest request, [FromServices]IMediator mediator) 
-            =>
-            {
-                await mediator.Send(new UpdateUserCommand(request));
-                return Results.Ok();
-            })
-            .WithTags("UserManagement");
+        app.MapPut("User", async ([FromBody] UpdateUserRequest request, [FromServices] IMediator mediator)
+            => await mediator.Send(new UpdateUserCommand(request))).WithTags("UserManagement");
     }
 }

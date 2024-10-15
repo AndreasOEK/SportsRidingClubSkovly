@@ -1,0 +1,32 @@
+﻿@using SportsRidingClubSkovly.Web.DTO.UserSession
+@using SportsRidingClubSkovly.Web.Services.Interface
+@using SportsRidingClubSkovly.Web.Components.Component
+
+@page "/browseSessions"
+@rendermode InteractiveServer
+@inject IUserSessionProxy userSessionProxy;
+
+
+<PageTitle>Browse Sessions</PageTitle>
+<h3>Browse Sessions</h3>
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var session in sessions)
+    {
+        <SessionCard Session=session />
+    }
+</div>
+
+@code {
+
+    IEnumerable<SessionResponse> sessions = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        sessions = await userSessionProxy.GetSessionsAsync();
+    }
+
+    public int CalculateSlotsLeft(SessionResponse session)
+    {
+        return session.MaxNumberOfParticipants - session.Bookings.Count();
+    }
+}

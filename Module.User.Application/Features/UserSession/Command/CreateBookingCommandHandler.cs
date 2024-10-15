@@ -22,7 +22,7 @@ namespace Module.User.Application.Features.UserSession.Command
             // Load
             var session = await _sessionRepository.GetSessionByIdAsync(request.CreateBookingRequest.sessionId);
             var user = await _userRepository.GetUserByIdAsync(request.CreateBookingRequest.userId);
-            
+
             // Do
             session.AddBooking(user);
 

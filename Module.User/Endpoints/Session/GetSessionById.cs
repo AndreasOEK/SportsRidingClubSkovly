@@ -6,13 +6,14 @@ using Module.User.Application.Features.UserSession.Query;
 
 namespace Module.User.Endpoints.Session
 {
-    public class GetAllSessions : IEndpoint
+    class GetSessionById : IEndpoint
     {
         void IEndpoint.MapEndpoint(WebApplication app)
         {
-            app.MapGet("/Sessions", async (IMediator mediator) =>
+            app.MapGet("/Session/{sessionId}", async (Guid sessionId, IMediator mediator) =>
             {
-                return await mediator.Send(new GetAllSessionsQuery());
+                var response = await mediator.Send(new GetSessionByIdQuery(sessionId));
+                return response; 
             }).WithTags("Session");
         }
     }
