@@ -3,7 +3,6 @@
 
 @inherits SessionCardBase
 
-
 <div class="col">
     <div class="card text-center">
         <div class="card-body">
@@ -12,28 +11,10 @@
             <p class="card-text"><b>Start Time</b>: @Session.StartTime.ToString("hh:mm")</p>
             <p class="card-text"><b>Duration</b>: 0.5 hour</p>
             <p class="card-text"><b>Difficulty Level</b>: @Session.DifficultyLevel</p>
-            <a href="/SessionDetails" class="btn btn-primary">See Details</a>
+            <a href="/Session/{@Session.Id}" class="btn btn-primary">See Details</a>
         </div>
         <div class="card-footer">
             <small class="text-body-secondary"><b>Trainer</b>: @Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</small>
         </div>
-        <style>
-            div.card:hover {
-                background-color: azure;
-                transform: scale(1.05);
-            }
-
-            a.btn:hover {
-                transform: scale(1.05);
-            }
-
-            div.card {
-                transition: transform 0.3s ease;
-            }
-
-            a.btn {
-                transition: transform 0.3s ease;
-            }
-        </style>
     </div>
 </div>  

@@ -12,7 +12,8 @@ namespace Module.User.Endpoints.Session
         {
             app.MapGet("/Session/{sessionId}", async (Guid sessionId, IMediator mediator) =>
             {
-                return await mediator.Send(new GetSessionByIdQuery(sessionId));
+                var response = await mediator.Send(new GetSessionByIdQuery(sessionId));
+                return response; 
             }).WithTags("Session");
         }
     }

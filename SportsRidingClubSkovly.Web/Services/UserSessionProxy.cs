@@ -12,6 +12,13 @@ namespace SportsRidingClubSkovly.Web.Services
             _httpClient = httpClient.CreateClient("API");
         }
 
+        async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)
+        {
+            var requestUrl = "Session/" + sessionId.ToString();
+            var response = await _httpClient.GetAsync(requestUrl);
+            return await response.Content.ReadFromJsonAsync<SessionResponse>() ?? new SessionResponse();
+        }
+
         async Task<IEnumerable<SessionResponse>> IUserSessionProxy.GetSessionsAsync()
         {
             var response = await _httpClient.GetAsync("Sessions");

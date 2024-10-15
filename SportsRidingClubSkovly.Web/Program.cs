@@ -1,4 +1,4 @@
-using SportsRidingClubSkovly.Web.DTO.Components;
+using SportsRidingClubSkovly.Web.Components;
 using SportsRidingClubSkovly.Web.Services;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
