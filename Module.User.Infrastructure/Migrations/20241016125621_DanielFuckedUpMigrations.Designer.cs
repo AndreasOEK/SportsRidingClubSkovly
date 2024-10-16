@@ -12,8 +12,8 @@ using Module.User.Infrastructure.DbContexts;
 namespace Module.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20241010205032_ChangedNamesOfValues")]
-    partial class ChangedNamesOfValues
+    [Migration("20241016125621_DanielFuckedUpMigrations")]
+    partial class DanielFuckedUpMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace Module.User.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("SessionId")
+                    b.Property<Guid>("SessionId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
@@ -126,17 +126,45 @@ namespace Module.User.Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Module.User.Domain.Entity.UserAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Password")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAccounts");
+                });
+
             modelBuilder.Entity("Module.User.Domain.Entity.Booking", b =>
                 {
-                    b.HasOne("Module.User.Domain.Entity.Session", null)
+                    b.HasOne("Module.User.Domain.Entity.Session", "Session")
                         .WithMany("Bookings")
-                        .HasForeignKey("SessionId");
+                        .HasForeignKey("SessionId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
 
                     b.HasOne("Module.User.Domain.Entity.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
+
+                    b.Navigation("Session");
 
                     b.Navigation("User");
                 });
@@ -153,6 +181,17 @@ namespace Module.User.Infrastructure.Migrations
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
+                {
+                    b.HasOne("Module.User.Domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Module.User.Domain.Entity.UserAccount", b =>
                 {
                     b.HasOne("Module.User.Domain.Entity.User", "User")
                         .WithMany()

@@ -4,7 +4,7 @@
     {
         public Guid Id { get; protected set; }
         public User User { get; protected set; }
-        public Session Session { get; set; }
+        public Session Session { get; protected set; }
 
         protected Booking() { }
 

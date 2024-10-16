@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Module.User.Application.Abstractions;
 using Module.User.Infrastructure.DbContexts;
 using Module.User.Infrastructure.Repositories;
+using SportsRidingClubSkovly.Web.DTO.Account;
 
 namespace Module.User.Infrastructure.Extensions;
 
@@ -23,6 +24,7 @@ public static class UserModuleInfrastructureExtension
                 }));
         serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
+        serviceCollection.AddScoped<IUserAccountRepository, UserAccountRepository>();
         
 
         return serviceCollection;
