@@ -1,0 +1,111 @@
+﻿@typeparam TData
+
+@if (Data is null)
+{
+    <p>Ingen data fundet</p>
+}
+else
+{
+    <table>
+        <tr>
+            @foreach (var propertyInfo in typeof(TData).GetProperties())
+            {
+                <th>@propertyInfo.Name</th>
+            }
+        </tr>
+        @foreach (var dataPoint in Data)
+        {
+            <tr>
+                @foreach (var propertyInfo in typeof(TData).GetProperties())
+                {
+                    var value = propertyInfo.GetValue(dataPoint);
+                    if (value is IEnumerable<object> && !(value is string))
+                    {
+                        <td>
+                            <button
+                                class="btn-primary collectionview"
+                                disabled="@(!((IEnumerable<object>) value).Any())"
+                                @onclick="() => OpenCollectionModal(value, propertyInfo.Name)">
+                                @propertyInfo.Name
+                            </button>
+                        </td>
+                    }
+                    else if (propertyInfo.GetType().Name.Contains("Response"))
+                    {
+                        try
+                        {
+                            var idProperty = propertyInfo.GetType().GetProperty("Id");
+                            <td>@(idProperty?.GetValue(value) ?? value)</td>
+                        }
+                        catch (Exception e)
+                        {
+                            <td>Error</td>
+                        }
+                    }
+                    else
+                    {
+                        <td>@value</td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+}
+
+<div class="modal @(IsOpen ? "show" : "")" tabindex="-1" style="display: @(IsOpen ? "block" : "none")">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">@ModalTitle</h5>
+                <button type="button" class="btn-close" aria-label="Close" @onclick="Close"></button>
+            </div>
+            <div class="modal-body">
+                @if (ModalData is not null)
+                {
+                    @RenderGenericTable()
+                }
+                else
+                {
+                    <p>No data...</p>
+                }
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" @onclick="Close">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    [Parameter] public IEnumerable<TData> Data { get; set; }
+
+    private bool IsOpen { get; set; }
+    private string ModalTitle { get; set; } = "ModalTitle";
+    private IEnumerable<object> ModalData { get; set; } = Enumerable.Empty<object>();
+    private Type ModalType { get; set; }
+
+    private void OpenCollectionModal(object data, string title)
+    {
+        ModalTitle = title;
+        ModalData = (IEnumerable<object>)data;
+        ModalType = data.GetType().GetGenericArguments().FirstOrDefault();
+        IsOpen = true;
+    }
+
+    private void Close()
+    {
+        IsOpen = false;
+    }
+
+    private RenderFragment RenderGenericTable() => builder =>
+    {
+        if (ModalType != null)
+        {
+            var genericTableType = typeof(GenericTable<>).MakeGenericType(ModalType);
+            builder.OpenComponent(0, genericTableType);
+            builder.AddAttribute(1, "Data", ModalData);
+            builder.CloseComponent();
+        }
+    };
+}

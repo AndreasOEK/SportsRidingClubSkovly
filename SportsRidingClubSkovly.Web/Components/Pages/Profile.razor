@@ -1,0 +1,67 @@
+﻿@page "/Profile/{UserId:guid}"
+@using SportsRidingClubSkovly.Web.Components.Tables
+@using SportsRidingClubSkovly.Web.DTO.UserManagement
+@rendermode InteractiveServer
+
+@if (User is null)
+{
+    <p>Loading...</p>
+}
+else
+{
+    <div>
+        <h3 style="float: left">@User.FirstName @User.LastName</h3>
+        @if (IsSaving)
+        {
+            <button style="float: right" disabled="disabled" class="btn btn-primary">
+                <i class="fa fa-refresh fa-spins"></i>
+            </button>
+        }
+        else
+        {
+            <button style="float: right" class="btn btn-primary" type="button" @onclick="IsEditingProfile ? SaveProfile : EditProfile">@(IsEditingProfile ? "Save" : "Edit")</button>
+        }
+    </div>
+    
+    <div style="clear: both" /> 
+    
+    <p class="InputTitle">Email</p>
+    <input type="email" disabled="@(!IsEditingProfile)" @bind="Email" />
+    
+    <p class="InputTitle">Phone</p>
+    <input type="text" disabled="@(!IsEditingProfile)" @bind="Phone" />
+    
+
+    <hr />
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h4>Bookings</h4>
+        <a class="btn btn-primary" href="http://localhost:5000/browseSessions">Book</a>
+    </div>
+
+    <UserBookingView Bookings="User.Bookings" />
+
+
+
+
+@* <GenericTable Data="User.Bookings" /> *@
+    
+    @* <div class="modal @(IsEditingProfile ? "show" : "")" tabindex="-1" style="display: @(IsEditingProfile ? "block" : "none")"> *@
+    @*     <div class="modal-dialog"> *@
+    @*         <div class="modal-content"> *@
+    @*             <div class="modal-header"> *@
+    @*                 <h5 class="modal-title">Edit profile</h5> *@
+    @*                 <button type="button" class="btn-close" aria-label="Close" @onclick="CloseEditProfile"></button> *@
+    @*             </div> *@
+    @*             <div class="modal-body"> *@
+    @*                  *@
+    @*             </div> *@
+    @*             <div class="modal-footer"> *@
+    @*                 <button type="submit" class="btn btn-primary" @onclick="SaveProfile">Save</button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </div> *@
+    @* </div> *@
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

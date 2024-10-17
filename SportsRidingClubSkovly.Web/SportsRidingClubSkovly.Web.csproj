@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BootstrapBlazor" Version="8.10.3" />
   </ItemGroup>
 

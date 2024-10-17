@@ -1,0 +1,38 @@
+﻿table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+}
+
+th, td {
+    text-align: left;
+    padding: 16px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+td button {
+    border: 1px solid #0066cc;
+    background-color: #0066cc;
+    color: #ffffff;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+button:disabled,
+button[disabled]{
+    border: 1px solid #cccccc;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+td button:not(:disabled):hover {
+    border: 1px solid #00aacc;
+    background-color: #00aacc;
+    color: #ffffff;
+    padding: 5px 10px;
+}
+
