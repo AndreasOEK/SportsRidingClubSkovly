@@ -6,7 +6,7 @@ namespace SportsRidingClubSkovly.Web.DTO.UserSession
     {
         public Guid Id { get; set; }
         public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
+        public TimeSpan Duration { get; set; }
         public SessionTrainerResponse AssignedTrainer { get; set; }
         public int MaxNumberOfParticipants { get; set; }
         public SkillLevel DifficultyLevel { get; set; }
