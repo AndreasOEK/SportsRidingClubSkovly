@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Module.User.Application.Abstractions;
 using Module.User.Infrastructure.DbContexts;
 using Module.User.Infrastructure.Repositories;
-using SportsRidingClubSkovly.Web.DTO.Account;
 
 namespace Module.User.Infrastructure.Extensions;
 

@@ -1,4 +1,4 @@
-﻿namespace SportsRidingClubSkovly.Web.DTO.Account;
+﻿namespace Module.User.Application.Features.UserAccount.Command.Dto;
 
 public record SignUpUserRequest(
     string Username, 

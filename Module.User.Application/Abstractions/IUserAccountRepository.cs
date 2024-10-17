@@ -1,4 +1,4 @@
-﻿using SportsRidingClubSkovly.Web.DTO.Account;
+﻿using Module.User.Application.Features.UserAccount.Command.Dto;
 
 namespace Module.User.Application.Abstractions;
 

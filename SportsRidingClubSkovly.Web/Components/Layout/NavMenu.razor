@@ -42,11 +42,23 @@
         </AuthorizeView>
         
         <AuthorizeView Roles="Trainer">
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="BrowseAllUsers">
-                    <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Browse all users (Admin)
-                </NavLink>
-            </div>
+            <Authorized>
+                <div class="nav-item px-3">
+                    <NavLink class="nav-link" href="BrowseAllUsers">
+                        <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Browse all users (Admin)
+                    </NavLink>
+                </div>
+            </Authorized>
+        </AuthorizeView>
+        
+        <AuthorizeView>
+            <Authorized>
+                <div class="nav-item px-3" style="">
+                    <NavLink class="nav-link" href="logout">
+                        <span class="bi bi-logout-nav-menu" aria-hidden="true"></span> Logout
+                    </NavLink>
+                </div>
+            </Authorized>
         </AuthorizeView>
     </nav>
 </div>

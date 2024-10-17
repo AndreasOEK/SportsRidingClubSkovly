@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
+using Module.User.Application.Features.UserAccount.Command.Dto;
 using Module.User.Domain.Entity;
 using Module.User.Infrastructure.DbContexts;
-using SportsRidingClubSkovly.Web.DTO.Account;
 
 namespace Module.User.Infrastructure.Repositories;
 
@@ -39,7 +39,7 @@ public class UserAccountRepository : IUserAccountRepository
             .AnyAsync(trainer => trainer.User.Id == account.Id);
 
         return new UserAccountResponse(
-            account.Id,
+            account.User.Id,
             account.User.FirstName,
             account.User.LastName,
             account.User.Email,

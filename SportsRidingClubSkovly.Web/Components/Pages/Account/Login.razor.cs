@@ -27,9 +27,10 @@ public partial class Login : ComponentBase
         {
             new Claim(ClaimTypes.Name, Model.Username),
             new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User")
+            new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
+            new Claim(ClaimTypes.Sid, user.Id.ToString())
         };
-
+        
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(principal);

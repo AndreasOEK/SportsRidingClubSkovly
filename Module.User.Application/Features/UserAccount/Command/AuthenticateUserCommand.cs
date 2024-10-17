@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
-using SportsRidingClubSkovly.Web.DTO.Account;
+using Module.User.Application.Features.UserAccount.Command.Dto;
 
 namespace Module.User.Application.Features.UserAccount.Command;
 
