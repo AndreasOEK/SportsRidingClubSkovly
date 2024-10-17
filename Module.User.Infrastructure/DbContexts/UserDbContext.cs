@@ -28,6 +28,7 @@ namespace Module.User.Infrastructure.DbContexts
             modelBuilder.Entity<Booking>()
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
+
         }
     }
 }
