@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Module.User.Infrastructure.DbContexts;
 
@@ -11,9 +12,11 @@ using Module.User.Infrastructure.DbContexts;
 namespace Module.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241017145933_SetSessionInBookingToNotMapped_V2")]
+    partial class SetSessionInBookingToNotMapped_V2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Session", b =>
@@ -77,7 +80,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("AssignedTrainerId");
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
@@ -93,7 +96,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Trainers", (string)null);
+                    b.ToTable("Trainers");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.User", b =>
@@ -120,7 +123,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Booking", b =>

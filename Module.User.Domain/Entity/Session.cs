@@ -1,4 +1,5 @@
 ﻿using Module.User.Domain.Enums;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Module.User.Domain.Entity;
 
@@ -13,6 +14,7 @@ public class Session
     public SkillLevel DifficultyLevel { get; protected set; }
     public SessionType Type { get; protected set; }
     private List<Booking> _bookings { get; set; } = [];
+    [NotMapped]
     public IEnumerable<Booking> Bookings { get { return _bookings; } private set { _bookings = value.ToList(); } }
 
     protected Session() { }

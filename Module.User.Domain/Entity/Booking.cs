@@ -1,4 +1,6 @@
-﻿namespace Module.User.Domain.Entity
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Module.User.Domain.Entity
 {
     public class Booking
     {
