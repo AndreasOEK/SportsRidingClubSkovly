@@ -25,6 +25,8 @@ namespace Module.User.Application.Abstractions
         Task UpdateUserAsync(Domain.Entity.User user);
         Task DeleteUserAsync(Domain.Entity.User user);
 
+        Task<bool> IsUserTrainer(Guid userId);
+
 
         #endregion
 

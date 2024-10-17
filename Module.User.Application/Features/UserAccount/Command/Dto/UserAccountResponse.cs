@@ -5,4 +5,5 @@ public record UserAccountResponse(
     string FirstName,
     string LastName,
     string Email,
-    bool IsTrainer);
+    bool IsTrainer,
+    string JwtToken);

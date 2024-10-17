@@ -10,7 +10,7 @@ public class UserAccount
     public string? Username { get; protected set; }
     
     [MaxLength(100)]
-    public string? Password { get; protected set; }
+    public string? PasswordHash { get; protected set; }
 
     public User User { get; protected set; }
 
@@ -19,10 +19,10 @@ public class UserAccount
         
     }
     
-    private UserAccount(string username, string password, User user)
+    private UserAccount(string username, string passwordHash, User user)
     {
         Username = username;
-        Password = password;
+        PasswordHash = passwordHash;
         User = user;
     }
 

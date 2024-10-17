@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.User.Application.Abstractions;
+using Module.User.Application.Abstractions.Authentication;
 using Module.User.Infrastructure.DbContexts;
 using Module.User.Infrastructure.Repositories;
+using Module.User.Infrastructure.Services;
 
 namespace Module.User.Infrastructure.Extensions;
 
@@ -25,7 +28,9 @@ public static class UserModuleInfrastructureExtension
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
         serviceCollection.AddScoped<IUserAccountRepository, UserAccountRepository>();
         
+        serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
 
+        
         return serviceCollection;
     }
 }

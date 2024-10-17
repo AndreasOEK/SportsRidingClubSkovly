@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Module.User.Application.Abstractions;
+using Module.User.Application.Abstractions.Authentication;
 using Module.User.Application.Features.UserAccount.Command.Dto;
 using Module.User.Domain.Entity;
 using Module.User.Infrastructure.DbContexts;
@@ -9,40 +10,29 @@ namespace Module.User.Infrastructure.Repositories;
 public class UserAccountRepository : IUserAccountRepository
 {
     private readonly UserDbContext _dbContext;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public UserAccountRepository(UserDbContext dbContext)
+    public UserAccountRepository(UserDbContext dbContext, IPasswordHasher passwordHasher)
     {
         _dbContext = dbContext;
+        _passwordHasher = passwordHasher;
     }
-
-    async Task<UserAccountResponse> IUserAccountRepository.AuthenticateUser(AuthenticateUserRequest request)
-        => await GetUserAccount(request);
-
-    async Task<UserAccountResponse> IUserAccountRepository.SignUpUser(SignUpUserRequest request)
+    
+    
+    async Task IUserAccountRepository.AddAccount(UserAccount account)
     {
-        var user = Domain.Entity.User.Create(request.FirstName, request.LastName, request.Phone, request.Email);
-        var userAccount = UserAccount.Create(request.Username, request.Password, user);
-        
-        await _dbContext.UserAccounts.AddAsync(userAccount);
-
+        await _dbContext.UserAccounts.AddAsync(account);
         await _dbContext.SaveChangesAsync();
-
-        return await GetUserAccount(new AuthenticateUserRequest(request.Username, request.Password));
     }
 
-    private async Task<UserAccountResponse> GetUserAccount(AuthenticateUserRequest request)
+    async Task<UserAccount> IUserAccountRepository.GetAccountByUsername(string username)
     {
-        var account = await _dbContext.UserAccounts.Include(userAccount => userAccount.User).SingleAsync(userAccount =>
-            userAccount.Username == request.Username && userAccount.Password == request.Password);
+        return await _dbContext.UserAccounts.Include(userAccount => userAccount.User).SingleAsync(userAccount =>
+            userAccount.Username == username);
+    }
 
-        var isTrainer = await _dbContext.Trainers.Include(trainer => trainer.User)
-            .AnyAsync(trainer => trainer.User.Id == account.Id);
-
-        return new UserAccountResponse(
-            account.User.Id,
-            account.User.FirstName,
-            account.User.LastName,
-            account.User.Email,
-            isTrainer);
+    async Task<bool> IUserAccountRepository.DoesEmailExist(string signupRequestUsername)
+    {
+        return await _dbContext.UserAccounts.AnyAsync(account => account.Username == signupRequestUsername);
     }
 }
