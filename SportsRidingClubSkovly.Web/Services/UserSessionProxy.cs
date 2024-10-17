@@ -1,5 +1,7 @@
 ﻿using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
+using System.Text;
+using System.Text.Json;
 
 namespace SportsRidingClubSkovly.Web.Services
 {
@@ -10,6 +12,14 @@ namespace SportsRidingClubSkovly.Web.Services
         public UserSessionProxy(IHttpClientFactory httpClient)
         {
             _httpClient = httpClient.CreateClient("API");
+        }
+
+        public async Task CreateBooking(CreateBookingRequest request)
+        {
+            var requestUrl = $"/Session/{request.sessionId}/booking";
+            var jsonData = JsonSerializer.Serialize(request);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync(requestUrl, content);
         }
 
         async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)

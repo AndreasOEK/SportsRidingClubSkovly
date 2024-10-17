@@ -1,0 +1,31 @@
+﻿@using SportsRidingClubSkovly.Web.Extensions;
+
+@inherits SessionDetailsSpecificsBase
+
+<div class="card-header">
+    <b>Specifics</b>
+</div>
+<div class="card-body">
+    <div class="row row-cols-1 row-cols-md-3">
+
+        <div class="col-auto">
+            <div class="container">
+                <b>Session Type</b>
+                <p>@Session.Type.ReplaceUnderscores()</p>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="container">
+                <b>Track</b>
+                <p>?Unknown?</p>
+            </div>
+        </div>
+        <div class="col-auto">
+            <div class="container">
+                <b>Difficulty Level</b>
+                <p>@Session.DifficultyLevel</p>
+            </div>
+        </div>
+
+    </div>
+</div>

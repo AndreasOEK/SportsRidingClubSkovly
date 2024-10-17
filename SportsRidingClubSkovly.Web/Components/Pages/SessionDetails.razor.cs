@@ -12,9 +12,15 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         [Inject]
         public IUserSessionProxy UserSessionProxy { get; set; }
 
-        protected override async Task OnInitializedAsync()
-        {           
-           Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
+        protected override async Task OnInitializedAsync()      
+           => Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
+        
+
+        
+        protected async Task BookSlot()
+        {
+            await UserSessionProxy.CreateBooking(new CreateBookingRequest() { sessionId = Session.Id, userId = new Guid()});
+            Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
         }
     }
 }
