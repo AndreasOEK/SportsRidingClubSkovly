@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Module.User.Infrastructure.DbContexts;
 
@@ -11,9 +12,11 @@ using Module.User.Infrastructure.DbContexts;
 namespace Module.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241017145215_SetSessionInBookingToNotMapped")]
+    partial class SetSessionInBookingToNotMapped
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -28,7 +31,10 @@ namespace Module.User.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("SessionId")
+                    b.Property<Guid?>("SessionId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("SessionId1")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("UserId")
@@ -38,9 +44,11 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("SessionId");
 
+                    b.HasIndex("SessionId1");
+
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Session", b =>
@@ -77,7 +85,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("AssignedTrainerId");
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
@@ -93,7 +101,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Trainers", (string)null);
+                    b.ToTable("Trainers");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.User", b =>
@@ -120,14 +128,18 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Booking", b =>
                 {
+                    b.HasOne("Module.User.Domain.Entity.Session", null)
+                        .WithMany("Bookings")
+                        .HasForeignKey("SessionId");
+
                     b.HasOne("Module.User.Domain.Entity.Session", "Session")
                         .WithMany()
-                        .HasForeignKey("SessionId")
+                        .HasForeignKey("SessionId1")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
@@ -162,6 +174,11 @@ namespace Module.User.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Module.User.Domain.Entity.Session", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
