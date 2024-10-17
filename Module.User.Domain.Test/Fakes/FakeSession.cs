@@ -4,20 +4,15 @@ namespace Module.User.Domain.Test.Fakes
 {
     public class FakeSession : Session
     {
-        public FakeSession(DateTime startTime, DateTime endTime) : base()
+        public FakeSession(DateTime startTime, TimeSpan duration) : base()
         {
             StartTime = startTime;
-            EndTime = endTime;
+            Duration = duration;
         }
 
         public new void AssureStartTimeInFuture(DateTime startTime, DateTime now)
         {
             base.AssureStartTimeInFuture(startTime, now);
-        }
-
-        public new void AssureEndTimeAfterStartTime(DateTime startTime, DateTime endTime)
-        {
-            base.AssureEndTimeAfterStartTime(startTime, endTime);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Module.User.Application.Features.TrainerSession.Command
             // Do
             session.Update(
                 request.updateSessionRequest.StartTime,
-                request.updateSessionRequest.EndTime,
+                request.updateSessionRequest.Duration,
                 trainer,
                 request.updateSessionRequest.MaxNumberOfParticipants,
                 request.updateSessionRequest.DifficultyLevel

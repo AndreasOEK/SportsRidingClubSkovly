@@ -9,11 +9,11 @@ namespace Module.User.Domain.Test
     {
         [Theory]
         [MemberData(nameof(ValidCreateData))]
-        public void Given_Valid_Data_Then_Session_Created(DateTime startTime, DateTime endTime, FakeTrainer assignedTrainer, 
+        public void Given_Valid_Data_Then_Session_Created(DateTime startTime, TimeSpan duration, FakeTrainer assignedTrainer, 
             int availableSlots, SkillLevel difficultyLevel, SessionType type)
         {
             // Act
-            var session = Session.Create(startTime, endTime, assignedTrainer, availableSlots, difficultyLevel, type);
+            var session = Session.Create(startTime, duration, assignedTrainer, availableSlots, difficultyLevel, type);
 
             // Assert
             Assert.NotNull(session);
@@ -24,21 +24,10 @@ namespace Module.User.Domain.Test
         public void Given_StartTime_In_Past_Then_Throw_ArgumentException(DateTime startTime, DateTime nowDate)
         {
             // Arrange
-            var sut = new FakeSession(startTime, nowDate);
+            var sut = new FakeSession(startTime, new TimeSpan());
 
             // Act & Assert
             Assert.Throws<ArgumentException>(() => sut.AssureStartTimeInFuture(startTime, nowDate));
-        }
-
-        [Theory]
-        [MemberData(nameof(EndTimeBeforeStartTimeData))]
-        public void Given_EndTime_Before_StartTime_Then_Throw_ArgumentException(DateTime startTime, DateTime endTime)
-        {
-            // Arrange
-            var sut = new FakeSession(startTime, endTime);
-
-            // Act & Assert
-            Assert.Throws<ArgumentException>(() => sut.AssureEndTimeAfterStartTime(startTime, endTime));
         }
 
         #region MemberData Methods
@@ -46,7 +35,7 @@ namespace Module.User.Domain.Test
         {
             yield return new object[]{
                 DateTime.Now.AddDays(1),
-                DateTime.Now.AddDays(2),
+                new TimeSpan(DateTime.Now.Hour + 1, DateTime.Now.Minute, DateTime.Now.Second),
                 new FakeTrainer(),
                 6,
                 SkillLevel.Professional,
@@ -59,15 +48,6 @@ namespace Module.User.Domain.Test
             yield return new object[]
             {
                 DateTime.Now.AddDays(-1),
-                DateTime.Now
-            };
-        }
-
-        public static IEnumerable<object[]> EndTimeBeforeStartTimeData()
-        {
-            yield return new object[]
-            {
-                DateTime.Now.AddDays(1),
                 DateTime.Now
             };
         }

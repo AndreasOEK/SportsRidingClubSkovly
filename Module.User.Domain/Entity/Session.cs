@@ -7,7 +7,7 @@ public class Session
     public Guid Id { get; protected set; }
     public byte[] RowVersion { get; protected set; }
     public DateTime StartTime { get; protected set; }
-    public DateTime EndTime { get; protected set; }
+    public TimeSpan Duration { get; protected set; }
     public Trainer AssignedTrainer { get; protected set; }
     public int MaxNumberOfParticipants { get; protected set; }
     public SkillLevel DifficultyLevel { get; protected set; }
@@ -17,33 +17,31 @@ public class Session
 
     protected Session() { }
 
-    private Session(DateTime startTime, DateTime endTime, Trainer assignedTrainer, int maxNumberOfParticipants, SkillLevel difficultyLevel, SessionType type)
+    private Session(DateTime startTime, TimeSpan duration, Trainer assignedTrainer, int maxNumberOfParticipants, SkillLevel difficultyLevel, SessionType type)
     {
         StartTime = startTime;
-        EndTime = endTime;
+        Duration = duration;
         AssignedTrainer = assignedTrainer;
         MaxNumberOfParticipants = maxNumberOfParticipants;
         DifficultyLevel = difficultyLevel;
         Type = type;
 
         AssureStartTimeInFuture(StartTime, DateTime.Now);
-        AssureEndTimeAfterStartTime(StartTime, EndTime);
     }
 
-    public static Session Create(DateTime startTime, DateTime endTime, Trainer assignedTrainer, 
+    public static Session Create(DateTime startTime, TimeSpan duration, Trainer assignedTrainer, 
         int availableSlots, SkillLevel difficultyLevel, SessionType type)
-        => new Session(startTime, endTime, assignedTrainer, availableSlots, difficultyLevel, type);
+        => new Session(startTime, duration, assignedTrainer, availableSlots, difficultyLevel, type);
     
-    public void Update(DateTime startTime, DateTime endTime, Trainer assignedTrainer,
+    public void Update(DateTime startTime, TimeSpan duration, Trainer assignedTrainer,
         int maxNumberOfParticipants, SkillLevel difficultyLevel)
     {
         StartTime = startTime;
-        EndTime = endTime;
+        Duration = duration;
         AssignedTrainer = assignedTrainer;
         DifficultyLevel = difficultyLevel;
 
         AssureStartTimeInFuture(StartTime, DateTime.Now);
-        AssureEndTimeAfterStartTime(StartTime, EndTime);
         AssureMaxParticipantsEqualToOrBiggerThanBookedSlots(maxNumberOfParticipants, _bookings.Count);
 
         MaxNumberOfParticipants = maxNumberOfParticipants;
@@ -62,10 +60,6 @@ public class Session
     protected void AssureStartTimeInFuture(DateTime startTime, DateTime now)
     {
         if (startTime <= now) throw new ArgumentException("Start Date and Time must be in the future");
-    }
-    protected void AssureEndTimeAfterStartTime(DateTime startTime, DateTime endTime)
-    {
-        if (endTime <= startTime) throw new ArgumentException("End date has to be after Start date");
     }
     protected void AssureSlotsToBook(int bookingsCount, int maxNumberOfParticipants)
     {

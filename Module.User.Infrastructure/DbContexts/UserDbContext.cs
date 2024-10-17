@@ -28,6 +28,11 @@ namespace Module.User.Infrastructure.DbContexts
             modelBuilder.Entity<Booking>()
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Booking>()
+                .HasOne(b => b.Session)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
