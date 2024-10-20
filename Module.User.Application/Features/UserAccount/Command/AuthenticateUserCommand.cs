@@ -43,12 +43,6 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
 
         string token = _jwtProvider.Generate(account.User);
 
-        return new UserAccountResponse(
-            account.User.Id,
-            account.User.FirstName,
-            account.User.LastName,
-            account.User.Email,
-            isTrainer,
-            token);
+        return new UserAccountResponse(token);
     }
 }

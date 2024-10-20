@@ -59,14 +59,6 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
 
         string token = _jwtProvider.Generate(account.User);
         
-        //TODO: Only send the token, it holds all the necessary information of the user such as id, name and email
-        
-        return new UserAccountResponse(
-            account.User.Id,
-            account.User.FirstName,
-            account.User.LastName,
-            account.User.Email,
-            isTrainer,
-            token);
+        return new UserAccountResponse(token);
     }
 }
