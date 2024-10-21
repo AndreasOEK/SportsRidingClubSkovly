@@ -2,7 +2,7 @@
 
 public class JwtOptions
 {
-    public string Issuer { get; init; }
-    public string Audience { get; init; }
-    public string SecretKey { get; init; }
+    public string Issuer { get; init; } = "Skovly.API";
+    public string Audience { get; init; } = "Skovly.Web";
+    public string SecretKey { get; init; } = "YourSuperDuperSecretKeyThatNoOneCanGuess";
 }

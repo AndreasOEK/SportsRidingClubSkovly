@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Abstractions.Authentication;
+using Module.User.Infrastructure.Authentication;
 using Module.User.Infrastructure.DbContexts;
 using Module.User.Infrastructure.Repositories;
 using Module.User.Infrastructure.Services;
@@ -29,6 +30,7 @@ public static class UserModuleInfrastructureExtension
         serviceCollection.AddScoped<IUserAccountRepository, UserAccountRepository>();
         
         serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
+        serviceCollection.AddSingleton<IJwtProvider, JwtProvider>();
 
         
         return serviceCollection;
