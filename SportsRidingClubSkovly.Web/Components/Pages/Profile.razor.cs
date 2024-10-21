@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Components;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
@@ -6,11 +7,9 @@ namespace SportsRidingClubSkovly.Web.Components.Pages;
 
 public partial class Profile : ComponentBase
 {
+    [CascadingParameter] public HttpContext? HttpContext { get; set; }
     [Inject] public IUserManagementProxy UserManagementProxy { get; set; }
-    [Parameter] public Guid UserId { get; set; }
-
-    private UserResponse OriginalUser { get; set; }
-    private UserResponse User { get; set; }
+    private UserFullResponse User { get; set; }
 
     private string Email { get; set; }
     private string Phone { get; set; }
@@ -22,7 +21,9 @@ public partial class Profile : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        User = await UserManagementProxy.GetUserById(UserId);
+        var userIdStr = HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value;
+        var userId = Guid.Parse(userIdStr);
+        User = await UserManagementProxy.GetUserById(userId);
         Email = User.Email;
         Phone = User.Phone;
         await base.OnInitializedAsync();
@@ -43,7 +44,8 @@ public partial class Profile : ComponentBase
 
         if (!success) return;
         
-        User = await UserManagementProxy.GetUserById(UserId);
+        var userId = Guid.Parse(HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value);
+        User = await UserManagementProxy.GetUserById(userId);
         IsSaving = false;
         StateHasChanged();
     }

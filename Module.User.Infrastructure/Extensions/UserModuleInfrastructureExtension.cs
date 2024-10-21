@@ -23,6 +23,7 @@ public static class UserModuleInfrastructureExtension
                 }));
         serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
+        serviceCollection.AddScoped<IUserAccountRepository, UserAccountRepository>();
         
 
         return serviceCollection;

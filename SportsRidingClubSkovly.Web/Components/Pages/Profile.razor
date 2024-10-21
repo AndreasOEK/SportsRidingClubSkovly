@@ -1,11 +1,11 @@
-﻿@page "/Profile/{UserId:guid}"
+﻿@page "/Profile"
 @using SportsRidingClubSkovly.Web.Components.Tables
 @using SportsRidingClubSkovly.Web.DTO.UserManagement
 @rendermode InteractiveServer
 
 @if (User is null)
 {
-    <p>Loading...</p>
+    
 }
 else
 {
@@ -38,30 +38,14 @@ else
         <h4>Bookings</h4>
         <a class="btn btn-primary" href="http://localhost:5000/browseSessions">Book</a>
     </div>
-
-    <UserBookingView Bookings="User.Bookings" />
-
-
-
-
-@* <GenericTable Data="User.Bookings" /> *@
-    
-    @* <div class="modal @(IsEditingProfile ? "show" : "")" tabindex="-1" style="display: @(IsEditingProfile ? "block" : "none")"> *@
-    @*     <div class="modal-dialog"> *@
-    @*         <div class="modal-content"> *@
-    @*             <div class="modal-header"> *@
-    @*                 <h5 class="modal-title">Edit profile</h5> *@
-    @*                 <button type="button" class="btn-close" aria-label="Close" @onclick="CloseEditProfile"></button> *@
-    @*             </div> *@
-    @*             <div class="modal-body"> *@
-    @*                  *@
-    @*             </div> *@
-    @*             <div class="modal-footer"> *@
-    @*                 <button type="submit" class="btn btn-primary" @onclick="SaveProfile">Save</button> *@
-    @*             </div> *@
-    @*         </div> *@
-    @*     </div> *@
-    @* </div> *@
+    @if (User.Bookings.Any())
+    {
+        <UserBookingView Bookings="User.Bookings" />
+    }
+    else
+    {
+        <div class="alert alert-dark w-100 text-center">
+            You don't have any bookings
+        </div>
+    }
 }
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

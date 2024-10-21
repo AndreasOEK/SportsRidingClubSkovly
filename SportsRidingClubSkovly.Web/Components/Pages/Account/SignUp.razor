@@ -1,0 +1,47 @@
+﻿@page "/signup"
+
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using SportsRidingClubSkovly.Web.ViewModels
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border-1">
+        <EditForm Model="@Model" OnValidSubmit="SignUpUser" FormName="LoginForm">
+            <DataAnnotationsValidator/>
+            <div class="mb-3 text-center flex-column">
+                @* <img src="images/calendaricon.jpg" style="max-height: 5rem;"/> *@
+                <h3>Sign up</h3>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <InputText @bind-Value="Model.Username" class="form-control"  placeholder="Email" />
+                <ValidationMessage For="() => Model.Username"/>
+            </div>
+            <div class="mb-3">
+                <label>Password</label>
+                <InputText @bind-Value="Model.Password" placeholder="Password" type="password" class="form-control"/>
+                <ValidationMessage For="() => Model.Password"/>
+            </div>
+            <div class="mb-3">
+                <label>First name</label>
+                <InputText @bind-Value="Model.FirstName" placeholder="John" class="form-control"/>
+                <ValidationMessage For="() => Model.FirstName"/>
+            </div>
+            <div class="mb-3">
+                <label>Last name</label>
+                <InputText @bind-Value="Model.LastName" placeholder="Jeppesen" class="form-control"/>
+                <ValidationMessage For="() => Model.LastName"/>
+            </div>
+            <div class="mb-3">
+                <label>Phone number</label>
+                <InputText @bind-Value="Model.Phone" placeholder="Phone number" class="form-control"/>
+                <ValidationMessage For="() => Model.Phone"/>
+            </div>
+            <div class="mb-3 text-center">
+                <span class="text-danger"></span>
+            </div>
+            <div class="mb-3 d-grid gap-2">
+                <button type="submit" class="btn btn-primary">Sign up</button>
+            </div>
+
+        </EditForm>
+    </div>
+</div>

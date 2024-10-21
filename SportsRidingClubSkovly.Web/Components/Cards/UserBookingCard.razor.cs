@@ -5,7 +5,7 @@ namespace SportsRidingClubSkovly.Web.Components.Cards;
 
 public partial class UserBookingCard : ComponentBase
 {
-    [Parameter] public UserBookingResponse Booking { get; set; }
+    [Parameter] public UserBookingFullResponse Booking { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
     
     private void NavigateToSession()
