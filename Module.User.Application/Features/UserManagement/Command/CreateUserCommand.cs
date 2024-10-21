@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Module.Shared.Abstractions;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.UserManagement.Command.Dto;
@@ -21,7 +21,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Task>
         var userRequest = request.Request;
         
         // Create
-        var user = Domain.Entity.User.Create(userRequest.FirstName, userRequest.LastName, userRequest.Phone, userRequest.Email);
+        var user = Domain.Entity.User.Create(userRequest.FirstName, userRequest.LastName, userRequest.Phone, userRequest.Email, userRequest.Password);
         
         // Do & Save
         await _userRepository.CreateUserAsync(user);
