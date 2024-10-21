@@ -28,6 +28,7 @@ public static class UserModuleInfrastructureExtension
         serviceCollection.AddScoped<ISessionRepository, SessionRepository>();
         serviceCollection.AddScoped<IUserRepository, UserRepository>();
         serviceCollection.AddScoped<IUserAccountRepository, UserAccountRepository>();
+        serviceCollection.AddScoped<IJwtProvider, JwtProvider>();
         
         serviceCollection.AddSingleton<IPasswordHasher, PasswordHasher>();
         serviceCollection.AddSingleton<IJwtProvider, JwtProvider>();

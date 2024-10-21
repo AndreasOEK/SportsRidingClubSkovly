@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure.Core;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Module.Shared.Abstractions;
@@ -11,7 +12,8 @@ public class AuthenticateUser : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPost("authenticate", async ([FromBody] AuthenticateUserRequest request, [FromServices] IMediator mediator) =>
-        await mediator.Send(new AuthenticateUserCommand(request)));
+        app.MapPost("/Authenticate",
+            async ([FromBody] AuthenticateUserRequest request, [FromServices] IMediator mediator) =>
+            await mediator.Send(new AuthenticateUserCommand(request)));
     }
 }
