@@ -3,6 +3,7 @@ using Module.User.Extensions;
 using SportsRideKlubSkovly.API.Abstractions;
 using SportsRideKlubSkovly.API.Extensions;
 using SportsRideKlubSkovly.API.Helpers;
+using Module.User.Endpoints.UserManagement; // Add this line
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,5 +30,11 @@ if (app.Environment.IsDevelopment())
 
 app.MapEndpoints();
 app.UseHttpsRedirection();
+
+app.MapPost("/User/Login", async (LoginUserRequest request, IMediator mediator) =>
+{
+    var token = await mediator.Send(new LoginUserCommand(request));
+    return Results.Ok(new { Token = token });
+}).WithTags("UserManagement");
 
 app.Run();

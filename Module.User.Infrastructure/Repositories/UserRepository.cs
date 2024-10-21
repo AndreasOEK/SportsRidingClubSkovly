@@ -55,6 +55,21 @@ namespace Module.User.Infrastructure.Repositories
             await _dbContext.SaveChangesAsync();
         }
 
+        async Task<Domain.Entity.User> IUserRepository.GetUserByEmailAsync(string email)
+            => await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+
+        async Task<bool> IUserRepository.ValidateUserCredentialsAsync(string email, string password)
+        {
+            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Email == email);
+            if (user == null)
+            {
+                return false;
+            }
+
+            // Assuming password is stored in plain text for simplicity. In a real-world application, use proper hashing and salting.
+            return user.Password == password;
+        }
+
         #endregion
     }
 }

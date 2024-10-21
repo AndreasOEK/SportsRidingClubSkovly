@@ -1,4 +1,4 @@
-﻿using Module.User.Domain.Entity;
+using Module.User.Domain.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,8 @@ namespace Module.User.Application.Abstractions
         Task CreateUserAsync(Domain.Entity.User user);
         Task UpdateUserAsync(Domain.Entity.User user);
         Task DeleteUserAsync(Domain.Entity.User user);
-
+        Task<Domain.Entity.User> GetUserByEmailAsync(string email);
+        Task<bool> ValidateUserCredentialsAsync(string email, string password);
 
         #endregion
 
