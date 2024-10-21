@@ -22,6 +22,10 @@ public class AuthenticationHandler : DelegatingHandler
         var jwt = await _authenticationService.GetJwtAsync();
         var isToServer = request.RequestUri?.AbsolutePath.StartsWith("http://localhost:8080") ?? false;
 
+        var path = request.RequestUri.AbsolutePath.ToLower();
+        
+        //var noAuthenticate = path.Contains("signup") || path.Contains("authenticate");
+
         if (isToServer && !string.IsNullOrEmpty(jwt))
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
         

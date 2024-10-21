@@ -23,24 +23,38 @@ var builder = WebApplication.CreateBuilder(args);
 
 
 // Register your custom AuthenticationStateProvider
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options 
-        =>
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
     {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            // ValidateIssuer = true,
-            // ValidateAudience = true,
-            // ValidateLifetime = true,
-            // ValidateIssuerSigningKey = true,
-            // ValidIssuer = "your_token_issuer", // Replace with your issuer
-            // ValidAudience = "your_token_audience", // Replace with your audience
-            // IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your_secret_key")) // Replace with your secret key
-        };
+        option.Cookie.Name = "auth_token";
+        option.LoginPath = "/login";
+        option.Cookie.MaxAge = TimeSpan.FromDays(7);
+        option.AccessDeniedPath = "/access-denied";
     });
 
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+// builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+//     // .AddJwtBearer(options 
+//     //     =>
+//     // {
+//     //     options.TokenValidationParameters = new TokenValidationParameters
+//     //     {
+//     //         ValidateIssuer = true,
+//     //         ValidateAudience = true,
+//     //         ValidateLifetime = true,
+//     //         ValidateIssuerSigningKey = true,
+//     //         ValidIssuer = "Skovly.API", // Replace with your issuer
+//     //         ValidAudience = "Skovly.Web", // Replace with your audience
+//     //         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("YourSuperDuperSecretKeyThatNoOneCanGuess")) // Replace with your secret key
+//     //     };
+//     // })
+//     .AddCookie(options =>
+//     {
+//         // You can customize cookie options here (e.g., expiration, path)
+//         options.Cookie.Name = "skovly_cookie"; 
+//         options.LoginPath = "/Login"; // Optional: Redirect to a specific login page
+//     });
 
 builder.Services.AddHttpClient("API", httpClient =>
 {
@@ -54,9 +68,10 @@ builder.Services.AddScoped<IUserSessionProxy, UserSessionProxy>();
 builder.Services.AddScoped<AuthenticationHandler>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-builder.Services.AddBlazoredSessionStorage();
 
-builder.Services.AddServerSideBlazor()
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddServerSideBlazor()//;
     .AddCircuitOptions(options => 
     {
         options.DetailedErrors = true;

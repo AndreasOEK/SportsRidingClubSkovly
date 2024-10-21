@@ -57,8 +57,13 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
 
         var isTrainer = await _userRepository.IsUserTrainer(account.User.Id);
 
-        string token = _jwtProvider.Generate(account.User);
+        var token = _jwtProvider.Generate(account.User);
         
-        return new UserAccountResponse(token);
+        return new UserAccountResponse(
+            account.User.Id, 
+            account.User.Email, 
+            account.User.FirstName + " " + account.User.LastName, 
+            isTrainer,
+            token);
     }
 }

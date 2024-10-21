@@ -34,7 +34,7 @@ public class JwtProvider : IJwtProvider
             _options.Audience,
             claims,
             null,
-            DateTime.UtcNow.AddDays(7),
+            DateTime.UtcNow.AddYears(1),
             signingCredentials);
 
         var tokenValue = new JwtSecurityTokenHandler().WriteToken(token);

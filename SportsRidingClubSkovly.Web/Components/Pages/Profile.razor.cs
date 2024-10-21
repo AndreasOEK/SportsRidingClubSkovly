@@ -9,6 +9,7 @@ public partial class Profile : ComponentBase
 {
     [CascadingParameter] public HttpContext? HttpContext { get; set; }
     [Inject] public IUserManagementProxy UserManagementProxy { get; set; }
+    [Inject] public IHttpContextAccessor HttpContextAccessor { get; set; }
     private UserFullResponse User { get; set; }
 
     private string Email { get; set; }
@@ -21,7 +22,7 @@ public partial class Profile : ComponentBase
 
     protected override async Task OnInitializedAsync()
     {
-        var userIdStr = HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value;
+        var userIdStr = HttpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value;
         var userId = Guid.Parse(userIdStr);
         User = await UserManagementProxy.GetUserById(userId);
         Email = User.Email;
