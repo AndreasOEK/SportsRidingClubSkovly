@@ -18,5 +18,24 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
     public async Task<UserAccountResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
     {
         return await _userAccountRepository.AuthenticateUser(request.Request);
+        var authenticateRequest = request.Request;
+        var account = await _userAccountRepository.GetAccountByUsername(authenticateRequest.Username);
+
+        if (account is null)
+            throw new Exception("Account was not found");
+
+        var verified = _passwordHasher.Verify(authenticateRequest.Password, account.PasswordHash);
+
+        if (!verified)
+            throw new Exception("Password is incorrect");
+
+        var isTrainer = await _userRepository.IsUserTrainer(account.User.Id);
+
+        return new UserAccountResponse(
+            account.User.Id,
+            account.User.FirstName,
+            account.User.LastName,
+            account.User.Email,
+            isTrainer);
     }
 }
