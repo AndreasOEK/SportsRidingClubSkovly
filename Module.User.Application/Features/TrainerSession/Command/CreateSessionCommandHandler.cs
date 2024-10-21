@@ -29,7 +29,7 @@ internal class CreateSessionCommandHandler : IRequestHandler<CreateSessionComman
         // Do
         var session = Session.Create(
             request.createSessionRequest.StartTime,
-            request.createSessionRequest.EndTime, 
+            request.createSessionRequest.Duration, 
             trainer, 
             request.createSessionRequest.MaxNumberOfParticipants, 
             request.createSessionRequest.DifficultyLevel, 

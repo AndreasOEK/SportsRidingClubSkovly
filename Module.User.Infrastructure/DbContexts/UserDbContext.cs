@@ -31,14 +31,9 @@ namespace Module.User.Infrastructure.DbContexts
                 .ValueGeneratedOnAdd();
 
             modelBuilder.Entity<Booking>()
-                .HasOne(booking => booking.Session)
-                .WithMany(session => session.Bookings)
-                .OnDelete(DeleteBehavior.NoAction); ;
-
-            modelBuilder.Entity<Booking>()
-                .HasOne(booking => booking.User)
-                .WithMany(session => session.Bookings)
-                .OnDelete(DeleteBehavior.NoAction); ;
+                .HasOne(b => b.Session)
+                .WithMany()
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
