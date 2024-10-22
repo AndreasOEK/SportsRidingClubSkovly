@@ -15,8 +15,8 @@ public class UserManagementProxy : IUserManagementProxy
         _httpClient = httpClientFactory.CreateClient("API");
     }
 
-    async Task<UserResponse> IUserManagementProxy.GetUserById(Guid id)
-        => await _httpClient.GetFromJsonAsync<UserResponse>($"User/{id}") ?? throw new Exception("User did not exist");
+    async Task<UserFullResponse> IUserManagementProxy.GetUserById(Guid id)
+        => await _httpClient.GetFromJsonAsync<UserFullResponse>($"User/{id}") ?? throw new Exception("User did not exist");
 
     async Task<IEnumerable<UserResponse>> IUserManagementProxy.GetAllUsers()
         => await _httpClient.GetFromJsonAsync<IEnumerable<UserResponse>>("User") ?? [];

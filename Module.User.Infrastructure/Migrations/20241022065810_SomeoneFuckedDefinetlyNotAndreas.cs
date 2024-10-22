@@ -1,17 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace Module.User.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class SomeoneFuckedDefinetlyNotAndreas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "Users",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -22,11 +23,11 @@ namespace Module.User.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_Users", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Trainer",
+                name: "Trainers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -34,11 +35,31 @@ namespace Module.User.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Trainer", x => x.Id);
+                    table.PrimaryKey("PK_Trainers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Trainer_User_UserId",
+                        name: "FK_Trainers_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserAccounts",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserAccounts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserAccounts_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -48,10 +69,11 @@ namespace Module.User.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     AssignedTrainerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AvailableSlots = table.Column<int>(type: "int", nullable: false),
+                    MaxNumberOfParticipants = table.Column<int>(type: "int", nullable: false),
                     DifficultyLevel = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<int>(type: "int", nullable: false)
                 },
@@ -59,45 +81,45 @@ namespace Module.User.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Sessions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sessions_Trainer_AssignedTrainerId",
+                        name: "FK_Sessions_Trainers_AssignedTrainerId",
                         column: x => x.AssignedTrainerId,
-                        principalTable: "Trainer",
+                        principalTable: "Trainers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Booking",
+                name: "Bookings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    SessionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Booking", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Booking_Sessions_SessionId",
+                        name: "FK_Bookings_Sessions_SessionId",
                         column: x => x.SessionId,
                         principalTable: "Sessions",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_Booking_User_UserId",
+                        name: "FK_Bookings_Users_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Booking_SessionId",
-                table: "Booking",
+                name: "IX_Bookings_SessionId",
+                table: "Bookings",
                 column: "SessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Booking_UserId",
-                table: "Booking",
+                name: "IX_Bookings_UserId",
+                table: "Bookings",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -106,8 +128,13 @@ namespace Module.User.Infrastructure.Migrations
                 column: "AssignedTrainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Trainer_UserId",
-                table: "Trainer",
+                name: "IX_Trainers_UserId",
+                table: "Trainers",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserAccounts_UserId",
+                table: "UserAccounts",
                 column: "UserId");
         }
 
@@ -115,16 +142,19 @@ namespace Module.User.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Booking");
+                name: "Bookings");
+
+            migrationBuilder.DropTable(
+                name: "UserAccounts");
 
             migrationBuilder.DropTable(
                 name: "Sessions");
 
             migrationBuilder.DropTable(
-                name: "Trainer");
+                name: "Trainers");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "Users");
         }
     }
 }

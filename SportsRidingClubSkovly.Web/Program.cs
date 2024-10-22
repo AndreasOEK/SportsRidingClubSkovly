@@ -1,8 +1,21 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using SportsRidingClubSkovly.Web.Components;
 using SportsRidingClubSkovly.Web.Services;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(option =>
+    {
+        option.Cookie.Name = "auth_token";
+        option.LoginPath = "/login";
+        option.Cookie.MaxAge = TimeSpan.FromDays(7);
+        option.AccessDeniedPath = "/access-denied";
+    });
+
+builder.Services.AddAuthorization();
+builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddHttpClient("API", httpClient =>
 {
@@ -10,12 +23,15 @@ builder.Services.AddHttpClient("API", httpClient =>
 });
 
 builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
+builder.Services.AddScoped<IAccountProxy, AccountProxy>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IUserSessionProxy, UserSessionProxy>();
+
+// builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 
@@ -31,6 +47,9 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();

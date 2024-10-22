@@ -10,7 +10,7 @@ using Module.User.Infrastructure.DbContexts;
 
 namespace Module.User.Infrastructure.Features.UserManagement;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse>
+public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserFullResponse>
 {
     private readonly UserDbContext _dbContext;
     private readonly IMapper _mapper;
@@ -20,17 +20,20 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse>
         _dbContext = dbContext;
         _mapper = new MapperConfiguration(cfg =>
         {
-            cfg.CreateMap<Domain.Entity.User, UserResponse>();
-            cfg.CreateMap<Booking, UserBookingResponse>();
-            cfg.CreateMap<Session, UserBookingSessionResponse>();
+            cfg.CreateMap<Domain.Entity.User, UserFullResponse>();
+            cfg.CreateMap<Booking, UserBookingFullResponse>();
+            cfg.CreateMap<Session, UserBookingSessionFullResponse>();
+            cfg.CreateMap<Trainer, UserBookingSessionTrainerFullResponse>();
+            cfg.CreateMap<Domain.Entity.User, UserBookingSessionTrainerUserFullResponse>()
+                .ConstructUsing(src => new UserBookingSessionTrainerUserFullResponse(src.FirstName, src.LastName, src.Email, src.Phone));
         }).CreateMapper();
     }
 
-    public async Task<UserResponse> Handle(GetUserQuery request, CancellationToken cancellationToken) =>
+    public async Task<UserFullResponse> Handle(GetUserQuery request, CancellationToken cancellationToken) =>
         await _dbContext.Users
             .AsNoTracking()
             .Where(user => user.Id == request.Id)
             .Include(user => user.Bookings)
-            .ProjectTo<UserResponse>(_mapper.ConfigurationProvider)
+            .ProjectTo<UserFullResponse>(_mapper.ConfigurationProvider)
             .SingleAsync(cancellationToken: cancellationToken);
 }

@@ -1,10 +1,10 @@
 ﻿<div class="card text-center" @onclick="NavigateToSession">
     <div class="card-header">
-        <h5>Dressage</h5>
+        <h5>@Booking.Session.Type</h5>
     </div>
     <div class="card-body">
         <div style="display: flex; justify-content: center; align-items: center;">
-            <div style="display: flex; margin-top: 5px; margin-bottom: 10px; width: 75%" class="border">
+            <div style="display: flex; margin-top: 5px; margin-bottom: 10px; width: 75%" class="some-border">
                 <div style="width: 80%; text-align: center;">
                     23/07/2024 18:00
                 </div>
@@ -17,7 +17,7 @@
         <p style="display: inline-block; padding: 0 20px;" class="bg-primary rounded text-white">1 time 30 min</p>
     </div>
     <div class="card-footer">
-        Andreas ØK
+        @Booking.Session.AssignedTrainer.User.FirstName @Booking.Session.AssignedTrainer.User.LastName
     </div>
 </div>
 

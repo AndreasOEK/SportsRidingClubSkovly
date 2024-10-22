@@ -40,7 +40,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Bookings", (string)null);
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Session", b =>
@@ -77,7 +77,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("AssignedTrainerId");
 
-                    b.ToTable("Sessions", (string)null);
+                    b.ToTable("Sessions");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
@@ -93,7 +93,7 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Trainers", (string)null);
+                    b.ToTable("Trainers");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.User", b =>
@@ -120,13 +120,37 @@ namespace Module.User.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", (string)null);
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("Module.User.Domain.Entity.UserAccount", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("PasswordHash")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Username")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserAccounts");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Booking", b =>
                 {
                     b.HasOne("Module.User.Domain.Entity.Session", "Session")
-                        .WithMany()
+                        .WithMany("Bookings")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
@@ -162,6 +186,22 @@ namespace Module.User.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Module.User.Domain.Entity.UserAccount", b =>
+                {
+                    b.HasOne("Module.User.Domain.Entity.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Module.User.Domain.Entity.Session", b =>
+                {
+                    b.Navigation("Bookings");
                 });
 
             modelBuilder.Entity("Module.User.Domain.Entity.Trainer", b =>
