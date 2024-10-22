@@ -12,8 +12,8 @@ using Module.User.Infrastructure.DbContexts;
 namespace Module.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20241016125621_DanielFuckedUpMigrations")]
-    partial class DanielFuckedUpMigrations
+    [Migration("20241022065810_SomeoneFuckedDefinetlyNotAndreas")]
+    partial class SomeoneFuckedDefinetlyNotAndreas
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -58,8 +58,8 @@ namespace Module.User.Infrastructure.Migrations
                     b.Property<int>("DifficultyLevel")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("EndTime")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan>("Duration")
+                        .HasColumnType("time");
 
                     b.Property<int>("MaxNumberOfParticipants")
                         .HasColumnType("int");
@@ -132,7 +132,7 @@ namespace Module.User.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -161,7 +161,7 @@ namespace Module.User.Infrastructure.Migrations
                     b.HasOne("Module.User.Domain.Entity.User", "User")
                         .WithMany("Bookings")
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Session");

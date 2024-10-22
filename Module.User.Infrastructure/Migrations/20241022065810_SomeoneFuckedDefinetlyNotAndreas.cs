@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Module.User.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class DanielFuckedUpMigrations : Migration
+    public partial class SomeoneFuckedDefinetlyNotAndreas : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,7 +50,7 @@ namespace Module.User.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Username = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Password = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PasswordHash = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -71,7 +71,7 @@ namespace Module.User.Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: false),
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Duration = table.Column<TimeSpan>(type: "time", nullable: false),
                     AssignedTrainerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     MaxNumberOfParticipants = table.Column<int>(type: "int", nullable: false),
                     DifficultyLevel = table.Column<int>(type: "int", nullable: false),
@@ -108,7 +108,8 @@ namespace Module.User.Infrastructure.Migrations
                         name: "FK_Bookings_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

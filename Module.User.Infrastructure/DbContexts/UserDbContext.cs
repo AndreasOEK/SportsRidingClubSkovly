@@ -30,9 +30,11 @@ namespace Module.User.Infrastructure.DbContexts
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
 
-            modelBuilder.Entity<Booking>()
-                .HasOne(b => b.Session)
-                .WithMany()
+            modelBuilder.Entity<Session>()
+                .HasMany(s => s.Bookings)
+                .WithOne(b => b.Session)
+                .HasForeignKey("SessionId")
+                .IsRequired()
                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
