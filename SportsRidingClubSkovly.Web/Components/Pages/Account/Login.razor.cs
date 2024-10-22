@@ -21,21 +21,28 @@ public partial class Login : ComponentBase
 
     private async Task Authenticate()
     {
-        var user = await AccountProxy.AuthenticateUser(Model.Username, Model.Password);
-
-        var claims = new List<Claim>
+        try
         {
-            new Claim(ClaimTypes.Name, user.FullName),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
-            new Claim(ClaimTypes.Sid, user.Id.ToString())
-        };
+            var user = await AccountProxy.AuthenticateUser(Model.Username, Model.Password);
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, user.FullName),
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
+                new Claim(ClaimTypes.Sid, user.Id.ToString())
+            };
         
-        var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-        var principal = new ClaimsPrincipal(identity);
-        await HttpContext.SignInAsync(principal);
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            await HttpContext.SignInAsync(principal);
         
-        NavigationManager.NavigateTo("/");
+            HttpContext.Response.Redirect("/");
+        }
+        catch (Exception e)
+        {
+            errorMessage = e.Message;
+        }
 
     }
 }

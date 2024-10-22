@@ -20,7 +20,7 @@ public class AccountProxy : IAccountProxy
         var content = new StringContent(JsonSerializer.Serialize(new AuthenticateUserRequest(username, password)), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync("Login", content);
         if (!response.IsSuccessStatusCode)
-            return null;
+            throw new BadHttpRequestException(response.ReasonPhrase);
 
         var resultJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<UserAccountResponse>(resultJson);
@@ -31,7 +31,7 @@ public class AccountProxy : IAccountProxy
         var content = new StringContent(JsonSerializer.Serialize(new SignUpUserRequest(username, password, firstName, lastName, phone, email)), Encoding.UTF8, "application/json");
         var response = await _httpClient.PostAsync("signup", content);
         if (!response.IsSuccessStatusCode)
-            return null;
+            throw new BadHttpRequestException(response.ReasonPhrase);
 
         var resultJson = await response.Content.ReadAsStringAsync();
         return JsonConvert.DeserializeObject<UserAccountResponse>(resultJson);

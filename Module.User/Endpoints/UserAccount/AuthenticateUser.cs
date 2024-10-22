@@ -11,7 +11,7 @@ public class AuthenticateUser : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapPost("Login", async ([FromBody]AuthenticateUserRequest request, [FromServices]IMediator mediator) =>
-                await mediator.Send(new AuthenticateUserCommand(request)));
+        app.MapPost("Login", async ([FromBody] AuthenticateUserRequest request, [FromServices] IMediator mediator) =>
+        await mediator.Send(new AuthenticateUserCommand(request)));
     }
 }

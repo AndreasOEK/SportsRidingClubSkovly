@@ -24,8 +24,7 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
     {
         var signupRequest = request.Request;
 
-        var emailAlreadyExists = await _userAccountRepository.DoesEmailExist(signupRequest.Username);
-            
+        var emailAlreadyExists = await _userRepository.DoesUserExist(signupRequest.Username);
 
         if (emailAlreadyExists)
             throw new Exception("Email already exists");
