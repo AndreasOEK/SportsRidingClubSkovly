@@ -31,6 +31,7 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddScoped<IUserSessionProxy, UserSessionProxy>();
 
+// builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
 

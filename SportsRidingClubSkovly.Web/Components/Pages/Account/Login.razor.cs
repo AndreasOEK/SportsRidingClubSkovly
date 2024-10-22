@@ -10,12 +10,12 @@ namespace SportsRidingClubSkovly.Web.Components.Pages.Account;
 public partial class Login : ComponentBase
 {
     [CascadingParameter] public HttpContext? HttpContext { get; set; }
-    
-    [SupplyParameterFromForm]
-    public LoginViewModel Model { get; set; } = new LoginViewModel();
-    
+
+    [SupplyParameterFromForm] public LoginViewModel Model { get; set; } = new LoginViewModel();
+
     [Inject] public IAccountProxy AccountProxy { get; set; }
     [Inject] public NavigationManager NavigationManager { get; set; }
+    [Inject] public ILogger<Login> Logger { get; set; }
 
     private string? errorMessage;
 
@@ -30,11 +30,12 @@ public partial class Login : ComponentBase
             new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
             new Claim(ClaimTypes.Sid, user.Id.ToString())
         };
-        
+
         var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
         var principal = new ClaimsPrincipal(identity);
         await HttpContext.SignInAsync(principal);
-        
+
         NavigationManager.NavigateTo("/");
+
     }
 }
