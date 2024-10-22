@@ -36,5 +36,6 @@ public partial class Login : ComponentBase
         await HttpContext.SignInAsync(principal);
         
         NavigationManager.NavigateTo("/");
+        await Task.CompletedTask;
     }
 }

@@ -12,7 +12,7 @@ using Module.User.Infrastructure.DbContexts;
 namespace Module.User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20241022065625_SomeoneFuckedDefinetlyNotAndreas")]
+    [Migration("20241022065810_SomeoneFuckedDefinetlyNotAndreas")]
     partial class SomeoneFuckedDefinetlyNotAndreas
     {
         /// <inheritdoc />
@@ -132,7 +132,7 @@ namespace Module.User.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
