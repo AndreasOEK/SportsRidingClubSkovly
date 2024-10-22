@@ -5,7 +5,7 @@ namespace SportsRidingClubSkovly.Web.DTO.UserManagement;
 public record UserBookingSessionFullResponse(
     Guid Id,
     DateTime StartTime,
-    DateTime EndTime,
+    TimeSpan Duration,
     UserBookingSessionTrainerFullResponse AssignedTrainer,
     int MaxNumberOfParticipants,
     SkillLevel DifficultyLevel,

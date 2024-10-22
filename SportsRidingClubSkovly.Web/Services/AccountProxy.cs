@@ -18,7 +18,7 @@ public class AccountProxy : IAccountProxy
     async Task<UserAccountResponse> IAccountProxy.AuthenticateUser(string username, string password)
     {
         var content = new StringContent(JsonSerializer.Serialize(new AuthenticateUserRequest(username, password)), Encoding.UTF8, "application/json");
-        var response = await _httpClient.PostAsync("Authenticate", content);
+        var response = await _httpClient.PostAsync("Login", content);
         if (!response.IsSuccessStatusCode)
             return null;
 

@@ -5,6 +5,6 @@ namespace Module.User.Application.Features.UserManagement.Query.Dto;
 public record TrainerSessionResponse(
     Guid Id,
     DateTime StartTime,
-    DateTime EndTime,
+    TimeSpan Duration,
     SkillLevel DifficultyLevel,
     SessionType Type);
