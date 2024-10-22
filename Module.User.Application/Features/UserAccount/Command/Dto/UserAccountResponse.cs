@@ -2,7 +2,6 @@
 
 public record UserAccountResponse(
     Guid Id,
-    string FirstName,
-    string LastName,
+    string FullName,
     string Email,
     bool IsTrainer);

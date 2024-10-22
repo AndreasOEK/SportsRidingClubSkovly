@@ -14,35 +14,21 @@ public class UserAccountRepository : IUserAccountRepository
     {
         _dbContext = dbContext;
     }
-
-    async Task<UserAccountResponse> IUserAccountRepository.AuthenticateUser(AuthenticateUserRequest request)
-        => await GetUserAccount(request);
-
-    async Task<UserAccountResponse> IUserAccountRepository.SignUpUser(SignUpUserRequest request)
+    
+    async Task IUserAccountRepository.AddAccount(UserAccount account)
     {
-        var user = Domain.Entity.User.Create(request.FirstName, request.LastName, request.Phone, request.Email);
-        var userAccount = UserAccount.Create(request.Username, request.Password, user);
-        
-        await _dbContext.UserAccounts.AddAsync(userAccount);
-
+        await _dbContext.UserAccounts.AddAsync(account);
         await _dbContext.SaveChangesAsync();
-
-        return await GetUserAccount(new AuthenticateUserRequest(request.Username, request.Password));
+    }
+    
+    async Task<UserAccount> IUserAccountRepository.GetAccountByUsername(string username)
+    {
+        return await _dbContext.UserAccounts.Include(userAccount => userAccount.User).SingleAsync(userAccount =>
+            userAccount.Username == username);
     }
 
-    private async Task<UserAccountResponse> GetUserAccount(AuthenticateUserRequest request)
+    async Task<bool> IUserAccountRepository.DoesEmailExist(string signupRequestUsername)
     {
-        var account = await _dbContext.UserAccounts.Include(userAccount => userAccount.User).SingleAsync(userAccount =>
-            userAccount.Username == request.Username && userAccount.Password == request.Password);
-
-        var isTrainer = await _dbContext.Trainers.Include(trainer => trainer.User)
-            .AnyAsync(trainer => trainer.User.Id == account.Id);
-
-        return new UserAccountResponse(
-            account.User.Id,
-            account.User.FirstName,
-            account.User.LastName,
-            account.User.Email,
-            isTrainer);
+        return await _dbContext.UserAccounts.AnyAsync(account => account.Username == signupRequestUsername);
     }
 }

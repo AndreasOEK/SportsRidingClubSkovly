@@ -25,7 +25,7 @@ public partial class Login : ComponentBase
 
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, Model.Username),
+            new Claim(ClaimTypes.Name, user.FullName),
             new Claim(ClaimTypes.Email, user.Email),
             new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
             new Claim(ClaimTypes.Sid, user.Id.ToString())

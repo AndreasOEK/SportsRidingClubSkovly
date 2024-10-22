@@ -54,6 +54,12 @@ namespace Module.User.Infrastructure.Repositories
             _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
         }
+        
+        async Task<bool> IUserRepository.IsUserTrainer(Guid userId)
+        {
+            return await _dbContext.Trainers.Include(trainer => trainer.User)
+                .AnyAsync(trainer => trainer.User.Id == userId);
+        }
 
         #endregion
     }

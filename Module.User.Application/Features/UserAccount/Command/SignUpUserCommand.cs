@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
+using Module.User.Application.Abstractions.Authentication;
 using Module.User.Application.Features.UserAccount.Command.Dto;
 
 namespace Module.User.Application.Features.UserAccount.Command;
@@ -9,13 +10,17 @@ public record SignUpUserCommand(SignUpUserRequest Request) : IRequest<UserAccoun
 public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserAccountResponse>
 {
     private readonly IUserAccountRepository _userAccountRepository;
+    private readonly IUserRepository _userRepository;
+    private readonly IPasswordHasher _passwordHasher;
 
-    public SignUpUserCommandHandler(IUserAccountRepository userAccountRepository)
+    public SignUpUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher)
     {
         _userAccountRepository = userAccountRepository;
+        _userRepository = userRepository;
+        _passwordHasher = passwordHasher;
     }
 
-    public async Task<UserAccountResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
+    public async Task<UserAccountResponse> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
     {
         var signupRequest = request.Request;
 
@@ -48,8 +53,7 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
         
         return new UserAccountResponse(
             account.User.Id,
-            account.User.FirstName,
-            account.User.LastName,
+            account.User.FirstName + " " + account.User.LastName,
             account.User.Email,
             isTrainer);
 

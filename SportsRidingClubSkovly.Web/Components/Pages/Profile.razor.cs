@@ -17,8 +17,6 @@ public partial class Profile : ComponentBase
     private bool IsEditingProfile { get; set; }
     private bool IsSaving { get; set; }
     
-    
-
     protected override async Task OnInitializedAsync()
     {
         var userIdStr = HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value;
