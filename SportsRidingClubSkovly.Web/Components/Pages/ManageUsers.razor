@@ -1,0 +1,75 @@
+﻿@page "/ManageUsers"
+@using SportsRidingClubSkovly.Web.Components.Tables
+@rendermode InteractiveServer
+
+<h3>Users</h3>
+
+<table>
+    <tr>
+        <th>#</th>
+        <th>Full name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+    @if (!Users.Any())
+    {
+        <tr>
+            <td colspan="5" class="text-center">No users found</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var user in Users)
+        {
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.FirstName @user.LastName</td>
+                <td>@user.Email</td>
+                <td>@user.Phone</td>
+                <td>
+                    <button type="button" class="btn btn-success" @onclick="() => Promote(user.Id)">Promote</button>
+                </td>
+            </tr>
+        }    
+    }
+    
+</table>
+
+
+<h3 style="margin-top: 30px">Trainers</h3>
+
+<table>
+    <tr>
+        <th>#</th>
+        <th>Full name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Action</th>
+    </tr>
+    
+    @if (!Trainers.Any())
+    {
+        <tr>
+            <td colspan="5" class="text-center">No trainers found</td>
+        </tr>
+    }
+    else
+    {
+        foreach (var trainer in Trainers)
+        {
+            <tr>
+                <td>@trainer.Id</td>
+                <td>@trainer.User.FirstName @trainer.User.LastName</td>
+                <td>@trainer.User.Email</td>
+                <td>@trainer.User.Phone</td>
+                <td>
+                    <button class="btn btn-danger" @onclick="() => Demote(trainer.Id)">Demote</button>
+                </td>
+            </tr>
+        }
+    }
+    
+</table>
+
+@* <GenericTable Data="@Users" /> *@
