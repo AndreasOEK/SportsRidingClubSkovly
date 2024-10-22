@@ -1,4 +1,5 @@
-﻿using SportsRidingClubSkovly.Web.DTO.UserSession;
+﻿using SportsRidingClubSkovly.Web.DTO.TrainerSession;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
 using System.Text;
 using System.Text.Json;
@@ -19,7 +20,7 @@ namespace SportsRidingClubSkovly.Web.Services
             var requestUrl = $"/Session/{request.sessionId}/booking";
             var jsonData = JsonSerializer.Serialize(request);
             var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(requestUrl, content);
+            await _httpClient.PostAsync(requestUrl, content);
         }
 
         async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)
@@ -33,6 +34,14 @@ namespace SportsRidingClubSkovly.Web.Services
         {
             var response = await _httpClient.GetAsync("Sessions");
             return await response.Content.ReadFromJsonAsync<IEnumerable<SessionResponse>>() ?? [];
+        }
+
+        async Task IUserSessionProxy.UpdateSession(UpdateSessionRequest request)
+        {
+            var requestUrl = $"Session/{request.Id}";
+            var jsonData = JsonSerializer.Serialize(request);
+            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            await _httpClient.PutAsync(requestUrl, content);
         }
     }
 }

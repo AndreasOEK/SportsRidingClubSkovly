@@ -5,6 +5,7 @@ namespace SportsRidingClubSkovly.Web.DTO.UserSession
     public record SessionResponse
     {
         public Guid Id { get; set; }
+        public byte[] RowVersion { get; set; }
         public DateTime StartTime { get; set; }
         public TimeSpan Duration { get; set; }
         public SessionTrainerResponse AssignedTrainer { get; set; }

@@ -14,14 +14,35 @@
         </div>
         <div class="col-auto">
             <div class="container">
-                <b>Start Time</b>
-                <p>@Session.StartTime.ToString("f")</p>
+                <b>Start Date & Time</b>
+                @if (IsEditMode)
+                {
+                    <input type="datetime-local"
+                           @bind="Session.StartTime"
+                           @bind:after="OnValuesChanged" />
+                }
+                else
+                {
+                    <p>@Session.StartTime.ToString("f")</p>
+                }
             </div>
         </div>
         <div class="col-auto">
             <div class="container">
-                <b>Duration</b>
-                <p>@Session.Duration.ToString()</p>
+                @if (IsEditMode)
+                {
+                    <b>End Time</b>
+                    <div class="container">
+                        <input type="time"
+                               @bind="UpdatedEndTime"
+                               @bind:after="OnValuesChanged" />
+                    </div>
+                }
+                else
+                {
+                    <b>Duration</b>
+                    <p>@Session.Duration.ToString()</p>
+                }
             </div>
         </div>
 

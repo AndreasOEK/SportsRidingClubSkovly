@@ -11,5 +11,6 @@ namespace SportsRidingClubSkovly.Web.DTO.TrainerSession
         public Guid AssignedTrainerId { get; set; }
         public int MaxNumberOfParticipants { get; set; }
         public SkillLevel DifficultyLevel { get; set; }
+        public SessionType Type { get; set; }
     }
 }
