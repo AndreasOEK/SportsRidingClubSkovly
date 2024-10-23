@@ -4,9 +4,11 @@ using SportsRidingClubSkovly.Web.DTO.TrainerSession;
 using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages
 {
+    [Authorize]
     public class SessionDetailsBase : ComponentBase
     {
         [Parameter]

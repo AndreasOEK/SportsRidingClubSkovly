@@ -1,7 +1,9 @@
-﻿using SportsRidingClubSkovly.Web.DTO.UserSession;
+﻿using Microsoft.AspNetCore.Authorization;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages;
 
+[Authorize]
 public partial class BrowseSessions
 {
     private IEnumerable<SessionResponse> sessions = [];
