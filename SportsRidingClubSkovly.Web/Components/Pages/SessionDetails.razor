@@ -1,4 +1,7 @@
-﻿@inherits SessionDetailsBase
+﻿@using BootstrapBlazor.Components;
+@using SportsRidingClubSkovly.Web.Components.Component.SessionDetails;
+
+@inherits SessionDetailsBase
 
 @page "/Session/{sessionId:guid}"
 @rendermode InteractiveServer
@@ -6,20 +9,87 @@
 <PageTitle>Session Details</PageTitle>
 <h3>Session Details</h3>
 
+@if (IsInEditMode)
+{
+    <button style="float: right" type="button"
+            @onclick="UpdateSession"
+            class="btn btn-primary btn-sm"
+            disabled="@IsSaving">
+        Save
+    </button>
+}
+else
+{
+    <button style="float: right" type="button"
+            @onclick="ToggleEditMode"
+            class="btn btn-primary btn-sm"
+            disabled="@IsSaving">
+        Edit
+    </button>
+}
+
+
 @if (Session is null)
 {
     <p>Loading</p>
 }
 else
 {
-    <form class="row g-3">
-        <div class="col-md-2">
-            <label for="AssignedTrainer" class="form-label"><b>Trainer</b></label>
-            <p id="AssignedTrainer">@Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</p>
+    <div class="card border-success text-center">
+        <div class="card-header">
+            <b>General Information</b>
         </div>
-        <div class="col-md-3">
-            <label for="StartDate" class="form-label"><b>Start Date</b></label>
-            <p id="StartDate">@Session.StartTime.ToString("f")</p>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-3">
+                <div class="col-auto">
+                    <div class="container">
+                        <b>Trainer</b>
+                        <p>@Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</p>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="container">
+                        <p class="InputTitle"><b>Start Date & Time</b></p>
+                        <input type="datetime-local" disabled="@(!IsInEditMode)" @bind="Session.StartTime" />
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <div class="container">
+                        <p class="InputTitle"><b>End Time</b> </p>
+                        <div class="container">
+                            <input type="time" disabled="@(!IsInEditMode)" @bind="@EndTime" />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </form>
+
+        <SessionDetailsSpecifics Session=@Session />
+
+        <div class="card-header">
+            <b>Booking Information</b>
+        </div>
+        <div class="card-body">
+            <div class="row row-cols-1 row-cols-md-3">
+
+                <div class="col-auto">
+                    <div class="container">
+                        <b>Max Participants</b>
+                        <p>@Session.MaxNumberOfParticipants</p>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button class="btn btn-outline-success" onclick="@BookSlot">
+                        Book Slot
+                    </button>
+                </div>
+                <div class="col-auto">
+                    <div class="container">
+                        <b>Slots Left</b>
+                        <p>@SlotsLeft() left</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 }

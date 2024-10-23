@@ -30,7 +30,6 @@ namespace Module.User.Infrastructure.Features.Sessions
             => await _dbContext.Sessions
             .AsNoTracking()
             .Include(s => s.AssignedTrainer)
-            .Include(s => s.Bookings)
             .Where(s => s.Id == request.sessionId)
             .ProjectTo<SessionResponse>(_mapper.ConfigurationProvider)
             .SingleAsync();

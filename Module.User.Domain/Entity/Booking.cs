@@ -15,7 +15,10 @@ namespace Module.User.Domain.Entity
             User = user;
 
             AssureUserHasNotBookedSessionAlready(otherBookings ?? new List<Booking>());
+            AssureUserIsNotAssignedTrainer();
         }
+
+
 
         public static Booking Create(User user, IEnumerable<Booking> otherBookings)
             => new Booking(user, otherBookings);
@@ -26,6 +29,12 @@ namespace Module.User.Domain.Entity
         {
             if (otherBookings.Any(b => User.Id == b.User.Id))
                 throw new ArgumentException("A User cannot book the same session twice");
+        }
+
+        private void AssureUserIsNotAssignedTrainer()
+        {
+            if (User.Id == Session.AssignedTrainer.User.Id)
+                throw new ArgumentException("A Trainer cannot book their own session");
         }
         #endregion
     }

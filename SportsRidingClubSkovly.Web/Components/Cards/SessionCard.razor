@@ -1,5 +1,4 @@
-﻿@using SportsRidingClubSkovly.Web.DTO.UserSession
-@using SportsRidingClubSkovly.Web.Extensions
+﻿@using SportsRidingClubSkovly.Web.Extensions
 
 @inherits SessionCardBase
 
@@ -9,7 +8,7 @@
             <h5 class="card-title"><b>@Session.Type.ReplaceUnderscores()</b></h5>
             <p class="card-text"><b>Date</b>: @Session.StartTime.ToString("dd/MM/yyyy")</p>
             <p class="card-text"><b>Start Time</b>: @Session.StartTime.ToString("hh:mm")</p>
-            <p class="card-text"><b>Duration</b>: 0.5 hour</p>
+            <p class="card-text"><b>Duration</b>: @Session.Duration.ToString()</p>
             <p class="card-text"><b>Difficulty Level</b>: @Session.DifficultyLevel</p>
             <a href="/Session/{@Session.Id}" class="btn btn-primary">See Details</a>
         </div>
@@ -17,4 +16,4 @@
             <small class="text-body-secondary"><b>Trainer</b>: @Session.AssignedTrainer.User.Firstname @Session.AssignedTrainer.User.Lastname</small>
         </div>
     </div>
-</div>  
+</div>
