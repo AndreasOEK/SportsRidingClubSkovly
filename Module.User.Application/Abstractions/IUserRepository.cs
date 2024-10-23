@@ -12,6 +12,9 @@ namespace Module.User.Application.Abstractions
         #region Trainer
 
         Task<Trainer> GetTrainerByIdAsync(Guid trainerId);
+        Task<Trainer> GetTrainerFromUserId(Guid id);
+
+        Task<bool> DoesTrainerExistAsync(Guid trainerId);
         Task CreateTrainerAsync(Trainer user);
         Task DeleteTrainerAsync(Trainer user);
 
@@ -25,6 +28,7 @@ namespace Module.User.Application.Abstractions
         Task UpdateUserAsync(Domain.Entity.User user);
         Task DeleteUserAsync(Domain.Entity.User user);
         Task<bool> IsUserTrainer(Guid userId);
+        Task<bool> DoesUserExist(string email);
 
         #endregion
     }

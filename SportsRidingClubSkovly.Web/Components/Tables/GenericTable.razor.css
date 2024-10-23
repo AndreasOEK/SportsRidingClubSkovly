@@ -13,3 +13,16 @@ th, td {
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
+td button {
+    border: 1px solid #0066cc;
+    padding: 5px 10px;
+    border-radius: 12px;
+}
+
+button:disabled,
+button[disabled]{
+    border: 1px solid #cccccc;
+    background-color: #cccccc;
+    color: #666666;
+}

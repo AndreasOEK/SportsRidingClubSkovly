@@ -26,12 +26,12 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
         var account = await _userAccountRepository.GetAccountByUsername(authenticateRequest.Username);
 
         if (account is null)
-            throw new Exception("Account was not found");
+            throw new Exception("Username or password was incorrect");
 
         var verified = _passwordHasher.Verify(authenticateRequest.Password, account.PasswordHash);
 
-        if (!verified)
-            throw new Exception("Password is incorrect");
+        if (!verified)  
+            throw new Exception("Username or password was incorrect");
 
         var isTrainer = await _userRepository.IsUserTrainer(account.User.Id);
 
