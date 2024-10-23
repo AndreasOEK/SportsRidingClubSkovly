@@ -5,16 +5,32 @@ services:
       context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
       dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
       target: "base"
+      args:
+        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "dotnet"
-    - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
+    - "/opt/rider-debugger/linux-x64/JetBrains.Debugger.Worker"
+    - "--runtimeconfig"
+    - "/opt/rider-debugger/JetBrains.Debugger.Worker.runtimeconfig.json"
+    - "--mode=server"
+    - "--frontend-port=57100"
+    - "--backend-port=57300"
+    - "--timeout=60"
     environment:
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
+      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
+      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "sportsrideklubskovly.api:dev"
-    ports: []
+    ports:
+    - "127.0.0.1:57000:57100"
+    - "127.0.0.1:57200:57300"
     volumes:
     - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
     - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
     - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\danie\\AppData\\Local\\JetBrains\\RiderRemoteDebugger\\2024.2.6\\\
+      Linux64:/opt/rider-debugger"
+    - "C:\\Users\\danie\\AppData\\Local\\Programs\\Rider\\bin:/etc/opt/rider-debugger/backend-log.xml"
+    - "C:\\Users\\danie\\AppData\\Local\\JetBrains\\Rider2024.2\\log\\DebuggerWorker\\\
+      JetBrains.Debugger.Worker.2024_10_23_12_54_43:/var/opt/rider-debugger:rw"
     working_dir: "/app"

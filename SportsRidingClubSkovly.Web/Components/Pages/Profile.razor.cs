@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Net.Mail;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
@@ -31,6 +32,7 @@ public partial class Profile : ComponentBase
         User = await UserManagementProxy.GetUserById(userId);
         Email = User.Email;
         Phone = User.Phone;
+        
     }
 
     private async void SaveProfile()

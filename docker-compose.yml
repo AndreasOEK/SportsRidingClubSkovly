@@ -6,7 +6,7 @@
       dockerfile: SportsRideKlubSkovly.API/Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__DefaultConnection: Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123.
+      ConnectionStrings__DefaultConnection: "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
     ports:
       - "8080:8080"
     depends_on:

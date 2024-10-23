@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Net.Mail;
+using System.Security.Cryptography;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Abstractions.Authentication;
 
