@@ -7,7 +7,7 @@ namespace SportsRidingClubSkovly.Web.Services.Interface
     {
         Task<IEnumerable<SessionResponse>> GetSessionsAsync();
         Task<SessionResponse> GetSessionByIdAsync(Guid sessionId);
-        Task CreateBooking(CreateBookingRequest request);
-        Task UpdateSession(UpdateSessionRequest updateSessionRequest);
+        Task<bool> CreateBooking(CreateBookingRequest request);
+        Task<bool> UpdateSession(UpdateSessionRequest updateSessionRequest);
     }
 }

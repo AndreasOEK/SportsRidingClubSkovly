@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using SportsRidingClubSkovly.Web.DTO.TrainerSession;
 using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
+using System.Security.Claims;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages
 {
@@ -12,7 +14,12 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         public SessionResponse Session { get; set; }
         [Inject]
         public IUserSessionProxy UserSessionProxy { get; set; }
+        [Inject]
+        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         public TimeOnly EndTime { get; set; }
+        public bool IsInEditMode { get; set; } = false;
+        protected bool IsSaving = false;
+        protected bool IsBooking = false;
 
         protected override async Task OnInitializedAsync()
         {
@@ -20,45 +27,58 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
             EndTime = TimeOnly.FromTimeSpan(Session.Duration);
         }
 
-        protected async Task BookSlot()
+        protected void ToggleEditMode()
         {
-            await UserSessionProxy.CreateBooking(new CreateBookingRequest() { sessionId = Session.Id, userId = new Guid() });
-            Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
-        }
-
-        protected bool IsInEditMode = false;
-        protected bool IsSaving = false;
-
-        protected async void EditDetails()
-        {
-            IsInEditMode = true;
+            IsInEditMode = !IsInEditMode;
         }
 
         protected async Task UpdateSession()
         {
             IsSaving = true;
 
-            await UserSessionProxy.UpdateSession(
+            var succes = await UserSessionProxy.UpdateSession(
                 new UpdateSessionRequest()
                 {
                     Id = Session.Id,
                     AssignedTrainerId = Session.AssignedTrainer.Id,
                     StartTime = Session.StartTime,
-                    Duration = CalculateDuration(),
+                    Duration = EndTime.ToTimeSpan(),
                     DifficultyLevel = Session.DifficultyLevel,
                     Type = Session.Type,
                     MaxNumberOfParticipants = Session.MaxNumberOfParticipants,
                     RowVersion = Session.RowVersion
                 });
 
+            if (!succes) return;
+
+            Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsSaving = false;
-            IsInEditMode = false;
+            ToggleEditMode();
         }
 
-        private TimeSpan CalculateDuration()
+        protected string SlotsLeft()
+            => (Session.MaxNumberOfParticipants - Session.Bookings.ToList().Count).ToString();
+
+        protected async Task BookSlot()
         {
-            TimeSpan duration = EndTime - TimeOnly.FromDateTime(Session.StartTime);
-            return duration;
+            IsBooking = true;
+
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
+            var userIdGuid = Guid.Parse(userIdStr);
+
+            var succes = await UserSessionProxy.CreateBooking(
+                new CreateBookingRequest()
+                {
+                    sessionId = Session.Id,
+                    userId = userIdGuid
+                });
+
+            if (!succes) return;
+
+            Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
+            IsBooking = false;
         }
     }
 }

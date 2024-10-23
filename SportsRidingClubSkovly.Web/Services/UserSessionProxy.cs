@@ -15,12 +15,11 @@ namespace SportsRidingClubSkovly.Web.Services
             _httpClient = httpClient.CreateClient("API");
         }
 
-        public async Task CreateBooking(CreateBookingRequest request)
+        public async Task<bool> CreateBooking(CreateBookingRequest request)
         {
-            var requestUrl = $"/Session/{request.sessionId}/booking";
-            var jsonData = JsonSerializer.Serialize(request);
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync(requestUrl, content);
+            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("Session/booking", content);
+            return response.IsSuccessStatusCode;
         }
 
         async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)
@@ -36,12 +35,11 @@ namespace SportsRidingClubSkovly.Web.Services
             return await response.Content.ReadFromJsonAsync<IEnumerable<SessionResponse>>() ?? [];
         }
 
-        async Task IUserSessionProxy.UpdateSession(UpdateSessionRequest request)
+        async Task<bool> IUserSessionProxy.UpdateSession(UpdateSessionRequest request)
         {
-            var requestUrl = $"Session/{request.Id}";
-            var jsonData = JsonSerializer.Serialize(request);
-            var content = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            await _httpClient.PutAsync(requestUrl, content);
+            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PutAsync("Session", content);
+            return response.IsSuccessStatusCode;
         }
     }
 }

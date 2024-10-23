@@ -12,7 +12,7 @@ namespace Module.User.Endpoints.Session
     {
         void IEndpoint.MapEndpoint(WebApplication app)
         {
-            app.MapPost("/Session/{id}/booking", async ([FromBody] CreateBookingRequest createBookingRequest, [FromServices] IMediator mediator) =>
+            app.MapPost("/Session/booking", async ([FromBody] CreateBookingRequest createBookingRequest, [FromServices] IMediator mediator) =>
                 await mediator.Send(new CreateBookingCommand(createBookingRequest))
             ).WithTags("Session");
         }
