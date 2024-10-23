@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
@@ -8,6 +9,8 @@ namespace SportsRidingClubSkovly.Web.Components.Pages;
 public partial class Profile : ComponentBase
 {
     [CascadingParameter] public HttpContext? HttpContext { get; set; }
+    //[Inject] public HttpContextAccessor HttpContextAccessor { get; set; }
+    [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     [Inject] public IUserManagementProxy UserManagementProxy { get; set; }
     private UserFullResponse User { get; set; }
 
@@ -16,15 +19,18 @@ public partial class Profile : ComponentBase
     
     private bool IsEditingProfile { get; set; }
     private bool IsSaving { get; set; }
-    
+
     protected override async Task OnInitializedAsync()
     {
-        var userIdStr = HttpContext.User.FindFirst(ClaimTypes.Sid)?.Value;
+        await base.OnInitializedAsync();
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
         var userId = Guid.Parse(userIdStr);
         User = await UserManagementProxy.GetUserById(userId);
         Email = User.Email;
         Phone = User.Phone;
-        await base.OnInitializedAsync();
     }
 
     private async void SaveProfile()
