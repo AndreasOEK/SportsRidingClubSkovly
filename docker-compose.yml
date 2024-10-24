@@ -1,9 +1,24 @@
 ﻿services:
+  reverseproxy.api:
+    build:
+      context: ./ReverseProxy.API
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      ASPNETCORE_HTTP_PORTS: 9000
+    depends_on:
+      sportsrideklubskovly.api:
+        condition: service_started
+    networks:
+      - frontend
+      - backend
+  
   sportsrideklubskovly.api:
     image: sportsrideklubskovly.api
     build:
-      context: .
-      dockerfile: SportsRideKlubSkovly.API/Dockerfile
+      context: ./SportsRideKlubSkovly.API
+      dockerfile: Dockerfile
     environment:
       "ConnectionStrings:DefaultConnection": "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
     ports:
@@ -11,6 +26,8 @@
     depends_on:
       db:
         condition: service_started
+    networks:
+      - backend
 
   db:
     image: mcr.microsoft.com/mssql/server:latest
@@ -21,3 +38,11 @@
       SA_PASSWORD: "StrongPassword123."
     ports:
       - "8090:1433" 
+    networks:
+      - backend
+        
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge

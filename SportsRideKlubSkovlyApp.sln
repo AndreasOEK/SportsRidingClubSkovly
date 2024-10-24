@@ -34,6 +34,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{B49E4C23-557
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SportsRidingClubSkovly.Web", "SportsRidingClubSkovly.Web\SportsRidingClubSkovly.Web.csproj", "{792AE86D-9681-41B8-B396-471026165F67}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ReverseProxy", "ReverseProxy", "{05B8B920-081E-467E-8CCE-6E8EB81F8FB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReverseProxy.API", "ReverseProxy.API\ReverseProxy.API.csproj", "{BBB16BC5-A333-4933-BC4A-41657460F92C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -72,6 +76,10 @@ Global
 		{792AE86D-9681-41B8-B396-471026165F67}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{792AE86D-9681-41B8-B396-471026165F67}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{792AE86D-9681-41B8-B396-471026165F67}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BBB16BC5-A333-4933-BC4A-41657460F92C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BBB16BC5-A333-4933-BC4A-41657460F92C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BBB16BC5-A333-4933-BC4A-41657460F92C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BBB16BC5-A333-4933-BC4A-41657460F92C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -87,6 +95,7 @@ Global
 		{CFCF1235-D505-47D1-BBD3-A4A1AE339932} = {49280EC6-0ED0-46CC-9392-317649410F3B}
 		{A205C8D3-EFFD-4B46-A2B8-38B7668ED1A4} = {04F00BAE-5B7A-42B7-809E-50DA34727CE6}
 		{ACC55308-6169-4F01-98AF-4BF1BC603DA4} = {06C4F906-4B53-4032-9A14-A3339ED80055}
+		{BBB16BC5-A333-4933-BC4A-41657460F92C} = {05B8B920-081E-467E-8CCE-6E8EB81F8FB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8058C6FD-3F22-4444-8313-75B5D1C735D2}

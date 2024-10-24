@@ -1,15 +1,35 @@
 # This is a generated file. Not intended for manual editing.
 services:
+  reverseproxy.api:
+    build:
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/ReverseProxy.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "reverseproxy.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API:/app:rw"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
+    working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
-      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API"
+      dockerfile: "Dockerfile"
       target: "base"
     command: []
     entrypoint:
     - "dotnet"
     - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
     environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
     image: "sportsrideklubskovly.api:dev"
     ports: []
