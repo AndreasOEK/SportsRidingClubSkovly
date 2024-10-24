@@ -1,20 +1,44 @@
 # This is a generated file. Not intended for manual editing.
 services:
+  reverseproxy.api:
+    build:
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+        ReverseProxy.API"
+      dockerfile: "Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/ReverseProxy.API.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "reverseproxy.api:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+      ReverseProxy.API:/app:rw"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
+    working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
-      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+        SportsRideKlubSkovly.API"
+      dockerfile: "Dockerfile"
       target: "base"
     command: []
     entrypoint:
     - "dotnet"
     - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
     environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
     image: "sportsrideklubskovly.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+      SportsRideKlubSkovly.API:/app:rw"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"
