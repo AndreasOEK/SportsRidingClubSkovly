@@ -2,8 +2,7 @@
 services:
   reverseproxy.api:
     build:
-      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-        ReverseProxy.API"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API"
       dockerfile: "Dockerfile"
       target: "base"
     command: []
@@ -16,15 +15,13 @@ services:
     image: "reverseproxy.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-      ReverseProxy.API:/app:rw"
-    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API:/app:rw"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-        SportsRideKlubSkovly.API"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API"
       dockerfile: "Dockerfile"
       target: "base"
     command: []
@@ -37,8 +34,7 @@ services:
     image: "sportsrideklubskovly.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-      SportsRideKlubSkovly.API:/app:rw"
-    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
+    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"

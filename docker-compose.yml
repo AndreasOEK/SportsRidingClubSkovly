@@ -5,6 +5,8 @@
       dockerfile: Dockerfile
     ports:
       - "9000:9000"
+    environment:
+      ASPNETCORE_HTTP_PORTS: 9000
     depends_on:
       sportsrideklubskovly.api:
         condition: service_started
