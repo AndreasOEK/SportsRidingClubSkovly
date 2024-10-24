@@ -13,7 +13,6 @@ namespace SportsRidingClubSkovly.Web.Components.Pages;
 public partial class Profile : ComponentBase
 {
     [CascadingParameter] public HttpContext? HttpContext { get; set; }
-    //[Inject] public HttpContextAccessor HttpContextAccessor { get; set; }
     [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     [Inject] public IUserManagementProxy UserManagementProxy { get; set; }
     
