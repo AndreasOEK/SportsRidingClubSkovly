@@ -19,7 +19,7 @@ builder.Services.AddCascadingAuthenticationState();
 
 builder.Services.AddHttpClient("API", httpClient =>
 {
-    httpClient.BaseAddress = new Uri("http://localhost:8080");
+    httpClient.BaseAddress = new Uri("http://localhost:9000");
 });
 
 builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
