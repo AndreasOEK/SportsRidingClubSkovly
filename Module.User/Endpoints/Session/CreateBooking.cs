@@ -14,7 +14,7 @@ namespace Module.User.Endpoints.Session
         {
             app.MapPost("/Session/booking", async ([FromBody] CreateBookingRequest createBookingRequest, [FromServices] IMediator mediator) =>
                 await mediator.Send(new CreateBookingCommand(createBookingRequest))
-            ).WithTags("Session");
+            ).WithTags("Session/Booking");
         }
     }
 }

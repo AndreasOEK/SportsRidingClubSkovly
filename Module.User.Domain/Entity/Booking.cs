@@ -5,6 +5,7 @@ namespace Module.User.Domain.Entity
     public class Booking
     {
         public Guid Id { get; protected set; }
+        public byte[] RowVersion { get; protected set; }
         public User User { get; protected set; }
         public Session Session { get; protected set; }
 

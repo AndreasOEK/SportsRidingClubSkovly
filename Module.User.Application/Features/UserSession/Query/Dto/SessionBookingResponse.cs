@@ -11,5 +11,6 @@ namespace Module.User.Application.Features.UserSession.Query.Dto
     {
         public Guid Id { get; set; }
         public Guid UserId { get; set; }
+        public byte[] RowVersion { get; set; }
     }
 }
