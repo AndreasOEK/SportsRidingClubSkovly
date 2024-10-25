@@ -12,7 +12,7 @@ namespace Module.User.Application.Abstractions
         
         #region Booking
         Task AddBookingAsync();
-        Task DeleteBookingAsync(Booking booking, byte[] rowVersion);
+        Task DeleteBookingAsync(Booking booking);
         Task<Booking> GetBookingByIdAsync(Guid bookingId);
         #endregion
     }

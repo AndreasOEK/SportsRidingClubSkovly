@@ -17,11 +17,12 @@ namespace Module.User.Infrastructure.Repositories
         async Task ISessionRepository.AddBookingAsync()
             => await _dbContext.SaveChangesAsync();
 
-        async Task ISessionRepository.DeleteBookingAsync(Booking booking, byte[] rowVersion)
+        async Task ISessionRepository.DeleteBookingAsync(Booking booking)
         {
-            _dbContext.Entry(booking).Property(b => b.RowVersion).OriginalValue = rowVersion;
+            _dbContext.Remove(booking);
             await _dbContext.SaveChangesAsync();
         }
+
 
         async Task<Booking> ISessionRepository.GetBookingByIdAsync(Guid bookingId)
             => await _dbContext.Bookings
@@ -37,7 +38,7 @@ namespace Module.User.Infrastructure.Repositories
         async Task<Session> ISessionRepository.GetSessionByIdAsync(Guid sessionId)
             => await _dbContext.Sessions
                 .Include(s => s.Bookings)
-                    .ThenInclude(b => b.User)
+                .ThenInclude(b => b.User)
                 .SingleAsync(session => session.Id == sessionId);
 
         async Task ISessionRepository.UpdateSessionAsync(Session session, byte[] rowVersion)

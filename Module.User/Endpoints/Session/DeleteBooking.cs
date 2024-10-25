@@ -12,8 +12,10 @@ public class DeleteBooking : IEndpoint
 {
     public void MapEndpoint(WebApplication app)
     {
-        app.MapDelete("/Session/Booking", async ([FromBody]DeleteBookingRequest deleteBookingRequest, [FromServices] IMediator mediator) =>
-            await mediator.Send(new DeleteBookingCommand(deleteBookingRequest))
-            ).WithTags("Session/Booking");
+        app.MapDelete("/Session/Booking/{id:guid}", async ([FromRoute] Guid id, [FromServices] IMediator mediator) =>
+        {
+            var request = new DeleteBookingRequest(id);
+            await mediator.Send(new DeleteBookingCommand(request));
+        }).WithTags("Session/Booking");
     }
 }

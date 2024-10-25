@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Module.User.Application.Abstractions;
 using Module.User.Application.Features.UserSession.Command.Dto;
+using Module.User.Domain.Entity;
 
 namespace Module.User.Application.Features.UserSession.Command;
 
@@ -18,13 +19,13 @@ internal class DeleteBookingCommandHandler : IRequestHandler<DeleteBookingComman
     public async Task Handle(DeleteBookingCommand request, CancellationToken cancellationToken)
     {
         // Load
-        var session = await _sessionRepository.GetSessionByIdAsync(request.DeleteBookingRequest.SessionId);
         var booking = await _sessionRepository.GetBookingByIdAsync(request.DeleteBookingRequest.BookingId);
+        var session = await _sessionRepository.GetSessionByIdAsync(booking.Session.Id);
         
         // Do
         session.RemoveBooking(booking);
         
         // Save
-        await _sessionRepository.DeleteBookingAsync(booking, request.DeleteBookingRequest.RowVersion);
+        await _sessionRepository.DeleteBookingAsync(booking);
     }
 }

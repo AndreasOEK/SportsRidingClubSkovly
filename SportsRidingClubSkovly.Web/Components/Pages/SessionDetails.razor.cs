@@ -12,14 +12,14 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         [Parameter]
         public Guid SessionId { get; set; }
 
-        public Guid UserId { get; set; }
-        public SessionResponse Session { get; set; }
+        protected Guid UserId { get; set; }
+        protected SessionResponse Session { get; set; }
         [Inject]
         public IUserSessionProxy UserSessionProxy { get; set; }
         [Inject]
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
-        public TimeOnly EndTime { get; set; }
-        public bool IsInEditMode { get; set; } = false;
+        protected TimeOnly EndTime { get; set; }
+        protected bool IsInEditMode { get; set; } = false;
         protected bool IsSaving;
         protected bool IsBooking;
         protected bool IsRemovingBooking;
@@ -44,7 +44,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         {
             IsSaving = true;
 
-            var succes = await UserSessionProxy.UpdateSession(
+            var success = await UserSessionProxy.UpdateSession(
                 new UpdateSessionRequest()
                 {
                     Id = Session.Id,
@@ -57,7 +57,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
                     RowVersion = Session.RowVersion
                 });
 
-            if (!succes) return;
+            if (!success) return;
 
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsSaving = false;
@@ -71,14 +71,14 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         {
             IsBooking = true;
             
-            var succes = await UserSessionProxy.CreateBooking(
+            var success = await UserSessionProxy.CreateBooking(
                 new CreateBookingRequest()
                 {
                     sessionId = Session.Id,
                     userId = UserId
                 });
 
-            if (!succes) return;
+            if (!success) return;
 
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsBooking = false;
@@ -88,14 +88,11 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         {
             IsRemovingBooking = true;
             var booking = Session.Bookings.FirstOrDefault(b => b.UserId == UserId);
+
+            if (booking == null) return;
+            var success = await UserSessionProxy.DeleteBooking(new DeleteBookingRequest(booking.Id));
             
-            var succes = await UserSessionProxy.DeleteBooking(
-                new DeleteBookingRequest(
-                    BookingId: booking.Id,
-                    SessionId: Session.Id,
-                    RowVersion: booking.RowVersion));
-            
-            if (!succes) return;
+            if (!success) return;
             
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsRemovingBooking = false;
