@@ -41,5 +41,18 @@ namespace SportsRidingClubSkovly.Web.Services
             var response = await _httpClient.PutAsync("Session", content);
             return response.IsSuccessStatusCode;
         }
+
+        async Task<bool> IUserSessionProxy.DeleteBooking(DeleteBookingRequest deleteBookingRequest)
+        {
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Delete,
+                RequestUri = new Uri($"Session/Booking"),
+                Content = new StringContent(JsonSerializer.Serialize(deleteBookingRequest), Encoding.UTF8, "application/json")
+            };
+            
+            var response = await _httpClient.SendAsync(request);
+            return response.IsSuccessStatusCode;
+        }
     }
 }

@@ -11,6 +11,8 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
     {
         [Parameter]
         public Guid SessionId { get; set; }
+
+        public Guid UserId { get; set; }
         public SessionResponse Session { get; set; }
         [Inject]
         public IUserSessionProxy UserSessionProxy { get; set; }
@@ -18,13 +20,19 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         public TimeOnly EndTime { get; set; }
         public bool IsInEditMode { get; set; } = false;
-        protected bool IsSaving = false;
-        protected bool IsBooking = false;
+        protected bool IsSaving;
+        protected bool IsBooking;
+        protected bool IsRemovingBooking;
 
         protected override async Task OnInitializedAsync()
         {
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             EndTime = TimeOnly.FromTimeSpan(Session.Duration);
+            
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var user = authState.User;
+            var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
+            UserId = Guid.Parse(userIdStr);
         }
 
         protected void ToggleEditMode()
@@ -62,23 +70,35 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         protected async Task BookSlot()
         {
             IsBooking = true;
-
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
-            var userIdGuid = Guid.Parse(userIdStr);
-
+            
             var succes = await UserSessionProxy.CreateBooking(
                 new CreateBookingRequest()
                 {
                     sessionId = Session.Id,
-                    userId = userIdGuid
+                    userId = UserId
                 });
 
             if (!succes) return;
 
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsBooking = false;
+        }
+
+        protected async Task RemoveBooking()
+        {
+            IsRemovingBooking = true;
+            var booking = Session.Bookings.FirstOrDefault(b => b.UserId == UserId);
+            
+            var succes = await UserSessionProxy.DeleteBooking(
+                new DeleteBookingRequest(
+                    BookingId: booking.Id,
+                    SessionId: Session.Id,
+                    RowVersion: booking.RowVersion));
+            
+            if (!succes) return;
+            
+            Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
+            IsRemovingBooking = false;
         }
     }
 }

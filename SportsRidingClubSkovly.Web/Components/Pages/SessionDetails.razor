@@ -49,22 +49,26 @@ else
                 </div>
                 <div class="col-auto">
                     <div class="container">
-                        <p class="InputTitle"><b>Start Date & Time</b></p>
-                        <input type="datetime-local" disabled="@(!IsInEditMode)" @bind="Session.StartTime" />
+                        <p class="InputTitle">
+                            <b>Start Date & Time</b>
+                        </p>
+                        <input type="datetime-local" disabled="@(!IsInEditMode)" @bind="Session.StartTime"/>
                     </div>
                 </div>
                 <div class="col-auto">
                     <div class="container">
-                        <p class="InputTitle"><b>End Time</b> </p>
+                        <p class="InputTitle">
+                            <b>End Time</b>
+                        </p>
                         <div class="container">
-                            <input type="time" disabled="@(!IsInEditMode)" @bind="@EndTime" />
+                            <input type="time" disabled="@(!IsInEditMode)" @bind="@EndTime"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <SessionDetailsSpecifics Session=@Session />
+        <SessionDetailsSpecifics Session=@Session/>
 
         <div class="card-header">
             <b>Booking Information</b>
@@ -79,9 +83,18 @@ else
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-outline-success" onclick="@BookSlot">
-                        Book Slot
-                    </button>
+                    @if (Session.Bookings.All(b => b.UserId != UserId))
+                    {
+                        <button class="btn btn-outline-success" onclick="@BookSlot">
+                            Book Slot
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-danger" onclick="@RemoveBooking">
+                            Remove Booking
+                        </button>
+                    }
                 </div>
                 <div class="col-auto">
                     <div class="container">
