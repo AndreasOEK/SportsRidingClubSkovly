@@ -7,26 +7,30 @@
 @rendermode InteractiveServer
 
 <PageTitle>Session Details</PageTitle>
+<div>
+    @if (IsInEditMode)
+    {
+        <button style="float: right" 
+                type="button"
+                @onclick="UpdateSession"
+                class="btn btn-primary btn-sm"
+                disabled="@IsSaving">
+            Save
+        </button>
+    }
+    else
+    {
+        <button style="float: right" type="button"
+                @onclick="ToggleEditMode"
+                class="btn btn-primary btn-sm"
+                disabled="@IsSaving">
+            Edit
+        </button>
+    }
+</div>
+
 <h3>Session Details</h3>
 
-@if (IsInEditMode)
-{
-    <button style="float: right" type="button"
-            @onclick="UpdateSession"
-            class="btn btn-primary btn-sm"
-            disabled="@IsSaving">
-        Save
-    </button>
-}
-else
-{
-    <button style="float: right" type="button"
-            @onclick="ToggleEditMode"
-            class="btn btn-primary btn-sm"
-            disabled="@IsSaving">
-        Edit
-    </button>
-}
 
 
 @if (Session is null)
@@ -85,13 +89,17 @@ else
                 <div class="col-auto">
                     @if (Session.Bookings.All(b => b.UserId != UserId))
                     {
-                        <button class="btn btn-outline-success" onclick="@BookSlot">
+                        <button class="btn btn-outline-success" 
+                                onclick="@BookSlot"
+                                disabled="(@SlotsLeft() == 0) || @IsBooking">
                             Book Slot
                         </button>
                     }
                     else
                     {
-                        <button class="btn btn-outline-danger" onclick="@RemoveBooking">
+                        <button class="btn btn-outline-danger" 
+                                onclick="@RemoveBooking"
+                                disabled="@IsRemovingBooking">
                             Remove Booking
                         </button>
                     }
@@ -99,7 +107,7 @@ else
                 <div class="col-auto">
                     <div class="container">
                         <b>Slots Left</b>
-                        <p>@SlotsLeft() left</p>
+                        <p>@SlotsLeft().ToString() left</p>
                     </div>
                 </div>
             </div>

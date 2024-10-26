@@ -64,8 +64,8 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
             ToggleEditMode();
         }
 
-        protected string SlotsLeft()
-            => (Session.MaxNumberOfParticipants - Session.Bookings.ToList().Count).ToString();
+        protected int SlotsLeft()
+            => (Session.MaxNumberOfParticipants - Session.Bookings.ToList().Count);
 
         protected async Task BookSlot()
         {
