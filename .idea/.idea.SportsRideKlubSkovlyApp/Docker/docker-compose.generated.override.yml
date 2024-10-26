@@ -2,8 +2,8 @@
 services:
   reverseproxy.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
+      dockerfile: "ReverseProxy.API/Dockerfile"
       target: "base"
     command: []
     entrypoint:
@@ -21,8 +21,8 @@ services:
     working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly"
+      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
       target: "base"
     command: []
     entrypoint:
