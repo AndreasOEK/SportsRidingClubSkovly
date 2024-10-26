@@ -2,8 +2,8 @@
   reverseproxy.api:
     image: reverseproxy.api
     build:
-      context: ReverseProxy.API
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ReverseProxy.API/Dockerfile
     ports:
       - "9000:9000"
     environment:
