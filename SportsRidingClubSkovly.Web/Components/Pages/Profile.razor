@@ -1,38 +1,53 @@
-﻿@page "/Profile"
+﻿@rendermode InteractiveServer
+@page "/Profile"
 @using SportsRidingClubSkovly.Web.Components.Tables
 @using SportsRidingClubSkovly.Web.DTO.UserManagement
-@rendermode InteractiveServer
 
 @if (User is null)
 {
-    
 }
 else
 {
-    <div>
-        <h3 style="float: left">@User.FirstName @User.LastName</h3>
-        @if (IsSaving)
-        {
-            <button style="float: right" disabled="disabled" class="btn btn-primary">
-                <i class="fa fa-refresh fa-spins"></i>
-            </button>
-        }
-        else
-        {
-            <button style="float: right" class="btn btn-primary" type="button" @onclick="IsEditingProfile ? SaveProfile : EditProfile">@(IsEditingProfile ? "Save" : "Edit")</button>
-        }
-    </div>
-    
-    <div style="clear: both" /> 
-    
-    <p class="InputTitle">Email</p>
-    <input type="email" disabled="@(!IsEditingProfile)" @bind="Email" />
-    
-    <p class="InputTitle">Phone</p>
-    <input type="text" disabled="@(!IsEditingProfile)" @bind="Phone" />
-    
+    <h3 style="float: left">@User.FirstName @User.LastName's profile</h3>
 
-    <hr />
+    <EditForm Model="@Model" OnValidSubmit="SaveProfile" FormName="ProfileForm">
+        <button style="float: right" class="btn btn-primary" disabled="@IsSaving"
+                type="@(IsEditingProfile ? "submit" : "button")"
+                @onclick="@(IsEditingProfile ? null : EditProfile)">
+            @(IsEditingProfile ? "Save" : "Edit")
+        </button>
+        <div style="clear: both"/>
+
+        <DataAnnotationsValidator/>
+        
+        <div style="width: 40%">
+            <div class="mb-3 d-grid" style="grid-template-columns: 1fr 2fr; gap: 10px;">
+                <div>
+                    <label>First name</label>
+                    <InputText @bind-Value="Model.FirstName" placeholder="John" class="form-control" disabled="@(!IsEditingProfile)"/>
+                    <ValidationMessage For="() => Model.FirstName"/>
+                </div>
+                <div>
+                    <label>Last name</label>
+                    <InputText @bind-Value="Model.LastName" placeholder="Jeppesen" class="form-control" disabled="@(!IsEditingProfile)"/>
+                    <ValidationMessage For="() => Model.LastName"/>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label>Email</label>
+                <InputText @bind-Value="Model.Email" class="form-control" placeholder="Email" disabled="@(!IsEditingProfile)"/>
+                <ValidationMessage For="() => Model.Email"/>
+            </div>
+            <div class="mb-3">
+                <label>Phone number</label>
+                <InputText @bind-Value="Model.Phone" placeholder="Phone number" class="form-control" disabled="@(!IsEditingProfile)"/>
+                <ValidationMessage For="() => Model.Phone"/>
+            </div>
+        </div>
+        
+    </EditForm>
+
+    <hr/>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
         <h4>Bookings</h4>
@@ -40,7 +55,7 @@ else
     </div>
     @if (User.Bookings.Any())
     {
-        <UserBookingView Bookings="User.Bookings" />
+        <UserBookingView Bookings="User.Bookings"/>
     }
     else
     {

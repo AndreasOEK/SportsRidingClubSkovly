@@ -41,7 +41,7 @@ public partial class Login : ComponentBase
         }
         catch (Exception e)
         {
-            errorMessage = e.Message;
+            errorMessage = "Username or password is incorrect";
         }
 
     }

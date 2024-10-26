@@ -1,3 +1,5 @@
+using System.Net;
+using System.Net.Mail;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SportsRidingClubSkovly.Web.Components;
 using SportsRidingClubSkovly.Web.Services;
@@ -16,6 +18,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddHttpClient("API", httpClient =>
 {
