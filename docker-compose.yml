@@ -1,7 +1,8 @@
 ﻿services:
   reverseproxy.api:
+    image: reverseproxy.api
     build:
-      context: ./ReverseProxy.API
+      context: ReverseProxy.API
       dockerfile: Dockerfile
     ports:
       - "9000:9000"
@@ -17,8 +18,8 @@
   sportsrideklubskovly.api:
     image: sportsrideklubskovly.api
     build:
-      context: ./SportsRideKlubSkovly.API
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: SportsRideKlubSkovly.API/Dockerfile
     environment:
       "ConnectionStrings:DefaultConnection": "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
     ports:
