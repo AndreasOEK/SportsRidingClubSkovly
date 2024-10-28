@@ -17,28 +17,21 @@ namespace SportsRidingClubSkovly.Web.Services
 
         public async Task<bool> CreateBooking(CreateBookingRequest request)
         {
-            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("Session/booking", content);
+            var response = await _httpClient.PostAsJsonAsync("Session/booking", request);
             return response.IsSuccessStatusCode;
         }
 
         async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)
-        {
-            var requestUrl = "Session/" + sessionId.ToString();
-            var response = await _httpClient.GetAsync(requestUrl);
-            return await response.Content.ReadFromJsonAsync<SessionResponse>() ?? new SessionResponse();
-        }
+            => await _httpClient.GetFromJsonAsync<SessionResponse>($"Session/{sessionId}") ??
+               throw new ArgumentException("Session not found");
+
 
         async Task<IEnumerable<SessionResponse>> IUserSessionProxy.GetSessionsAsync()
-        {
-            var response = await _httpClient.GetAsync("Sessions");
-            return await response.Content.ReadFromJsonAsync<IEnumerable<SessionResponse>>() ?? [];
-        }
+            => await _httpClient.GetFromJsonAsync<IEnumerable<SessionResponse>>("Sessions") ?? [];
 
         async Task<bool> IUserSessionProxy.UpdateSession(UpdateSessionRequest request)
         {
-            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync("Session", content);
+            var response = await _httpClient.PutAsJsonAsync("Session", request);
             return response.IsSuccessStatusCode;
         }
 

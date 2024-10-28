@@ -1,18 +1,24 @@
-﻿using SportsRidingClubSkovly.Web.DTO.UserSession;
+﻿using System.ComponentModel.DataAnnotations;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
+using SportsRidingClubSkovly.Web.DTO.TrainerSession;
+using SportsRidingClubSkovly.Web.ViewModels;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages;
 
 public partial class BrowseSessions
 {
-    private IEnumerable<SessionResponse> sessions = [];
+    private IEnumerable<SessionResponse> _sessions = [];
 
     protected override async Task OnInitializedAsync()
     {
-        sessions = await userSessionProxy.GetSessionsAsync();
+        _sessions = await userSessionProxy.GetSessionsAsync();
     }
 
     public int CalculateSlotsLeft(SessionResponse session)
+        => session.MaxNumberOfParticipants - session.Bookings.Count();
+
+    private Task<bool> CreateSessionAsync(CreateSessionViewModel createSessionViewModel)
     {
-        return session.MaxNumberOfParticipants - session.Bookings.Count();
+        return Task.FromResult(false);
     }
 }
