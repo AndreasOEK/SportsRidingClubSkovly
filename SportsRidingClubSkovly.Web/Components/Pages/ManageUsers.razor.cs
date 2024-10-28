@@ -5,7 +5,8 @@ using SportsRidingClubSkovly.Web.Services.Interface;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages;
 
-[Authorize(Roles = "Trainer")]
+//[Authorize(Roles = "Trainer")]
+[Authorize(Roles = "Admin")]
 public partial class ManageUsers : ComponentBase
 {
     [Inject] public IUserManagementProxy UserManagementProxy { get; set; }

@@ -22,39 +22,36 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
 
     public async Task<UserAccountResponse> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
     {
-        var signupRequest = request.Request;
+        var userAccountRequest = request.Request;
 
-        var emailAlreadyExists = await _userRepository.DoesUserExist(signupRequest.Username);
+        var emailAlreadyExists = await _userRepository.DoesUserExist(userAccountRequest.Username);
 
         if (emailAlreadyExists)
             throw new Exception("Email already exists");
         
-        var user = Domain.Entity.User.Create(signupRequest.FirstName, signupRequest.LastName, signupRequest.Phone, signupRequest.Email);
+        var user = Domain.Entity.User.Create(userAccountRequest.FirstName, userAccountRequest.LastName, userAccountRequest.Phone, userAccountRequest.Email);
 
-        var passwordHash = _passwordHasher.Hash(signupRequest.Password);
+        var passwordHash = _passwordHasher.Hash(userAccountRequest.Password);
         
-        var userAccount = Domain.Entity.UserAccount.Create(signupRequest.Username, passwordHash, user);
+        var userAccount = Domain.Entity.UserAccount.Create(userAccountRequest.Username, passwordHash, user);
 
         await _userAccountRepository.AddAccount(userAccount);
         
-        var authenticateRequest = request.Request;
-        var account = await _userAccountRepository.GetAccountByUsername(authenticateRequest.Username);
+        var account = await _userAccountRepository.GetAccountByUsername(userAccountRequest.Username);
 
         if (account is null)
             throw new Exception("Account was not found");
 
-        var verified = _passwordHasher.Verify(authenticateRequest.Password, account.PasswordHash);
+        var verified = _passwordHasher.Verify(userAccountRequest.Password, account.PasswordHash);
 
         if (!verified)
             throw new Exception("Password is incorrect");
-
-        var isTrainer = await _userRepository.IsUserTrainer(account.User.Id);
         
         return new UserAccountResponse(
             account.User.Id,
             account.User.FirstName + " " + account.User.LastName,
             account.User.Email,
-            isTrainer);
+            "User");
 
     }
 }

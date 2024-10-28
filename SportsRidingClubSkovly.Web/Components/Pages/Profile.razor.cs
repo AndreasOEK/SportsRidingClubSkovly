@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
 using SportsRidingClubSkovly.Web.ViewModels;
 
@@ -19,6 +20,7 @@ public partial class Profile : ComponentBase
     [SupplyParameterFromForm]
     public ProfileViewModel Model { get; set; } = new ProfileViewModel();
     private UserFullResponse User { get; set; }
+    private IEnumerable<UserBookingFullResponse> UserPastBookings = [];
     
     private bool IsEditingProfile { get; set; }
     private bool IsSaving { get; set; }
@@ -32,6 +34,7 @@ public partial class Profile : ComponentBase
         var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
         var userId = Guid.Parse(userIdStr);
         User = await UserManagementProxy.GetUserById(userId);
+        UserPastBookings = await UserManagementProxy.GetUserPastBookings(new GetUserPreviousBookingsRequest(userId));
 
         Model.FirstName = User.FirstName;
         Model.LastName = User.LastName;

@@ -21,6 +21,10 @@ public class GetUserPreviousBookingsQueryHandler : IRequestHandler<GetUserPrevio
         _mapper = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Booking, UserBookingFullResponse>();
+            cfg.CreateMap<Session, UserBookingSessionFullResponse>();
+            cfg.CreateMap<Trainer, UserBookingSessionTrainerFullResponse>();
+            cfg.CreateMap<Domain.Entity.User, UserBookingSessionTrainerUserFullResponse>()
+                .ConstructUsing(src => new UserBookingSessionTrainerUserFullResponse(src.FirstName, src.LastName, src.Email, src.Phone));
         }).CreateMapper();
     }
     
@@ -30,7 +34,7 @@ public class GetUserPreviousBookingsQueryHandler : IRequestHandler<GetUserPrevio
             .AsNoTracking()
             .Where(booking => 
                 booking.User.Id == request.Id && 
-                booking.Session.StartTime < DateTime.Now + booking.Session.Duration)
+                booking.Session.StartTime < DateTime.Now)
             .ProjectTo<UserBookingFullResponse>(_mapper.ConfigurationProvider)
             .ToListAsync(cancellationToken: cancellationToken);
     }

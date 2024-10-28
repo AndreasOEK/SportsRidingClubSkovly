@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
 namespace SportsRidingClubSkovly.Web.Services;
@@ -23,6 +24,11 @@ public class UserManagementProxy : IUserManagementProxy
 
     async Task<IEnumerable<TrainerResponse>> IUserManagementProxy.GetAllTrainers()
         => await _httpClient.GetFromJsonAsync<IEnumerable<TrainerResponse>>("Trainer") ?? [];
+
+    async Task<IEnumerable<UserBookingFullResponse>> IUserManagementProxy.GetUserPastBookings(
+        GetUserPreviousBookingsRequest request)
+        => await _httpClient.GetFromJsonAsync<IEnumerable<UserBookingFullResponse>>(
+            $"User/{request.Id}/PreviousBookings") ?? [];
 
     async Task<bool> IUserManagementProxy.UpdateUser(UpdateUserRequest request)
     {
