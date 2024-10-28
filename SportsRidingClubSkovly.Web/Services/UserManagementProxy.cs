@@ -1,6 +1,7 @@
 ﻿using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Module.User.Application.Features.UserManagement.Query.Dto;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
 using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
@@ -17,7 +18,8 @@ public class UserManagementProxy : IUserManagementProxy
     }
 
     async Task<UserFullResponse> IUserManagementProxy.GetUserById(Guid id)
-        => await _httpClient.GetFromJsonAsync<UserFullResponse>($"User/{id}") ?? throw new Exception("User did not exist");
+        => await _httpClient.GetFromJsonAsync<UserFullResponse>($"User/{id}") ??
+           throw new Exception("User did not exist");
 
     async Task<IEnumerable<UserResponse>> IUserManagementProxy.GetAllUsers()
         => await _httpClient.GetFromJsonAsync<IEnumerable<UserResponse>>("User") ?? [];
@@ -29,6 +31,10 @@ public class UserManagementProxy : IUserManagementProxy
         GetUserPreviousBookingsRequest request)
         => await _httpClient.GetFromJsonAsync<IEnumerable<UserBookingFullResponse>>(
             $"User/{request.Id}/PreviousBookings") ?? [];
+
+    async Task<CreateSessionTrainerResponse> IUserManagementProxy.GetTrainerByUserId(GetTrainerByUserIdRequest request)
+        => await _httpClient.GetFromJsonAsync<CreateSessionTrainerResponse>(
+            $"User/{request.Id}/Trainer") ?? throw new Exception("Trainer was not found");
 
     async Task<bool> IUserManagementProxy.UpdateUser(UpdateUserRequest request)
     {

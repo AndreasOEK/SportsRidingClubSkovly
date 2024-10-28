@@ -34,20 +34,20 @@ if (app.Environment.IsDevelopment())
 app.MapEndpoints();
 app.UseHttpsRedirection();
 
-var doesEmailExist = await app.Services
-    .GetRequiredService<IUserRepository>()
-    .DoesUserExist("Admin@SkovlyRideKlub.dk");
-
-if (!doesEmailExist)
-    await app.Services
-        .GetRequiredService<IMediator>()
-        .Send(new SignUpUserCommand(
-            new SignUpUserRequest(
-                "admin",
-                "admin",
-                "Admin",
-                "",
-                "12345678",
-                "Admin@SkovlyRideKlub.dk")));
+// var doesEmailExist = await app.Services
+//     .GetRequiredService<IUserRepository>()
+//     .DoesUserExist("Admin@SkovlyRideKlub.dk");
+//
+// if (!doesEmailExist)
+//     await app.Services
+//         .GetRequiredService<IMediator>()
+//         .Send(new SignUpUserCommand(
+//             new SignUpUserRequest(
+//                 "admin",
+//                 "admin",
+//                 "Admin",
+//                 "",
+//                 "12345678",
+//                 "Admin@SkovlyRideKlub.dk")));
 
 app.Run();
