@@ -1,10 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
+using System.ComponentModel.DataAnnotations;
 using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.DTO.TrainerSession;
 using SportsRidingClubSkovly.Web.ViewModels;
 
 namespace SportsRidingClubSkovly.Web.Components.Pages;
 
+[Authorize]
 public partial class BrowseSessions
 {
     private IEnumerable<SessionResponse> _sessions = [];

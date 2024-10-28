@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Module.Shared.Abstractions;
 using Module.User.Application.Features.UserAccount.Command;
@@ -13,6 +14,7 @@ public class SignUpUser : IEndpoint
     {
         app.MapPost("SignUp",
             async ([FromBody] SignUpUserRequest request, [FromServices] IMediator mediator) =>
-            await mediator.Send(new SignUpUserCommand(request)));
+            await mediator.Send(new SignUpUserCommand(request)))
+            .WithTags("Authentication");
     }
 }

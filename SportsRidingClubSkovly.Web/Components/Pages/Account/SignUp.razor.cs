@@ -41,7 +41,7 @@ public partial class SignUp : ComponentBase
         }
         catch (BadHttpRequestException e)
         {
-            errorMessage = e.Message;
+            errorMessage = "Username or password is incorrect";
         }
     }
 }

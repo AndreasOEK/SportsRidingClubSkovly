@@ -29,7 +29,7 @@ public partial class Login : ComponentBase
             {
                 new Claim(ClaimTypes.Name, user.FullName),
                 new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Role, user.IsTrainer ? "Trainer" : "User"),
+                new Claim(ClaimTypes.Role, user.Role),
                 new Claim(ClaimTypes.Sid, user.Id.ToString())
             };
         
@@ -41,7 +41,7 @@ public partial class Login : ComponentBase
         }
         catch (Exception e)
         {
-            errorMessage = e.Message;
+            errorMessage = "Username or password is incorrect";
         }
 
     }

@@ -25,7 +25,18 @@ public class UserAccount
         PasswordHash = passwordHash;
         User = user;
     }
+    
+    private UserAccount(Guid id, string username, string passwordHash, User user)
+    {
+        Id = id;
+        Username = username;
+        PasswordHash = passwordHash;
+        User = user;
+    }
 
     public static UserAccount Create(string username, string password, User user)
         => new UserAccount(username, password, user);
+    
+    public static UserAccount Create(Guid id, string username, string password, User user)
+        => new UserAccount(id, username, password, user);
 }

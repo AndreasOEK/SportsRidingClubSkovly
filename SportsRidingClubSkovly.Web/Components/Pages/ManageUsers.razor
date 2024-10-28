@@ -1,75 +1,118 @@
 ﻿@page "/ManageUsers"
+@using Microsoft.AspNetCore.Authorization
 @using SportsRidingClubSkovly.Web.Components.Tables
 @rendermode InteractiveServer
 
-<h3>Users</h3>
-
-<table>
-    <tr>
-        <th>#</th>
-        <th>Full name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Action</th>
-    </tr>
-    @if (!Users.Any())
-    {
-        <tr>
-            <td colspan="5" class="text-center">No users found</td>
-        </tr>
-    }
-    else
-    {
-        foreach (var user in Users)
-        {
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-all-users-tab" data-bs-toggle="tab" data-bs-target="#nav-all-users" type="button" role="tab" aria-controls="nav-all-users" aria-selected="true">All users</button>
+        <button class="nav-link" id="nav-regular-users-tab" data-bs-toggle="tab" data-bs-target="#nav-regular-users" type="button" role="tab" aria-controls="nav-regular-users" aria-selected="false">Regular users</button>
+        <button class="nav-link" id="nav-trainers-tab" data-bs-toggle="tab" data-bs-target="#nav-trainers" type="button" role="tab" aria-controls="nav-trainers" aria-selected="false">Trainers</button>
+        @* <button class="nav-link" id="nav-disabled-tab" data-bs-toggle="tab" data-bs-target="#nav-disabled" type="button" role="tab" aria-controls="nav-disabled" aria-selected="false" disabled>Disabled</button> *@
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-all-users" role="tabpanel" aria-labelledby="nav-all-users-tab" tabindex="0">
+        <table>
             <tr>
-                <td>@user.Id</td>
-                <td>@user.FirstName @user.LastName</td>
-                <td>@user.Email</td>
-                <td>@user.Phone</td>
-                <td>
-                    <button type="button" class="btn btn-success" @onclick="() => Promote(user.Id)">Promote</button>
-                </td>
+                <th>#</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Phone</th>
             </tr>
-        }    
-    }
-    
-</table>
+            @if (!Users.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No users found</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var user in Users)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.FirstName @user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                    </tr>
+                }
+            }
 
+        </table>
+    </div>
 
-<h3 style="margin-top: 30px">Trainers</h3>
-
-<table>
-    <tr>
-        <th>#</th>
-        <th>Full name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Action</th>
-    </tr>
-    
-    @if (!Trainers.Any())
-    {
-        <tr>
-            <td colspan="5" class="text-center">No trainers found</td>
-        </tr>
-    }
-    else
-    {
-        foreach (var trainer in Trainers)
-        {
+    <div class="tab-pane fade" id="nav-regular-users" role="tabpanel" aria-labelledby="nav-regular-users-tab" tabindex="0">
+        <table>
             <tr>
-                <td>@trainer.Id</td>
-                <td>@trainer.User.FirstName @trainer.User.LastName</td>
-                <td>@trainer.User.Email</td>
-                <td>@trainer.User.Phone</td>
-                <td>
-                    <button class="btn btn-danger" @onclick="() => Demote(trainer.Id)">Demote</button>
-                </td>
+                <th>#</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Action</th>
             </tr>
-        }
-    }
-    
-</table>
+            @if (!RegularUsers.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No regular users found</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var user in RegularUsers)
+                {
+                    <tr>
+                        <td>@user.Id</td>
+                        <td>@user.FirstName @user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.Phone</td>
+                        <td>
+                            <button type="button" class="btn btn-success" @onclick="() => Promote(user.Id)">Promote</button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="nav-trainers" role="tabpanel" aria-labelledby="nav-trainers-tab" tabindex="0">
+        <table>
+            <tr>
+                <th>#</th>
+                <th>Full name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Action</th>
+            </tr>
+
+            @if (!Trainers.Any())
+            {
+                <tr>
+                    <td colspan="5" class="text-center">No trainers found</td>
+                </tr>
+            }
+            else
+            {
+                foreach (var trainer in Trainers)
+                {
+                    <tr>
+                        <td>@trainer.Id</td>
+                        <td>@trainer.User.FirstName @trainer.User.LastName</td>
+                        <td>@trainer.User.Email</td>
+                        <td>@trainer.User.Phone</td>
+                        <td>
+                            <button class="btn btn-danger" @onclick="() => Demote(trainer.Id)">Demote</button>
+                        </td>
+                    </tr>
+                }
+            }
+
+        </table>
+    </div>
+    @* <div class="tab-pane fade" id="nav-disabled" role="tabpanel" aria-labelledby="nav-disabled-tab" tabindex="0">...</div> *@
+</div>
 
 @* <GenericTable Data="@Users" /> *@
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>

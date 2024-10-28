@@ -1,8 +1,9 @@
 ﻿services:
   reverseproxy.api:
+    image: reverseproxy.api
     build:
-      context: ./ReverseProxy.API
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ReverseProxy.API/Dockerfile
     ports:
       - "9000:8080"
     environment:
@@ -17,10 +18,11 @@
   sportsrideklubskovly.api:
     image: sportsrideklubskovly.api
     build:
-      context: ./SportsRideKlubSkovly.API
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: SportsRideKlubSkovly.API/Dockerfile
     environment:
-      "ConnectionStrings:DefaultConnection": "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__DefaultConnection: "Server=db;Database=SportsRidingClubSkovlyDB;MultipleActiveResultSets=true;TrustServerCertificate=true;User Id=SA;Password=StrongPassword123."
     ports:
       - "8080:8080"
     depends_on:
