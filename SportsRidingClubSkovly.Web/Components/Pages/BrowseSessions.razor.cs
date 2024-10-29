@@ -54,7 +54,7 @@ public partial class BrowseSessions
         var createSessionRequest = new CreateSessionRequest()
         {
             StartTime = ViewModel.StartTime,
-            Duration = ViewModel.EndTimeOnly.ToTimeSpan(),
+            Duration = ViewModel.EndTimeOnly.ToTimeSpan() - (TimeOnly.FromDateTime(ViewModel.StartTime).ToTimeSpan()),
             AssignedTrainerId = ViewModel.AssignedTrainerId,
             MaxNumberOfParticipants = ViewModel.MaxNumberOfParticipants,
             DifficultyLevel = ViewModel.DifficultyLevel,

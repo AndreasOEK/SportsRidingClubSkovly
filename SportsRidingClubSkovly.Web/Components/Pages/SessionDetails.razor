@@ -32,7 +32,7 @@
 </AuthorizeView>
 <AuthorizeView Roles="Trainer" Context="authorizedContextAdmin">
     <Authorized>
-        @if (IsAssignedTrainer())
+        @if (Session is not null && IsAssignedTrainer())
         {
             <div>
                 @if (IsInEditMode)
@@ -118,8 +118,8 @@ else
                     @if (Session.Bookings.All(b => b.UserId != UserId))
                     {
                         <button class="btn btn-outline-success"
-                                onclick="@BookSlot"
-                                disabled="@(SlotsLeft() == 0 || @IsBooking)">
+                                onclick="@BookSlotAsync"
+                                disabled="@(SlotsLeft() == 0 || IsBooking || IsAssignedTrainer())">
                             Book Slot
                         </button>
                     }

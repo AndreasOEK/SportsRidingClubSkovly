@@ -14,7 +14,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         [Parameter] public Guid SessionId { get; set; }
 
         protected Guid UserId { get; set; }
-        protected SessionResponse Session { get; set; }
+        protected SessionResponse? Session { get; set; }
         [Inject] public IUserSessionProxy UserSessionProxy { get; set; }
         [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         protected TimeOnly EndTime { get; set; }
@@ -26,7 +26,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         protected override async Task OnInitializedAsync()
         {
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
-            EndTime = TimeOnly.FromTimeSpan(Session.Duration);
+            EndTime = TimeOnly.FromDateTime(Session.StartTime.Add(Session.Duration));
 
             var userIdStr = (await GetUserClaimPrincipal()).FindFirst(ClaimTypes.Sid)?.Value;
             UserId = Guid.Parse(userIdStr);
@@ -56,7 +56,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
                     Id = Session.Id,
                     AssignedTrainerId = Session.AssignedTrainer.Id,
                     StartTime = Session.StartTime,
-                    Duration = EndTime.ToTimeSpan(),
+                    Duration = EndTime.ToTimeSpan() - (TimeOnly.FromDateTime(Session.StartTime).ToTimeSpan()),
                     DifficultyLevel = Session.DifficultyLevel,
                     Type = Session.Type,
                     MaxNumberOfParticipants = Session.MaxNumberOfParticipants,
@@ -75,7 +75,7 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         protected int SlotsLeft()
             => (Session.MaxNumberOfParticipants - Session.Bookings.ToList().Count);
 
-        protected async Task BookSlot()
+        protected async Task BookSlotAsync()
         {
             IsBooking = true;
 
