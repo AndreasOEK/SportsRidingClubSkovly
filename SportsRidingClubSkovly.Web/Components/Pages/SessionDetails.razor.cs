@@ -11,15 +11,12 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
     [Authorize]
     public class SessionDetailsBase : ComponentBase
     {
-        [Parameter]
-        public Guid SessionId { get; set; }
+        [Parameter] public Guid SessionId { get; set; }
 
         protected Guid UserId { get; set; }
         protected SessionResponse Session { get; set; }
-        [Inject]
-        public IUserSessionProxy UserSessionProxy { get; set; }
-        [Inject]
-        public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+        [Inject] public IUserSessionProxy UserSessionProxy { get; set; }
+        [Inject] public AuthenticationStateProvider AuthenticationStateProvider { get; set; }
         protected TimeOnly EndTime { get; set; }
         protected bool IsInEditMode { get; set; } = false;
         protected bool IsSaving;
@@ -30,12 +27,19 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
         {
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             EndTime = TimeOnly.FromTimeSpan(Session.Duration);
-            
-            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-            var user = authState.User;
-            var userIdStr = user.FindFirst(ClaimTypes.Sid)?.Value;
+
+            var userIdStr = (await GetUserClaimPrincipal()).FindFirst(ClaimTypes.Sid)?.Value;
             UserId = Guid.Parse(userIdStr);
         }
+
+        private async Task<ClaimsPrincipal> GetUserClaimPrincipal()
+        {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            return authState.User;
+        }
+
+        protected bool IsAssignedTrainer()
+            => Session.AssignedTrainer.User.Id == UserId;
 
         protected void ToggleEditMode()
         {
@@ -66,13 +70,15 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
             ToggleEditMode();
         }
 
+        #region Booking Related Methods
+
         protected int SlotsLeft()
             => (Session.MaxNumberOfParticipants - Session.Bookings.ToList().Count);
 
         protected async Task BookSlot()
         {
             IsBooking = true;
-            
+
             var success = await UserSessionProxy.CreateBooking(
                 new CreateBookingRequest()
                 {
@@ -93,11 +99,13 @@ namespace SportsRidingClubSkovly.Web.Components.Pages
 
             if (booking == null) return;
             var success = await UserSessionProxy.DeleteBooking(new DeleteBookingRequest(booking.Id));
-            
+
             if (!success) return;
-            
+
             Session = await UserSessionProxy.GetSessionByIdAsync(SessionId);
             IsRemovingBooking = false;
         }
+
+        #endregion
     }
 }

@@ -8,11 +8,15 @@ namespace SportsRidingClubSkovly.Web.Services
 {
     public class UserSessionProxy : IUserSessionProxy
     {
+        private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
 
-        public UserSessionProxy(IHttpClientFactory httpClient)
+        public UserSessionProxy(IHttpClientFactory httpClient, IConfiguration configuration)
         {
-            _httpClient = httpClient.CreateClient("API");
+            _configuration = configuration;
+
+            var httpClientName = _configuration["ApiHttpClientName"];
+            _httpClient = httpClient.CreateClient(httpClientName ?? string.Empty);
         }
 
         public async Task<bool> CreateBooking(CreateBookingRequest request)
