@@ -50,7 +50,7 @@ public class Session
     
     public void AddBooking(User user)
     {
-        var booking = Booking.Create(user, Bookings);
+        var booking = Booking.Create(user, this, Bookings);
 
         AssureSlotsToBook(_bookings.Count, MaxNumberOfParticipants);
 

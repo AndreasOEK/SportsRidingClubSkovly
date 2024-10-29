@@ -17,7 +17,7 @@ namespace SportsRidingClubSkovly.Web.Services
 
         public async Task<bool> CreateBooking(CreateBookingRequest request)
         {
-            var response = await _httpClient.PostAsJsonAsync("Session/booking", request);
+            var response = await _httpClient.PostAsJsonAsync("Session/Booking", request);
             return response.IsSuccessStatusCode;
         }
 
@@ -41,5 +41,14 @@ namespace SportsRidingClubSkovly.Web.Services
             var response = await _httpClient.DeleteAsync(requestUri);
             return response.IsSuccessStatusCode;
         }
+
+        async Task<bool> IUserSessionProxy.CreateSession(CreateSessionRequest createSessionRequest)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Session", createSessionRequest);
+            return response.IsSuccessStatusCode;
+        }
+
+        async Task<IEnumerable<SessionResponse>> IUserSessionProxy.GetFutureSessionsAsync()
+            => await _httpClient.GetFromJsonAsync<IEnumerable<SessionResponse>>("Sessions/InFuture") ?? [];
     }
 }

@@ -1,28 +1,29 @@
 ﻿@using SportsRidingClubSkovly.Web.Abstractions.Enums
 @using SportsRidingClubSkovly.Web.Components.Cards
-@using SportsRidingClubSkovly.Web.DTO.UserSession
-@using SportsRidingClubSkovly.Web.Services.Interface
 
 @page "/browseSessions"
 @rendermode InteractiveServer
-@inject IUserSessionProxy userSessionProxy;
 
-<div>
-    <button style="float: right"
-            type="button"
-            class="btn btn-outline-info"
-            data-bs-toggle="modal"
-            data-bs-target="#createSession">
-        Create Session
-    </button>
-</div>
+<AuthorizeView Roles="Trainer, Admin">
+    <Authorized>
+        <div>
+            <button style="float: right"
+                    type="button"
+                    class="btn btn-outline-info"
+                    data-bs-toggle="modal"
+                    data-bs-target="#createSession">
+                Create Session
+            </button>
+        </div>
+    </Authorized>
+</AuthorizeView>
 <PageTitle>Browse Sessions</PageTitle>
 <h3>Browse Sessions</h3>
 <hr class="solid" style="border-top: 3px solid #bbb"/>
 <div class="row row-cols-1 row-cols-md-3 g-4">
-    @foreach (var session in _sessions)
+    @foreach (var session in Sessions)
     {
-        <SessionCard Session=session />
+        <SessionCard Session=session/>
     }
 </div>
 
@@ -33,17 +34,99 @@
      aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="createSessionLabel">Create Session</h1>
-                <button type="button" class="=btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <CreateSessionEditForm CreateSessionDelegate="CreateSessionAsync"></CreateSessionEditForm>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" >Create</button>
-            </div>
+            <EditForm Model="ViewModel" OnValidSubmit="CreateSessionAsync" FormName="CreateSessionForm">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createSessionLabel">Create Session</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <DataAnnotationsValidator/>
+                    <div class="mb-3">
+                        <label>Start Time & Date</label>
+                        <input @bind-value="ViewModel.StartTime"
+                               type="datetime-local"
+                               class="form-control"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>End Time</label>
+                        <input @bind-value="ViewModel.EndTimeOnly"
+                               type="time"
+                               class="form-control"/>
+                    </div>
+                    <AuthorizeView Roles="Admin" Context="authorizedContext">
+                        <Authorized>
+                            <div class="mb-3">
+                                <label>Assign Trainer</label>
+                                <InputSelect @bind-Value="ViewModel.AssignedTrainerId" class="form-control" placeholder="Assigned Trainer">
+                                    @foreach (var trainer in Trainers)
+                                    {
+                                        <option checked="@(ViewModel.AssignedTrainerId == trainer.Id)" value="@trainer.Id">@trainer.User.FirstName @trainer.User.LastName</option>
+                                    }
+                                </InputSelect>
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                    <AuthorizeView Roles="Trainer" Context="authorizedContext2">
+                        <Authorized>
+                            <div class="mb-3">
+                                <label style="display: block">Assign Trainer</label>
+                                <InputText @bind-Value="ViewModel.TrainerFullName" readonly disabled style="width: 100%"/>
+                            </div>
+                        </Authorized>
+                    </AuthorizeView>
+                    <div class="mb-3">
+                        <label>Maximum Number of Participants</label>
+                        <InputNumber @bind-Value="ViewModel.MaxNumberOfParticipants" class="form-control" placeholder="Max Participants"/>
+                        <ValidationMessage For="() => ViewModel.MaxNumberOfParticipants"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Set Difficulty Level</label>
+                        <InputSelect @bind-Value="ViewModel.DifficultyLevel" class="form-control">
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Beginner)"
+                                    value="@SkillLevel.Beginner">
+                                Beginner
+                            </option>
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Novice)"
+                                    value="@SkillLevel.Novice">
+                                Novice
+                            </option>
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Intermediate)"
+                                    value="@SkillLevel.Intermediate">
+                                Intermediate
+                            </option>
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Advanced)"
+                                    value="@SkillLevel.Advanced">
+                                Advanced
+                            </option>
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Expert)"
+                                    value="@SkillLevel.Expert">
+                                Expert
+                            </option>
+                            <option checked="@(ViewModel.DifficultyLevel == SkillLevel.Professional)"
+                                    value="@SkillLevel.Professional">
+                                Professional
+                            </option>
+                        </InputSelect>
+                    </div>
+                    <div class="mb-3">
+                        <label>Set Session Type</label>
+                        <InputSelect @bind-Value="ViewModel.Type" class="form-control">
+                            <option aria-checked="@(ViewModel.Type == SessionType.Dressage)"
+                                    value="@SessionType.Dressage">
+                                Dressage
+                            </option>
+                            <option aria-checked="@(ViewModel.Type == SessionType.Show_Jumping)"
+                                    value="@SessionType.Show_Jumping">
+                                Show Jumping
+                            </option>
+                        </InputSelect>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">Create</button>
+                </div>
+            </EditForm>
         </div>
     </div>
 </div>

@@ -33,5 +33,6 @@ public class GetFutureSessionsQueryHandler : IRequestHandler<GetFutureSessionsQu
             .Include(s => s.AssignedTrainer)
             .Where(s => s.StartTime > DateTime.UtcNow)
             .ProjectTo<SessionResponse>(_mapper.ConfigurationProvider)
+            .OrderBy(s => s.StartTime)
             .ToListAsync(cancellationToken: cancellationToken);
 }

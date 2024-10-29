@@ -11,6 +11,8 @@ public class CreateSessionViewModel
     public TimeOnly EndTimeOnly { get; set; }
     [Required]
     public Guid AssignedTrainerId { get; set; }
+
+    public string TrainerFullName { get; set; } = string.Empty;
     [Required]
     [Range(1, 10, ErrorMessage = "Please enter a number between 1 and 10")]
     public int MaxNumberOfParticipants { get; set; }

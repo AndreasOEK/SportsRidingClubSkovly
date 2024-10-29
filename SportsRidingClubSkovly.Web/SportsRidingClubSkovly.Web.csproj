@@ -20,4 +20,12 @@
     <PackageReference Include="BootstrapBlazor" Version="8.10.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Components\Component\CreateSessionEditForm.razor.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Components\Component\CreateSessionEditForm.razor" />
+  </ItemGroup>
+
 </Project>

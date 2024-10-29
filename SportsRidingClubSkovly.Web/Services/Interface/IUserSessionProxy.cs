@@ -10,5 +10,7 @@ namespace SportsRidingClubSkovly.Web.Services.Interface
         Task<bool> CreateBooking(CreateBookingRequest request);
         Task<bool> UpdateSession(UpdateSessionRequest updateSessionRequest);
         Task<bool> DeleteBooking(DeleteBookingRequest deleteBookingRequest);
+        Task<bool> CreateSession(CreateSessionRequest createSessionRequest);
+        Task<IEnumerable<SessionResponse>> GetFutureSessionsAsync();
     }
 }

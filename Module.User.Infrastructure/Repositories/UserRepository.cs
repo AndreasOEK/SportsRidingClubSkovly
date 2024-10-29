@@ -18,13 +18,14 @@ namespace Module.User.Infrastructure.Repositories
         #region Trainer
 
         async Task<Trainer> IUserRepository.GetTrainerByIdAsync(Guid trainerId)
-            => await _dbContext.Trainers.SingleAsync(t => t.Id == trainerId);
+            => await _dbContext.Trainers.Include(t => t.User)
+                .SingleAsync(t => t.Id == trainerId);
 
         async Task<Trainer> IUserRepository.GetTrainerFromUserId(Guid id)
             => await _dbContext.Trainers.Include(t => t.User)
                    .SingleOrDefaultAsync(t => t.User.Id == id) ??
                throw new BadHttpRequestException("User is not a trainer");
-        
+
         async Task<bool> IUserRepository.DoesTrainerExistAsync(Guid id)
             => await _dbContext.Trainers.AnyAsync(trainer => trainer.Id == id);
 
@@ -63,7 +64,7 @@ namespace Module.User.Infrastructure.Repositories
             _dbContext.Users.Remove(user);
             await _dbContext.SaveChangesAsync();
         }
-        
+
         async Task<bool> IUserRepository.IsUserTrainer(Guid userId)
         {
             return await _dbContext.Trainers.Include(trainer => trainer.User)

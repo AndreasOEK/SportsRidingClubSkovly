@@ -11,9 +11,10 @@ namespace Module.User.Domain.Entity
 
         protected Booking() { }
 
-        private Booking(User user, IEnumerable<Booking> otherBookings)
+        private Booking(User user, Session session, IEnumerable<Booking> otherBookings)
         {
             User = user;
+            Session = session;
 
             AssureUserHasNotBookedSessionAlready(otherBookings ?? new List<Booking>());
             AssureUserIsNotTheAssignedTrainer();
@@ -21,8 +22,8 @@ namespace Module.User.Domain.Entity
 
 
 
-        public static Booking Create(User user, IEnumerable<Booking> otherBookings)
-            => new Booking(user, otherBookings);
+        public static Booking Create(User user, Session session, IEnumerable<Booking> otherBookings)
+            => new Booking(user, session, otherBookings);
         
 
         #region Booking Domain Logic
