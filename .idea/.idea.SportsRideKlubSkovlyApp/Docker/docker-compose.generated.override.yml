@@ -2,9 +2,8 @@
 services:
   reverseproxy.api:
     build:
-      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-        ReverseProxy.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly"
+      dockerfile: "ReverseProxy.API/Dockerfile"
       target: "base"
     command: []
     entrypoint:
@@ -23,30 +22,17 @@ services:
     working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
-        SportsRideKlubSkovly.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly"
+      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
       target: "base"
-      args:
-        BUILD_CONFIGURATION: "Debug"
     command: []
     entrypoint:
-    - "/opt/rider-debugger/linux-x64/JetBrains.Debugger.Worker"
-    - "--runtimeconfig"
-    - "/opt/rider-debugger/JetBrains.Debugger.Worker.runtimeconfig.json"
-    - "--mode=server"
-    - "--frontend-port=57100"
-    - "--backend-port=57300"
-    - "--timeout=60"
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
-      RIDER_DEBUGGER_LOG_DIR: "/var/opt/rider-debugger"
-      RESHARPER_LOG_CONF: "/etc/opt/rider-debugger/backend-log.xml"
     image: "sportsrideklubskovly.api:dev"
-    ports:
-    - "127.0.0.1:57000:57100"
-    - "127.0.0.1:57200:57300"
+    ports: []
     volumes:
     - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
     - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\

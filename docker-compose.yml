@@ -5,7 +5,7 @@
       context: .
       dockerfile: ReverseProxy.API/Dockerfile
     ports:
-      - "9000:8080"
+      - "9000:9000"
     environment:
       ASPNETCORE_HTTP_PORTS: 9000
     depends_on:
