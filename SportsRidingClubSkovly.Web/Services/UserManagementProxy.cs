@@ -10,11 +10,15 @@ namespace SportsRidingClubSkovly.Web.Services;
 
 public class UserManagementProxy : IUserManagementProxy
 {
+    private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
 
-    public UserManagementProxy(IHttpClientFactory httpClientFactory)
+    public UserManagementProxy(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        _httpClient = httpClientFactory.CreateClient("API");
+        _configuration = configuration;
+        
+        var httpClientName = _configuration["ApiHttpClientName"];
+        _httpClient = httpClientFactory.CreateClient(httpClientName ?? string.Empty);
     }
 
     async Task<UserFullResponse> IUserManagementProxy.GetUserById(Guid id)

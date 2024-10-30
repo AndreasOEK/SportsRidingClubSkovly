@@ -1,32 +1,64 @@
-﻿@using BootstrapBlazor.Components;
-@using SportsRidingClubSkovly.Web.Components.Component.SessionDetails;
-
+﻿@using SportsRidingClubSkovly.Web.Components.Component.SessionDetails
 @inherits SessionDetailsBase
 
 @page "/Session/{sessionId:guid}"
 @rendermode InteractiveServer
 
 <PageTitle>Session Details</PageTitle>
+<AuthorizeView Roles="Admin" Context="authorizedContextAdmin">
+    <Authorized>
+        <div>
+            @if (IsInEditMode)
+            {
+                <button style="float: right"
+                        type="button"
+                        @onclick="UpdateSession"
+                        class="btn btn-primary btn-sm"
+                        disabled="@IsSaving">
+                    Save
+                </button>
+            }
+            else
+            {
+                <button style="float: right" type="button"
+                        @onclick="ToggleEditMode"
+                        class="btn btn-primary btn-sm"
+                        disabled="@IsSaving">
+                    Edit
+                </button>
+            }
+        </div>
+    </Authorized>
+</AuthorizeView>
+<AuthorizeView Roles="Trainer" Context="authorizedContextAdmin">
+    <Authorized>
+        @if (Session is not null && IsAssignedTrainer())
+        {
+            <div>
+                @if (IsInEditMode)
+                {
+                    <button style="float: right"
+                            type="button"
+                            @onclick="UpdateSession"
+                            class="btn btn-primary btn-sm"
+                            disabled="@IsSaving">
+                        Save
+                    </button>
+                }
+                else
+                {
+                    <button style="float: right" type="button"
+                            @onclick="ToggleEditMode"
+                            class="btn btn-primary btn-sm"
+                            disabled="@IsSaving">
+                        Edit
+                    </button>
+                }
+            </div>
+        }
+    </Authorized>
+</AuthorizeView>
 <h3>Session Details</h3>
-
-@if (IsInEditMode)
-{
-    <button style="float: right" type="button"
-            @onclick="UpdateSession"
-            class="btn btn-primary btn-sm"
-            disabled="@IsSaving">
-        Save
-    </button>
-}
-else
-{
-    <button style="float: right" type="button"
-            @onclick="ToggleEditMode"
-            class="btn btn-primary btn-sm"
-            disabled="@IsSaving">
-        Edit
-    </button>
-}
 
 
 @if (Session is null)
@@ -49,22 +81,26 @@ else
                 </div>
                 <div class="col-auto">
                     <div class="container">
-                        <p class="InputTitle"><b>Start Date & Time</b></p>
-                        <input type="datetime-local" disabled="@(!IsInEditMode)" @bind="Session.StartTime" />
+                        <p class="InputTitle">
+                            <b>Start Date & Time</b>
+                        </p>
+                        <input type="datetime-local" disabled="@(!IsInEditMode)" @bind="Session.StartTime"/>
                     </div>
                 </div>
                 <div class="col-auto">
                     <div class="container">
-                        <p class="InputTitle"><b>End Time</b> </p>
+                        <p class="InputTitle">
+                            <b>End Time</b>
+                        </p>
                         <div class="container">
-                            <input type="time" disabled="@(!IsInEditMode)" @bind="@EndTime" />
+                            <input type="time" disabled="@(!IsInEditMode)" @bind="@EndTime"/>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <SessionDetailsSpecifics Session=@Session />
+        <SessionDetailsSpecifics Session=@Session/>
 
         <div class="card-header">
             <b>Booking Information</b>
@@ -79,14 +115,27 @@ else
                     </div>
                 </div>
                 <div class="col-auto">
-                    <button class="btn btn-outline-success" onclick="@BookSlot">
-                        Book Slot
-                    </button>
+                    @if (Session.Bookings.All(b => b.UserId != UserId))
+                    {
+                        <button class="btn btn-outline-success"
+                                onclick="@BookSlotAsync"
+                                disabled="@(SlotsLeft() == 0 || IsBooking || IsAssignedTrainer())">
+                            Book Slot
+                        </button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-danger"
+                                onclick="@RemoveBooking"
+                                disabled="@IsRemovingBooking">
+                            Remove Booking
+                        </button>
+                    }
                 </div>
                 <div class="col-auto">
                     <div class="container">
                         <b>Slots Left</b>
-                        <p>@SlotsLeft() left</p>
+                        <p>@SlotsLeft().ToString() left</p>
                     </div>
                 </div>
             </div>

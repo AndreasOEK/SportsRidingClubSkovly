@@ -8,10 +8,10 @@ namespace Module.User.Domain.Test
     {
         [Theory]
         [MemberData(nameof(ValidBookingData))]
-        public void Given_Valid_Data_Then_Booking_Created(FakeUser user)
+        public void Given_Valid_Data_Then_Booking_Created(FakeUser user, FakeSession session)
         {
             // Act
-            var booking = Booking.Create(user, []);
+            var booking = Booking.Create(user, session, []);
 
             // Assert
             Assert.NotNull(booking);
@@ -19,7 +19,8 @@ namespace Module.User.Domain.Test
 
         [Theory]
         [MemberData(nameof(SameUserToBookTwiceData))]
-        public void Given_User_Who_Has_Already_Booked_Then_Throw_ArgumentException(FakeUser user, List<FakeBooking> otherBookings)
+        public void Given_User_Who_Has_Already_Booked_Then_Throw_ArgumentException(FakeUser user,
+            List<FakeBooking> otherBookings)
         {
             // Arrange
             var sut = new FakeBooking(user);
@@ -29,20 +30,26 @@ namespace Module.User.Domain.Test
         }
 
         #region MemberData Methods
+
         public static IEnumerable<object[]> ValidBookingData()
         {
-            yield return new object[] { new FakeUser(new Guid()) };
+            yield return new object[]
+            {
+                new FakeUser(new Guid()),
+                new FakeSession(DateTime.Now.AddDays(1), TimeSpan.MinValue),
+            };
         }
 
         public static IEnumerable<object[]> SameUserToBookTwiceData()
         {
             var guid = new Guid();
-            yield return new object[] 
+            yield return new object[]
             {
                 new FakeUser(guid),
                 new List<FakeBooking>() { new FakeBooking(new FakeUser(guid)) }
             };
         }
+
         #endregion
     }
 }

@@ -8,38 +8,51 @@ namespace SportsRidingClubSkovly.Web.Services
 {
     public class UserSessionProxy : IUserSessionProxy
     {
+        private readonly IConfiguration _configuration;
         private readonly HttpClient _httpClient;
 
-        public UserSessionProxy(IHttpClientFactory httpClient)
+        public UserSessionProxy(IHttpClientFactory httpClient, IConfiguration configuration)
         {
-            _httpClient = httpClient.CreateClient("API");
+            _configuration = configuration;
+
+            var httpClientName = _configuration["ApiHttpClientName"];
+            _httpClient = httpClient.CreateClient(httpClientName ?? string.Empty);
         }
 
         public async Task<bool> CreateBooking(CreateBookingRequest request)
         {
-            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("Session/booking", content);
+            var response = await _httpClient.PostAsJsonAsync("Session/Booking", request);
             return response.IsSuccessStatusCode;
         }
 
         async Task<SessionResponse> IUserSessionProxy.GetSessionByIdAsync(Guid sessionId)
-        {
-            var requestUrl = "Session/" + sessionId.ToString();
-            var response = await _httpClient.GetAsync(requestUrl);
-            return await response.Content.ReadFromJsonAsync<SessionResponse>() ?? new SessionResponse();
-        }
+            => await _httpClient.GetFromJsonAsync<SessionResponse>($"Session/{sessionId}") ??
+               throw new ArgumentException("Session not found");
+
 
         async Task<IEnumerable<SessionResponse>> IUserSessionProxy.GetSessionsAsync()
-        {
-            var response = await _httpClient.GetAsync("Sessions");
-            return await response.Content.ReadFromJsonAsync<IEnumerable<SessionResponse>>() ?? [];
-        }
+            => await _httpClient.GetFromJsonAsync<IEnumerable<SessionResponse>>("Sessions") ?? [];
 
         async Task<bool> IUserSessionProxy.UpdateSession(UpdateSessionRequest request)
         {
-            var content = new StringContent(JsonSerializer.Serialize(request), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PutAsync("Session", content);
+            var response = await _httpClient.PutAsJsonAsync("Session", request);
             return response.IsSuccessStatusCode;
         }
+
+        async Task<bool> IUserSessionProxy.DeleteBooking(DeleteBookingRequest deleteBookingRequest)
+        {
+            var requestUri = new Uri($"http://localhost:9000/Session/Booking/{deleteBookingRequest.BookingId}");
+            var response = await _httpClient.DeleteAsync(requestUri);
+            return response.IsSuccessStatusCode;
+        }
+
+        async Task<bool> IUserSessionProxy.CreateSession(CreateSessionRequest createSessionRequest)
+        {
+            var response = await _httpClient.PostAsJsonAsync("Session", createSessionRequest);
+            return response.IsSuccessStatusCode;
+        }
+
+        async Task<IEnumerable<SessionResponse>> IUserSessionProxy.GetFutureSessionsAsync()
+            => await _httpClient.GetFromJsonAsync<IEnumerable<SessionResponse>>("Sessions/InFuture") ?? [];
     }
 }

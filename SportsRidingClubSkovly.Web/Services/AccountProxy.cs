@@ -8,11 +8,15 @@ namespace SportsRidingClubSkovly.Web.Services;
 
 public class AccountProxy : IAccountProxy
 {
+    private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
 
-    public AccountProxy(IHttpClientFactory httpClientFactory)
+    public AccountProxy(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        _httpClient = httpClientFactory.CreateClient("API");
+        _configuration = configuration;
+        
+        var httpclientName = _configuration["ApiHttpClientName"];
+        _httpClient = httpClientFactory.CreateClient(httpclientName ?? string.Empty);
     }
     
     async Task<UserAccountResponse> IAccountProxy.AuthenticateUser(string username, string password)

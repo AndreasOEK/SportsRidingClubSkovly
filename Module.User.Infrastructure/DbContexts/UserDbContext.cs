@@ -36,6 +36,10 @@ namespace Module.User.Infrastructure.DbContexts
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
 
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.RowVersion)
+                .IsRowVersion();
+
             modelBuilder.Entity<Session>()
                 .HasMany(s => s.Bookings)
                 .WithOne(b => b.Session)

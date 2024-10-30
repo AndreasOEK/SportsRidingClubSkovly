@@ -50,17 +50,25 @@ public class Session
     
     public void AddBooking(User user)
     {
-        var booking = Booking.Create(user, Bookings);
+        var booking = Booking.Create(user, this, Bookings);
 
         AssureSlotsToBook(_bookings.Count, MaxNumberOfParticipants);
 
         _bookings.Add(booking);
     }
+    
+    public void RemoveBooking(Booking booking)
+    {
+        AssureSessionIsNotStartedOrDone(StartTime, DateTime.Now);
+        
+        _bookings.Remove(booking);
+    }
 
     #region Session Domain Logic
     protected void AssureStartTimeInFuture(DateTime startTime, DateTime now)
     {
-        if (startTime <= now) throw new ArgumentException("Start Date and Time must be in the future");
+        if (startTime <= now) 
+            throw new ArgumentException("Start Date and Time must be in the future");
     }
     protected void AssureSlotsToBook(int bookingsCount, int maxNumberOfParticipants)
     {
@@ -72,5 +80,12 @@ public class Session
         if (maxParticipants < bookingsCount)
             throw new ArgumentException("Max Number Of Participants can't be lower than the number of already booked slots!");
     }
+    protected void AssureSessionIsNotStartedOrDone(DateTime startDate, DateTime nowDate)
+    {
+        if (!(startDate > nowDate)) 
+            throw new ArgumentException("Session has to be in the future to remove a booking!");
+    }
     #endregion
+
+
 }
