@@ -15,7 +15,19 @@ namespace Module.User.Infrastructure.Repositories
         }
 
         async Task ISessionRepository.AddBookingAsync()
-            => await _dbContext.SaveChangesAsync();      
+            => await _dbContext.SaveChangesAsync();
+
+        async Task ISessionRepository.DeleteBookingAsync(Booking booking)
+        {
+            _dbContext.Remove(booking);
+            await _dbContext.SaveChangesAsync();
+        }
+
+
+        async Task<Booking> ISessionRepository.GetBookingByIdAsync(Guid bookingId)
+            => await _dbContext.Bookings
+                .Include(b => b.Session)
+                .SingleAsync(b => b.Id == bookingId);
 
         async Task ISessionRepository.AddSessionAsync(Session session)
         {
@@ -24,7 +36,12 @@ namespace Module.User.Infrastructure.Repositories
         }
 
         async Task<Session> ISessionRepository.GetSessionByIdAsync(Guid sessionId)
-            => await _dbContext.Sessions.Include(s => s.Bookings).ThenInclude(b => b.User).SingleAsync(session => session.Id == sessionId);
+            => await _dbContext.Sessions
+                .Include(s => s.Bookings)
+                    .ThenInclude(b => b.User)
+                .Include(s => s.AssignedTrainer)
+                    .ThenInclude(a => a.User)
+                .SingleAsync(session => session.Id == sessionId);
 
         async Task ISessionRepository.UpdateSessionAsync(Session session, byte[] rowVersion)
         {

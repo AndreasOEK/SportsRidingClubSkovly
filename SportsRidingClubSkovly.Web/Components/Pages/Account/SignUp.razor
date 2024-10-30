@@ -20,15 +20,17 @@
                 <InputText @bind-Value="Model.Password" placeholder="Password" type="password" class="form-control"/>
                 <ValidationMessage For="() => Model.Password"/>
             </div>
-            <div class="mb-3">
-                <label>First name</label>
-                <InputText @bind-Value="Model.FirstName" placeholder="John" class="form-control"/>
-                <ValidationMessage For="() => Model.FirstName"/>
-            </div>
-            <div class="mb-3">
-                <label>Last name</label>
-                <InputText @bind-Value="Model.LastName" placeholder="Jeppesen" class="form-control"/>
-                <ValidationMessage For="() => Model.LastName"/>
+            <div class="mb-3 d-grid" style="grid-template-columns: 1fr 2fr; gap: 10px;">
+                <div>
+                    <label>First name</label>
+                    <InputText @bind-Value="Model.FirstName" placeholder="John" class="form-control"/>
+                    <ValidationMessage For="() => Model.FirstName"/>
+                </div>
+                <div>
+                    <label>Last name</label>
+                    <InputText @bind-Value="Model.LastName" placeholder="Jeppesen" class="form-control"/>
+                    <ValidationMessage For="() => Model.LastName"/>
+                </div>
             </div>
             <div class="mb-3">
                 <label>Phone number</label>

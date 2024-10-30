@@ -35,10 +35,17 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
 
         var isTrainer = await _userRepository.IsUserTrainer(account.User.Id);
 
+        var role = "User";
+
+        if (authenticateRequest.Username == "admin")
+            role = "Admin";
+        else if (isTrainer)
+            role = "Trainer";
+        
         return new UserAccountResponse(
             account.User.Id,
             account.User.FirstName + " " + account.User.LastName,
             account.User.Email,
-            isTrainer);
+            role);
     }
 }

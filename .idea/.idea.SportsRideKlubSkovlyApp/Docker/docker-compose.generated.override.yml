@@ -2,8 +2,8 @@
 services:
   reverseproxy.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly"
+      dockerfile: "ReverseProxy.API/Dockerfile"
       target: "base"
     command: []
     entrypoint:
@@ -15,26 +15,27 @@ services:
     image: "reverseproxy.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\ReverseProxy.API:/app:rw"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+      ReverseProxy.API:/app:rw"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"
   sportsrideklubskovly.api:
     build:
-      context: "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API"
-      dockerfile: "Dockerfile"
+      context: "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly"
+      dockerfile: "SportsRideKlubSkovly.API/Dockerfile"
       target: "base"
     command: []
     entrypoint:
     - "dotnet"
     - "/app/bin/Debug/net9.0/SportsRideKlubSkovly.API.dll"
     environment:
-      ASPNETCORE_ENVIRONMENT: "Development"
       DOTNET_USE_POLLING_FILE_WATCHER: "true"
     image: "sportsrideklubskovly.api:dev"
     ports: []
     volumes:
-    - "C:\\Users\\danie\\.nuget\\packages:/home/app/.nuget/packages"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly\\SportsRideKlubSkovly.API:/app:rw"
-    - "C:\\Dev\\Rider\\SportsRidingClubSkovly:/src:rw"
+    - "C:\\Users\\Oetho\\.nuget\\packages:/home/app/.nuget/packages"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly\\\
+      SportsRideKlubSkovly.API:/app:rw"
+    - "C:\\Users\\Oetho\\source\\repos\\XAND-study-group\\SportsRidingClubSkovly:/src:rw"
     working_dir: "/app"

@@ -1,28 +1,44 @@
 ﻿using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using Module.User.Application.Features.UserManagement.Query.Dto;
 using SportsRidingClubSkovly.Web.DTO.UserManagement;
+using SportsRidingClubSkovly.Web.DTO.UserSession;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
 namespace SportsRidingClubSkovly.Web.Services;
 
 public class UserManagementProxy : IUserManagementProxy
 {
+    private readonly IConfiguration _configuration;
     private readonly HttpClient _httpClient;
 
-    public UserManagementProxy(IHttpClientFactory httpClientFactory)
+    public UserManagementProxy(IHttpClientFactory httpClientFactory, IConfiguration configuration)
     {
-        _httpClient = httpClientFactory.CreateClient("API");
+        _configuration = configuration;
+        
+        var httpClientName = _configuration["ApiHttpClientName"];
+        _httpClient = httpClientFactory.CreateClient(httpClientName ?? string.Empty);
     }
 
     async Task<UserFullResponse> IUserManagementProxy.GetUserById(Guid id)
-        => await _httpClient.GetFromJsonAsync<UserFullResponse>($"User/{id}") ?? throw new Exception("User did not exist");
+        => await _httpClient.GetFromJsonAsync<UserFullResponse>($"User/{id}") ??
+           throw new Exception("User did not exist");
 
     async Task<IEnumerable<UserResponse>> IUserManagementProxy.GetAllUsers()
         => await _httpClient.GetFromJsonAsync<IEnumerable<UserResponse>>("User") ?? [];
 
     async Task<IEnumerable<TrainerResponse>> IUserManagementProxy.GetAllTrainers()
         => await _httpClient.GetFromJsonAsync<IEnumerable<TrainerResponse>>("Trainer") ?? [];
+
+    async Task<IEnumerable<UserBookingFullResponse>> IUserManagementProxy.GetUserPastBookings(
+        GetUserPreviousBookingsRequest request)
+        => await _httpClient.GetFromJsonAsync<IEnumerable<UserBookingFullResponse>>(
+            $"User/{request.Id}/PreviousBookings") ?? [];
+
+    async Task<CreateSessionTrainerResponse> IUserManagementProxy.GetTrainerByUserId(GetTrainerByUserIdRequest request)
+        => await _httpClient.GetFromJsonAsync<CreateSessionTrainerResponse>(
+            $"User/{request.Id}/Trainer") ?? throw new Exception("Trainer was not found");
 
     async Task<bool> IUserManagementProxy.UpdateUser(UpdateUserRequest request)
     {

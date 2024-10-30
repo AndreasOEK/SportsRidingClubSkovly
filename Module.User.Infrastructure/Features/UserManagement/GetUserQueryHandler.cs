@@ -25,7 +25,8 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserFullRespons
             cfg.CreateMap<Session, UserBookingSessionFullResponse>();
             cfg.CreateMap<Trainer, UserBookingSessionTrainerFullResponse>();
             cfg.CreateMap<Domain.Entity.User, UserBookingSessionTrainerUserFullResponse>()
-                .ConstructUsing(src => new UserBookingSessionTrainerUserFullResponse(src.FirstName, src.LastName, src.Email, src.Phone));
+                .ConstructUsing(src =>
+                    new UserBookingSessionTrainerUserFullResponse(src.FirstName, src.LastName, src.Email, src.Phone));
         }).CreateMapper();
     }
 
@@ -33,7 +34,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserFullRespons
         await _dbContext.Users
             .AsNoTracking()
             .Where(user => user.Id == request.Id)
-            .Include(user => user.Bookings)
+            .Include(u => u.Bookings.Where(b => b.Session.StartTime > DateTime.Now))
             .ProjectTo<UserFullResponse>(_mapper.ConfigurationProvider)
             .SingleAsync(cancellationToken: cancellationToken);
 }

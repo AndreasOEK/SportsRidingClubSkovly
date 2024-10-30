@@ -18,6 +18,12 @@ namespace Module.User.Infrastructure.DbContexts
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            // modelBuilder.Entity<UserAccount>()
+            //     .HasData(
+            //         UserAccount.Create(Guid.NewGuid(), "admin", "admin",
+            //             Domain.Entity.User.Create(Guid.NewGuid(), "Admin", "admin", "12345678", "admin@admin.dk")));
+
             modelBuilder.Entity<Session>()
                 .Property(s => s.Id)
                 .ValueGeneratedOnAdd();
@@ -25,10 +31,14 @@ namespace Module.User.Infrastructure.DbContexts
             modelBuilder.Entity<Session>()
                 .Property(s => s.RowVersion)
                 .IsRowVersion();
-            
+
             modelBuilder.Entity<Booking>()
                 .Property(b => b.Id)
                 .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Booking>()
+                .Property(b => b.RowVersion)
+                .IsRowVersion();
 
             modelBuilder.Entity<Session>()
                 .HasMany(s => s.Bookings)

@@ -16,8 +16,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 builder.Services.AddAuthorization();
 builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddHttpClient("API", httpClient =>
+var httpClientName = builder.Configuration["ApiHttpClientName"];
+ArgumentNullException.ThrowIfNullOrEmpty(httpClientName);
+
+builder.Services.AddHttpClient(httpClientName, httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:9000");
 });
@@ -55,3 +59,4 @@ app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.Run();
+

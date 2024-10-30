@@ -11,9 +11,8 @@ namespace Module.User.Endpoints.Session
         void IEndpoint.MapEndpoint(WebApplication app)
         {
             app.MapGet("/Sessions", async (IMediator mediator) =>
-            {
-                return await mediator.Send(new GetAllSessionsQuery());
-            }).WithTags("Session");
+                await mediator.Send(new GetAllSessionsQuery())
+            ).WithTags("Session");
         }
     }
 }
