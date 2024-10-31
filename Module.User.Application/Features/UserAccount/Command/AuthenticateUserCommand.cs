@@ -2,6 +2,7 @@
 using Module.User.Application.Abstractions;
 using Module.User.Application.Abstractions.Authentication;
 using Module.User.Application.Features.UserAccount.Command.Dto;
+using Module.User.Infrastructure.Services;
 
 namespace Module.User.Application.Features.UserAccount.Command;
 
@@ -12,14 +13,14 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
     private readonly IUserAccountRepository _userAccountRepository;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
-    private readonly IJwtProvider _jwtProvider;
+    private readonly TokenProvider _tokenProvider;
 
-    public AuthenticateUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+    public AuthenticateUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, TokenProvider tokenProvider)
     {
         _userAccountRepository = userAccountRepository;
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
-        _jwtProvider = jwtProvider;
+        _tokenProvider = tokenProvider;
     }
     
     public async Task<UserAccountResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
@@ -44,7 +45,7 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
         else if (isTrainer)
             role = "Trainer";
         
-        var token = _jwtProvider.Generate(account.User, role);
+        var token = _tokenProvider.Create(account.User, role);
         
         return new UserAccountResponse(
             account.User.Id,

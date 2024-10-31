@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using SportsRidingClubSkovly.Web.Components;
+using SportsRidingClubSkovly.Web.Handler;
 using SportsRidingClubSkovly.Web.Services;
 using SportsRidingClubSkovly.Web.Services.Interface;
 
@@ -24,10 +25,11 @@ ArgumentNullException.ThrowIfNullOrEmpty(httpClientName);
 builder.Services.AddHttpClient(httpClientName, httpClient =>
 {
     httpClient.BaseAddress = new Uri("http://localhost:9000");
-});
+}).AddHttpMessageHandler<AuthorizationHeaderHandler>();
 
 builder.Services.AddScoped<IUserManagementProxy, UserManagementProxy>();
 builder.Services.AddScoped<IAccountProxy, AccountProxy>();
+builder.Services.AddScoped<AuthorizationHeaderHandler>();
 
 // Add services to the container.
 builder.Services.AddRazorComponents()

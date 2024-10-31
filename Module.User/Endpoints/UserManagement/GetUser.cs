@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +12,7 @@ public class GetUser : IEndpoint
 {
     void IEndpoint.MapEndpoint(WebApplication app)
     {
-        app.MapGet("User/{id}", async ([FromRoute] Guid id, [FromServices] IMediator mediator)
+        app.MapGet("User/{id}", [Authorize] async ([FromRoute] Guid id, [FromServices] IMediator mediator)
                 => await mediator.Send(new GetUserQuery(id)))
             .WithTags("UserManagement");
     }
