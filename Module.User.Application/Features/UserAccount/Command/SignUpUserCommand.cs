@@ -12,12 +12,14 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
     private readonly IUserAccountRepository _userAccountRepository;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IMediator _mediator;
 
-    public SignUpUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher)
+    public SignUpUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, IMediator mediator)
     {
         _userAccountRepository = userAccountRepository;
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _mediator = mediator;
     }
 
     public async Task<UserAccountResponse> Handle(SignUpUserCommand request, CancellationToken cancellationToken)
@@ -36,22 +38,10 @@ public class SignUpUserCommandHandler : IRequestHandler<SignUpUserCommand, UserA
         var userAccount = Domain.Entity.UserAccount.Create(userAccountRequest.Username, passwordHash, user);
 
         await _userAccountRepository.AddAccount(userAccount);
-        
-        var account = await _userAccountRepository.GetAccountByUsername(userAccountRequest.Username);
 
-        if (account is null)
-            throw new Exception("Account was not found");
-
-        var verified = _passwordHasher.Verify(userAccountRequest.Password, account.PasswordHash);
-
-        if (!verified)
-            throw new Exception("Password is incorrect");
-        
-        return new UserAccountResponse(
-            account.User.Id,
-            account.User.FirstName + " " + account.User.LastName,
-            account.User.Email,
-            "User");
+        return await _mediator.Send(
+            new AuthenticateUserCommand(new AuthenticateUserRequest(userAccountRequest.Username,
+                userAccountRequest.Password)), cancellationToken);
 
     }
 }

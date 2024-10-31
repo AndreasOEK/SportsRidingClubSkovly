@@ -12,12 +12,14 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
     private readonly IUserAccountRepository _userAccountRepository;
     private readonly IUserRepository _userRepository;
     private readonly IPasswordHasher _passwordHasher;
+    private readonly IJwtProvider _jwtProvider;
 
-    public AuthenticateUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher)
+    public AuthenticateUserCommandHandler(IUserAccountRepository userAccountRepository, IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
     {
         _userAccountRepository = userAccountRepository;
         _userRepository = userRepository;
         _passwordHasher = passwordHasher;
+        _jwtProvider = jwtProvider;
     }
     
     public async Task<UserAccountResponse> Handle(AuthenticateUserCommand request, CancellationToken cancellationToken)
@@ -42,10 +44,13 @@ public class AuthenticateUserCommandHandler : IRequestHandler<AuthenticateUserCo
         else if (isTrainer)
             role = "Trainer";
         
+        var token = _jwtProvider.Generate(account.User, role);
+        
         return new UserAccountResponse(
             account.User.Id,
             account.User.FirstName + " " + account.User.LastName,
             account.User.Email,
-            role);
+            role,
+            token);  
     }
 }

@@ -30,7 +30,8 @@ public partial class SignUp : ComponentBase
                 new Claim(ClaimTypes.Name, Model.Username),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Role, "User"),
-                new Claim(ClaimTypes.Sid, user.Id.ToString())
+                new Claim(ClaimTypes.Sid, user.Id.ToString()),
+                new Claim("JWT", user.Token)
             };
 
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
